@@ -1,6 +1,6 @@
 import { memo } from "react";
 import Navbar from "../../components/Navbar/Navbar";
-
+import Button from "../../components/Navbar/Buttons/Button"
 const Path = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 relative overflow-hidden">
@@ -16,7 +16,7 @@ const Path = () => {
   <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"75%",left:"70%"}}></div>
 
 </div>
-   <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-80px)] gap-16">
+   <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-40px)] gap-26">
 
   {/* Student Card */}
   <div className="bg-black/70 backdrop-blur-md text-white w-96 p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-xl hover:scale-105 transition duration-300">
@@ -27,9 +27,11 @@ const Path = () => {
       Access and download verified study materials uploaded by administrators.
     </p>
 
-    <button className="bg-black px-6 py-3 rounded-lg hover:bg-gray-900 transition">
-      Continue
-    </button>
+    <Button
+  label="Continue"
+  to="/student"
+  param={{ role: "student" }}
+/>
 
   </div>
 
@@ -43,9 +45,11 @@ const Path = () => {
       Upload and manage study materials for students in a secure repository.
     </p>
 
-    <button className="bg-black px-6 py-3 rounded-lg hover:bg-gray-900 transition">
-      Continue
-    </button>
+   <Button
+  label="Continue"
+  to="/admin"
+  param={{ role: "admin" }}
+/>
 
   </div>
 
