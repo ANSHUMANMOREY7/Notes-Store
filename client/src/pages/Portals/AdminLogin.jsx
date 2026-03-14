@@ -15,7 +15,10 @@ const AdminLogin = () => {
   type="password"
   placeholder="Enter admin password"
   className="p-3 rounded bg-gray-800 outline-none w-full mt-6"
-/>
+  
+/><button className="bg-black p-3 rounded w-full mt-4 hover:bg-gray-900 cursor-pointer">
+  Login
+</button>
 
 </div>
   </div>
