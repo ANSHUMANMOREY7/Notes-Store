@@ -22,9 +22,9 @@
 }
 
 .student-sec h1 {
-    background-color: red;
+    background: linear-gradient(to bottom, black, #581c87);
 }
 
 .admin-sec h1 {
-    background-color: blue;
+    background: linear-gradient(to bottom, black, #14532d);
 }
