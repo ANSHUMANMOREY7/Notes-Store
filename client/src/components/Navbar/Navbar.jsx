@@ -1,9 +1,17 @@
 import { memo } from 'react';
-
+import React from 'react';
+import './Navbar.css';
 const Navbar = () => {
   return (
-    <div>
-      <h2 className='font-[font1] font-bold text-black fixed z-0'>Notes Store</h2>
+    <div className=' navbar font-[Font1]  '>
+      
+      <a href="#">Notes</a>
+      <a href="#">About Us</a>
+      <a href="#">Our Services</a>
+      <a href="#">Contact Us</a>
+        <a href="#">Admin Login</a>
+        <a href="#">Sign Up</a>
+      
     </div>
   );
 };
