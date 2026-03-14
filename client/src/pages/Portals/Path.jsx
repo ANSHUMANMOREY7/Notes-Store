@@ -16,16 +16,38 @@ const Path = () => {
   <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"75%",left:"70%"}}></div>
 
 </div>
-     <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-30px)] gap-20">
+   <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-80px)] gap-16">
 
-   
+  {/* Student Card */}
+  <div className="bg-black/70 backdrop-blur-md text-white w-96 p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-xl hover:scale-105 transition duration-300">
 
-  <div className="bg-black text-white w-96 h-72 rounded-2xl flex flex-col items-center justify-center p-8 gap-4 shadow-lg">
-  <h2 className="text-3xl font-bold">Student</h2>
-</div>
-<div className="bg-black text-white w-96 h-72 rounded-2xl flex flex-col items-center justify-center p-8 gap-4 shadow-lg">
-  <h2 className="text-3xl font-bold">Admin</h2>
-</div>
+    <h2 className="text-3xl font-bold">Student</h2>
+
+    <p className="text-gray-300">
+      Access and download verified study materials uploaded by administrators.
+    </p>
+
+    <button className="bg-black px-6 py-3 rounded-lg hover:bg-gray-900 transition">
+      Continue
+    </button>
+
+  </div>
+
+
+  {/* Admin Card */}
+  <div className="bg-black/70 backdrop-blur-md text-white w-96 p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-xl hover:scale-105 transition duration-300">
+
+    <h2 className="text-3xl font-bold">Admin</h2>
+
+    <p className="text-gray-300">
+      Upload and manage study materials for students in a secure repository.
+    </p>
+
+    <button className="bg-black px-6 py-3 rounded-lg hover:bg-gray-900 transition">
+      Continue
+    </button>
+
+  </div>
 
 </div>
 
