@@ -6,7 +6,7 @@
     margin-top: 15px;
 }
 .button{
-    border: 1px solid transparent ;
+    border: px solid transparent ;
     padding: 10px ;
     border-radius: 5px;
     width: fit-content;
@@ -14,8 +14,14 @@
     align-items: center;
     cursor: pointer;
    background-color: white;
-    color: black;
+    color: white;
+    background-color: black;
     font-weight: bolder;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
     
+}
+button:hover{
+    background-image: linear-gradient(to right, #000000, rgb(77, 35, 110));
+    border:  none;
+    color: white;
 }
