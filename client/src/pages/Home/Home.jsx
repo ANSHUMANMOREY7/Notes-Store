@@ -4,11 +4,11 @@ import HomeHeroText from './HomeHeroText';
 import HomeBottomText from './HomeBottomText';
 const Home = () => {
   return (
-    <div>
-      <div className='h-screen w-screen fixed top-0 left-0 z-0 '>
+    <div className='overflow-x-hidden overflow-y-auto'>
+      <div className='h-screen w-screen absolute top-0  '>
         <Video />
         </div>
-        <div className='h-screen w-screen relative  '>
+        <div className='w-screen relative overflow-x-hidden '>
         <HomeHeroText />
         <HomeBottomText />
       </div>
