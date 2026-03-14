@@ -1,13 +1,13 @@
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Button.css';
-const Button = ({ label , onClick}) => {
+const Button = ({ label , onClick, to = '/Path', param , }) => {
   const navigate = useNavigate();
   const handleClick = () => {
     if (onClick) {
       onClick();
     } else {
-      navigate('/Path');
+      navigate(to, { state: param });
     }
   };
   return (
