@@ -23,7 +23,9 @@ const Path = () => {
   <div className="bg-black text-white w-72 h-60 rounded-2xl flex items-center justify-center text-2xl font-bold shadow-lg">
     Student
   </div>
-
+<div className="bg-black text-white w-72 h-60 rounded-2xl flex items-center justify-center text-2xl font-bold shadow-lg">
+    Admin
+  </div>
 </div>
 </div>
 
