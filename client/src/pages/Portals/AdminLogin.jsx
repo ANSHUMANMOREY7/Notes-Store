@@ -11,6 +11,11 @@ const AdminLogin = () => {
   <h2 className="text-2xl font-bold text-center">
     Admin Login
   </h2>
+  <input
+  type="password"
+  placeholder="Enter admin password"
+  className="p-3 rounded bg-gray-800 outline-none w-full mt-6"
+/>
 
 </div>
   </div>
