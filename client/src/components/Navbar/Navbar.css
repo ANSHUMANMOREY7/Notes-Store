@@ -15,7 +15,8 @@
     display: flex;
     justify-content:space-around;
     align-items: center;
-    animation: slideDown 2s ease-out;
+    opacity: 0;
+    animation: slideDown 2s ease-out 1s forwards;
 }
 .navbar:hover{
     background-color: white;
@@ -37,8 +38,10 @@
 @keyframes slideDown {
     from {
         transform: translateY(-100%);
+        opacity: 0;
     }
     to {
         transform: translateY(0);
+        opacity: 1;
     }
 }
