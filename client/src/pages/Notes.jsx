@@ -1,9 +1,11 @@
 import { memo } from 'react';
+import Navbar from '../components/Navbar/Navbar';
 
 const Students = () => {
   return (
     <div>
-      <h2>Notes</h2>
+      <Navbar />
+      <h2>Notessss</h2>
     </div>
   );
 };
