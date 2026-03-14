@@ -16,9 +16,16 @@ const Path = () => {
   <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"75%",left:"70%"}}></div>
 
 </div>
-      <div>
-        Path Page
-      </div>
+     <div className="relative z-10 flex items-center justify-center h-[80vh] gap-10">
+
+      <div className="relative z-10 flex items-center justify-center h-[80vh] gap-10">
+
+  <div className="bg-black text-white w-72 h-60 rounded-2xl flex items-center justify-center text-2xl font-bold shadow-lg">
+    Student
+  </div>
+
+</div>
+</div>
 
     </div>
   );
