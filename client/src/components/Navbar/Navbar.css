@@ -16,7 +16,7 @@
     justify-content:space-around;
     align-items: center;
     opacity: 0;
-    animation: slideDown 2s ease-out 4s forwards;
+    animation: slideDown 2s ease-out 1s forwards;
     box-sizing: border-box;
 }
 .navbar:hover{
