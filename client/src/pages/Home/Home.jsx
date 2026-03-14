@@ -11,8 +11,11 @@ const Home = () => {
       <div className='h-screen w-screen absolute top-0  '>
         <Video />
         </div>
-        <div className='w-screen relative overflow-x-hidden '>
+        <div className='w-screen h-screen relative flex flex-col justify-center items-center '>
         <HomeHeroText />
+        
+      </div>
+      <div>
         <HomeBottomText />
       </div>
     </div>

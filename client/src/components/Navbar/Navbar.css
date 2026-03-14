@@ -5,8 +5,8 @@
     font-size: 15px;
     text-decoration: none;
     font-family: 'Arial', sans-serif;
-    padding-left: 200px;
-    padding-right: 200px;
+    padding-left: 5vw;
+    padding-right: 5vw;
     position: fixed;
     top: 0;
     width: 100%;
@@ -16,7 +16,8 @@
     justify-content:space-around;
     align-items: center;
     opacity: 0;
-    animation: slideDown 2s ease-out 1s forwards;
+    animation: slideDown 2s ease-out 4s forwards;
+    box-sizing: border-box;
 }
 .navbar:hover{
     background-color: white;
