@@ -11,12 +11,11 @@
     border-radius: 5px;
     width: fit-content;
     height: fit-content;
-    /* margin: 10px; */
     align-items: center;
     cursor: pointer;
    background-color: white;
     color: black;
-    font-weight: bold;
+    font-weight: bolder;
     transition: all 0.3s ease;
     
 }
