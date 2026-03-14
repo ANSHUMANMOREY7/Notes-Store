@@ -16,17 +16,17 @@ const Path = () => {
   <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"75%",left:"70%"}}></div>
 
 </div>
-     <div className="relative z-10 flex items-center justify-center h-[80vh] gap-10">
+     <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-30px)] gap-20">
 
-      <div className="relative z-10 flex items-center justify-center h-[80vh] gap-10">
+   
 
-  <div className="bg-black text-white w-72 h-60 rounded-2xl flex items-center justify-center text-2xl font-bold shadow-lg">
-    Student
-  </div>
-<div className="bg-black text-white w-72 h-60 rounded-2xl flex items-center justify-center text-2xl font-bold shadow-lg">
-    Admin
-  </div>
+  <div className="bg-black text-white w-96 h-72 rounded-2xl flex flex-col items-center justify-center p-8 gap-4 shadow-lg">
+  <h2 className="text-3xl font-bold">Student</h2>
 </div>
+<div className="bg-black text-white w-96 h-72 rounded-2xl flex flex-col items-center justify-center p-8 gap-4 shadow-lg">
+  <h2 className="text-3xl font-bold">Admin</h2>
+</div>
+
 </div>
 
     </div>
