@@ -2,9 +2,17 @@ import { memo } from 'react';
 
 const HomeBottomText = () => {
   return (
-    <div className='w-screen h-screen bg-black'>
-      <h2>HomeBottomTexthjagsagh Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut ab aliquam cupiditate voluptate eum fugit fuga fugiat? Sed saepe vitae ex rerum eveniet autem a, numquam, totam sequi nobis temporibus sunt quisquam dolores at odit? Nulla saepe id eaque amet numquam quae, accusantium porro dolor.
-      </h2>
+    <div className='w-screen h-screen bg-black text-white flex '>
+      <div>
+      <h1 >Our Mission</h1>
+
+      </div>
+      <div>
+        <h2>Providing a singular, reliable source for verified study materials.</h2>
+      </div>
+      <div>
+       <p>"We provide a centralized, secure repository for MCA students to access high-quality academic resources. By centralizing materials under faculty supervision, we eliminate the inefficiency of fragmented study notes and ensure that every resource—from lecture modules to practical lab manuals—remains fully aligned with the current university curriculum."</p>
+      </div>
     </div>
   );
 };
