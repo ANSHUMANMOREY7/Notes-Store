@@ -53,7 +53,7 @@ const Path = () => {
     </p>
 
     <Button
-  label="Continue"
+  label="Login as Student"
   to="/student"
   param={{ role: "student" }}
 />
@@ -71,7 +71,7 @@ const Path = () => {
     </p>
 
    <Button
-  label="Continue"
+  label="Login as Admin"
   to="/admin"
   param={{ role: "admin" }}
 />
