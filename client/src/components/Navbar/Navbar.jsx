@@ -7,12 +7,12 @@ const Navbar = () => {
     <div className=' navbar font-[font1] '>
       
       <Link to="/">Home</Link>
-     <Link to="/Notes">Notes</Link>
+     <Link to="/Student">Students</Link>
       <Link to="/about">About Us</Link>
       <Link to="/services">Our Services</Link>
       <Link to="/contact">Contact Us</Link>
-      <Link to="/admin">Admin Login</Link>
-      <Link to="/signup">Sign Up</Link>
+      <Link to="/admin-login">Admin Login</Link>
+      
       
     </div>
   );

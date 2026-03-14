@@ -3,9 +3,9 @@ import Navbar from '../../components/Navbar/Navbar';
 
 const Students = () => {
   return (
-    <div>
+    <div className='bg-black w-screen h-screen'>
         <Navbar />
-      <h2>Students</h2>
+      <h2> Students</h2>
     </div>
   );
 };
