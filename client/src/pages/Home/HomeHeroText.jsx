@@ -4,7 +4,7 @@ const HomeHeroText = () => {
   return (
     <>
     <div className=''>
-      <h2 className='font-[Font1]  font-bold text-center text-[170px] p-3 text-white  tracking-tighter uppercase drop-shadow-2xl leading-[10vw] mt-20 ' style={{ fontSize: 'min(170px, 10vw)' }}>NOTES STORE</h2>
+      <h2 className='font-[Font1]  font-bold text-center text-[170px] p-3 text-white    drop-shadow-2xl leading-[10vw] mt-20 ' style={{ fontSize: 'min(170px, 10vw)' }}>Notes Store</h2>
      <h2 className='font-[Font1] font-bold text-center text-[50px]  text-white font-black tracking-tighter opacity-90 drop-shadow-2xl leading-[10vw]'>Skip the Fluff. Get the Notes.</h2>
     </div>
     
