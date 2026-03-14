@@ -2,7 +2,8 @@ import { memo } from 'react';
 
 const HomeBottomText = () => {
   return (
-    <div className='w-screen h-screen bg-black text-white p-10 flex flex-col justify-center items-start '>
+    <div className='w-screen h-screen bg-gradient-to-b from-black to-purple-900 text-white p-10 flex flex-col justify-center items-start relative overflow-hidden'>
+      
       <div>
       <h2 className='font-[font1] text-white text-7xl p-10 '>Our Mission</h2>
 
