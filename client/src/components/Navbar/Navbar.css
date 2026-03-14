@@ -1,16 +1,44 @@
 .navbar{
     display: flex;
     flex-direction: row;
-    background-color: #948b8b;
-    padding: 10px 20px;
+    background-color: white;
+    font-size: 15px;
+    text-decoration: none;
+    font-family: 'Arial', sans-serif;
     padding-left: 200px;
     padding-right: 200px;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1000;
-    height:60px;
+    height:65px;
     display: flex;
     justify-content:space-around;
     align-items: center;
+    animation: slideDown 2s ease-out;
+}
+.navbar:hover{
+    background-color: white;
+    transition: 1s;
+   
+}
+.navbar a{
+    border-bottom: 1px solid transparent;
+    transition: 0.1s;
+}
+.navbar a:hover{
+    color: black;
+    border-bottom-color: black;
+    transition: 1s;
+    
+    
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
 }

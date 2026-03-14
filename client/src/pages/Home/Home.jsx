@@ -9,7 +9,7 @@ const Home = () => {
       <Navbar />
     <div className='overflow-x-hidden overflow-y-auto'>
       <div className='h-screen w-screen absolute top-0  '>
-        {/* <Video /> */}
+        <Video />
         </div>
         <div className='w-screen relative overflow-x-hidden '>
         <HomeHeroText />
