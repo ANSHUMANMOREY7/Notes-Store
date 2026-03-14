@@ -1,9 +1,16 @@
 import { memo } from "react";
+import Navbar from "../../components/Navbar/Navbar";
 
 const Path = () => {
   return (
     <div>
-      Path Page
+
+      <Navbar />
+
+      <div>
+        Path Page
+      </div>
+
     </div>
   );
 };
