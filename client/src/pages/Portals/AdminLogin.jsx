@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../../components/Navbar/Navbar";
 
 const AdminLogin = () => {
 
@@ -15,6 +16,8 @@ const AdminLogin = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-black to-purple-900 text-white">
 
       <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl w-96 flex flex-col gap-6">
@@ -33,7 +36,7 @@ const AdminLogin = () => {
 
         <button
           onClick={handleLogin}
-          className="bg-black p-3 rounded w-full hover:bg-gray-900 transition"
+          className="bg-black p-3 rounded w-full hover:bg-gray-900 transition cursor-pointer"
         >
           Login
         </button>
@@ -41,6 +44,7 @@ const AdminLogin = () => {
       </div>
 
     </div>
+    </>
   );
 };
 

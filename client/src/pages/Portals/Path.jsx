@@ -72,7 +72,7 @@ const Path = () => {
 
    <Button
   label="Login as Admin"
-  to="/admin"
+  to="/admin-login"
   param={{ role: "admin" }}
 />
 
