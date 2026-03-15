@@ -27,7 +27,9 @@ const HomeBottomText = () => {
       <div className='font-[font1] px-10 py-10 text-1xl text-justify'>
        <p>" We provide a centralized, secure repository for MCA students to access high quality academic resources. By centralizing materials under faculty supervision, we eliminate the inefficiency of fragmented study notes and ensure that every resource from lecture modules to practical lab manuals remains fully aligned with the current university curriculum."</p>
       </div>
-
+     <div>
+      
+     </div>
      <Button label="Lets Get Started" />
     </div>
     

@@ -37,7 +37,7 @@ const AdminLogin = () => {
 
 </div>
 
-      <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl w-96 flex flex-col gap-6">
+      <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl w-96 flex flex-col gap-6  transition duration-300  hover:scale-105 transition duration-300">
 
         <h2 className="text-2xl font-bold text-center">
           Admin Login
