@@ -4,6 +4,8 @@ import Path from './pages/Portals/Path'
 import Students from "./pages/Portals/Students"
 import AdminLogin from "./pages/Portals/AdminLogin"
 import Admin from "./pages/Portals/Admin"
+import Footer from './components/Footer'
+
 function App() {
   
   return (
@@ -15,6 +17,7 @@ function App() {
      <Route path="/Student" element={<Students/>} />
      <Route path="/Admin-login" element={<AdminLogin/>} />
      <Route path='/Admin' element={<Admin/>}/>
+     <Route path='/Footer' element={<Footer/>} />
     </Routes> 
     </>
   )

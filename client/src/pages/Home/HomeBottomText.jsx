@@ -1,7 +1,11 @@
 import { memo } from 'react';
 import Button from '../../components/Buttons/Button';
+import Footer from '../../components/Footer';
 const HomeBottomText = () => {
   return (
+<>
+
+
     <div className='w-screen h-screen bg-gradient-to-b from-black to-purple-900 text-white p-10 flex flex-col justify-center items-start relative overflow-hidden '>
       
       <div className='absolute w-1 h-1 bg-white rounded-full animate-pulse' style={{ top: '10%', left: '20%' }}></div>
@@ -31,8 +35,10 @@ const HomeBottomText = () => {
       
      </div>
      <Button label="Lets Get Started" />
+     
     </div>
-    
+    <Footer />
+    </>
   );
 };
 
