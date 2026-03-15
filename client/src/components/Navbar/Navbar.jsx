@@ -9,6 +9,7 @@ const Navbar = () => {
     <>
     
     <div className=' navbar font-[font1] '>
+      
       <Link to="/" > <span className='icon-text '>Notes Store</span>  </Link>
       
       <Link to="/about" className='bb'>About Us</Link>

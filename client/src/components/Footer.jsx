@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { FaInstagram, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 const Footer = () => {
 return (
-    <footer className="bg-black text-white py-10 mt-auto">
+    <footer className="bg-black text-white py-10 mt-auto ">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-16">
         
         
@@ -33,7 +33,7 @@ return (
         <div>
           <h3 className="text-white font-semibold mb-4 text-[22px]">Connect With Us</h3>
           <div className="flex space-x-4">
-            <a href="mailto:asnhuamnmorey2@gmail.com" className="hover:text-red-400 text-xl"><FaEnvelope /></a>
+            <a href="mailto:asnhuamnmorey2@gmail.com" className="hover:text-red-600 text-xl"><FaEnvelope /></a>
             <a href="https://www.instagram.com/anshumxnn_27/?hl=en" target="_blank" rel="noreferrer" className="hover:text-pink-500 text-xl"><FaInstagram /></a>
             <a href="https://www.linkedin.com/in/anshuman-morey/" target="_blank" rel="noreferrer" className="hover:text-blue-500 text-xl"><FaLinkedin /></a>
           </div>
