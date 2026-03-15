@@ -15,10 +15,10 @@ const Admin = () => {
   }
 
   return (
-
+<>
+    <Navbar />
     
     <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 text-white font-[font1]">
-      <Navbar />
       
         
     
@@ -42,6 +42,8 @@ const Admin = () => {
 
       </div>
     </div>
+
+</>
   );
 };
 export default Admin;
