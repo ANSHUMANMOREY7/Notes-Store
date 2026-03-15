@@ -11,6 +11,8 @@ const Admin = () => {
   }
 
   return (
+    <>
+    <Navbar />
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-black to-purple-900 text-white">
 
       <h1 className="text-3xl font-bold">
@@ -18,6 +20,8 @@ const Admin = () => {
       </h1>
 
     </div>
+    
+    </>
   );
 };
 
