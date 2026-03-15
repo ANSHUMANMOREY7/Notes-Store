@@ -43,6 +43,14 @@ const Admin = () => {
 
 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
   
+  
+  <div className="">
+    <div className="">📤</div>
+    <h3 className="text-2xl font-bold mb-2">Upload New Note</h3>
+    <p className="text-gray-400">Add new PDF materials, titles, and categorize them by subject.</p>
+  </div>
+
+ 
 
 </div>
       </div>
