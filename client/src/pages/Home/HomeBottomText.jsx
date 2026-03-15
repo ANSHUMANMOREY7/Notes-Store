@@ -2,7 +2,7 @@ import { memo } from 'react';
 import Button from '../../components/Navbar/Buttons/Button';
 const HomeBottomText = () => {
   return (
-    <div className='w-screen h-screen bg-gradient-to-b from-black to-purple-900 text-white p-10 flex flex-col justify-center items-start relative overflow-hidden'>
+    <div className='w-screen h-screen bg-gradient-to-b from-black to-purple-900 text-white p-10 flex flex-col justify-center items-start relative overflow-hidden '>
       
       <div className='absolute w-1 h-1 bg-white rounded-full animate-pulse' style={{ top: '10%', left: '20%' }}></div>
       <div className='absolute w-1 h-1 bg-white rounded-full animate-pulse' style={{ top: '15%', left: '50%' }}></div>

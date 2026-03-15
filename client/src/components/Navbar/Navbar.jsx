@@ -2,7 +2,6 @@ import { memo } from 'react';
 import React from 'react';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
-import icon from '../../assets/Main-icon.png';
 
 
 const Navbar = () => {
