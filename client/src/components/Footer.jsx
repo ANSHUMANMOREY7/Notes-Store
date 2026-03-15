@@ -33,7 +33,7 @@ return (
         <div>
           <h3 className="text-white font-semibold mb-4 text-[22px]">Connect With Us</h3>
           <div className="flex space-x-4">
-            <a href="https://mail.google.com/mail/u/0/#inbox" className="hover:text-red-400 text-xl"><FaEnvelope /></a>
+            <a href="mailto:asnhuamnmorey2@gmail.com" className="hover:text-red-400 text-xl"><FaEnvelope /></a>
             <a href="https://www.instagram.com/anshumxnn_27/?hl=en" target="_blank" rel="noreferrer" className="hover:text-pink-500 text-xl"><FaInstagram /></a>
             <a href="https://www.linkedin.com/in/anshuman-morey/" target="_blank" rel="noreferrer" className="hover:text-blue-500 text-xl"><FaLinkedin /></a>
           </div>
