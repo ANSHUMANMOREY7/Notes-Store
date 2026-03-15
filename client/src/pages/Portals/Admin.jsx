@@ -5,6 +5,10 @@ import { Navigate } from "react-router-dom";
 const Admin = () => {
 
   const isAuth = localStorage.getItem("adminAuth");
+  const handleLogout = () => {
+    localStorage.removeItem("adminAuth");
+    window.location.href = "/"; 
+  };
 
   if (!isAuth) {
     return <Navigate to="/admin-login" />;
