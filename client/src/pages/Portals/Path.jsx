@@ -1,6 +1,6 @@
 import { memo } from "react";
 import Navbar from "../../components/Navbar/Navbar";
-import Button from "../../components/Navbar/Buttons/Button"
+import Button from "../../components/Buttons/Button"
 const Path = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 relative overflow-hidden">
