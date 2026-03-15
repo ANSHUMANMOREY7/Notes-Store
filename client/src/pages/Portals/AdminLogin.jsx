@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
-import Footer from "../../components/Footer";
+
 
 const AdminLogin = () => {
 
@@ -62,7 +62,7 @@ const AdminLogin = () => {
 
       </div>
     </div>
- <Footer />
+ 
     
     </>
   );

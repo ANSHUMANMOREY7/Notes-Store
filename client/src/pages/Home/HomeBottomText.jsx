@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import Button from '../../components/Buttons/Button';
-import Footer from '../../components/Footer';
+
 const HomeBottomText = () => {
   return (
 <>
@@ -37,7 +37,7 @@ const HomeBottomText = () => {
      <Button label="Lets Get Started" />
      
     </div>
-    <Footer />
+    
     </>
   );
 };

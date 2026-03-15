@@ -81,7 +81,7 @@ const Path = () => {
 
 </div>
 
-<Footer />
+
     </div>
   );
 };

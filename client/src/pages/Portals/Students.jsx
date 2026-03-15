@@ -9,7 +9,7 @@ const Students = () => {
         <Navbar />
       <h2> Students</h2>
     </div>
-    <Footer />
+    
     </>
   );
 };
