@@ -54,7 +54,7 @@ const Admin = () => {
 
 </div>
 
-        <div className="max-w-6xl mx-auto p-10 pt-24 relative z-10">
+        <div className="max-w-7xl mx-auto p-10 pt-24 relative z-10">
           <div className="flex justify-between items-center border-b border-white/20 pb-6 mb-10">
             <div>
               <h1 className="text-4xl font-bold font-[font1]">Admin Panel</h1>

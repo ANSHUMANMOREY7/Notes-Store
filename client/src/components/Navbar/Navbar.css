@@ -1,39 +1,48 @@
-.navbar{
+.icon-text {
+    text-decoration: none;
+    font-size: 31px;
+    margin-right: 140px;
+    
+}
+
+.navbar {
     display: flex;
     flex-direction: row;
     background-color: white;
     font-size: 15px;
     text-decoration: none;
-    /* font-family: 'Arial', sans-serif; */
-    padding-left: 5vw;
+    padding-left: 3vw;
     padding-right: 5vw;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1000;
-    height:65px;
+    height: 65px;
     display: flex;
-    justify-content:space-around;
+    justify-content: space-around;
     align-items: center;
     opacity: 0;
     animation: slideDown 2s ease-out 1s forwards;
     box-sizing: border-box;
 }
-.navbar:hover{
+
+.navbar:hover {
     background-color: white;
     transition: 1s;
-   
+
 }
-.navbar a{
+
+.bb {
     border-bottom: 1px solid transparent;
     transition: 0.1s;
 }
-.navbar a:hover{
+
+.bb:hover {
     color: black;
     border-bottom-color: black;
     transition: 1s;
-    
-    
+
+
 }
 
 @keyframes slideDown {
@@ -41,6 +50,7 @@
         transform: translateY(-100%);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
