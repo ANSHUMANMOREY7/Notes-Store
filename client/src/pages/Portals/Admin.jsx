@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import { Navigate } from "react-router-dom";
+import Footer from '../../components/Footer';
 
 const Admin = () => {
   const isAuth = localStorage.getItem("adminAuth");
@@ -114,7 +115,7 @@ const Admin = () => {
           </div>
         </div>
       </div>
-
+    <Footer />
     </>
   );
 };
