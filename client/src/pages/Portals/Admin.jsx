@@ -34,15 +34,18 @@ const Admin = () => {
           </div>
 
           <div className="flex flex-wrap justify-center gap-10 mt-10">
-            <div className="bg-black/70 backdrop-blur-md text-white w-96 p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-xl hover:scale-105 transition duration-300 hover:bg-purple-900 group cursor-pointer border border-white/5">
+            <div className="bg-black/70 backdrop-blur-md text-white w-96 p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-xl hover:scale-105 transition duration-300 hover:bg-purple-900 group border border-white/5">
               <div className="">
                 ➕
               </div>
               <h2 className="text-3xl font-bold tracking-tight font-[font1]">Upload Notes</h2>
               <p className="text-gray-300 font-[font1]">Upload new PDFs and categorize them by subject for students.</p>
-              <div className="">
+              <button
+                onClick={() => alert("start upload")}
+                className="bg-purple-600 hover:bg-purple-700 px-8 py-3 rounded-lg font-bold transition duration-300 shadow-lg shadow-purple-500/20 font-[font1] w-full cursor-pointer "
+              >
                 Start Upload
-              </div>
+              </button>
             </div>
 
 
