@@ -34,7 +34,7 @@ const Admin = () => {
           </div>
 
           <div className="flex flex-wrap justify-center gap-10 mt-10">
-            <div className="bg-black/70 backdrop-blur-md text-white w-96 p-10 rounded-2xl flex flex-col items-center text-center gap-6 ">
+            <div className="bg-black/70 backdrop-blur-md text-white w-96 p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-xl hover:scale-105 transition duration-300 hover:bg-purple-900 group cursor-pointer border border-white/5">
               <div className="">
                 ➕
               </div>
