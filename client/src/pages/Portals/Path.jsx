@@ -1,8 +1,12 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Button from "../../components/Buttons/Button"
-import Footer from "../../components/Footer";
+
 const Path = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 relative overflow-hidden">
       
