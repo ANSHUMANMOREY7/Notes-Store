@@ -3,8 +3,8 @@ import Navbar from '../../components/Navbar/Navbar';
 import { Navigate } from "react-router-dom";
 
 const Admin = () => {
-
   const isAuth = localStorage.getItem("adminAuth");
+
   const handleLogout = () => {
     localStorage.removeItem("adminAuth");
     window.location.href = "/"; 
@@ -15,18 +15,14 @@ const Admin = () => {
   }
 
   return (
-    <>
-    <Navbar />
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-black to-purple-900 text-white">
+    <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 text-white font-[font1]">
+      <Navbar />
+      <div className="max-w-6xl mx-auto p-10 relative z-10">
+        
 
-      <h1 className="text-3xl font-bold">
-        Admin Dashboard
-      </h1>
-
+        
+      </div>
     </div>
-    
-    </>
   );
 };
-
 export default Admin;
