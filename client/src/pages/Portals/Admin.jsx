@@ -35,7 +35,7 @@ const Admin = () => {
 
           <div className="flex flex-wrap justify-center gap-10 mt-10">
             <div className="bg-black/70 backdrop-blur-md text-white w-96 p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-xl hover:scale-105 transition duration-300 hover:bg-purple-900 group border border-white/5">
-              <div className="">
+              <div className="w-16 h-16 bg-purple-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none group-hover:scale-110 transition-transform">
                 ➕
               </div>
               <h2 className="text-3xl font-bold tracking-tight font-[font1]">Upload Notes</h2>
