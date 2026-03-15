@@ -8,12 +8,13 @@ const AdminLogin = () => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    if (password === "admin123") {
-      navigate("/admin");
-    } else {
-      alert("Wrong password");
-    }
-  };
+  if (password === "admin123") {
+    localStorage.setItem("adminAuth", "true");
+    navigate("/admin");
+  } else {
+    alert("Wrong password");
+  }
+};
 
   return (
     <>
