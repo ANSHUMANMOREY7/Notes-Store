@@ -34,7 +34,7 @@ const Admin = () => {
           </div>
 
           <div className="flex flex-wrap justify-center gap-10 mt-10">
-            <div className="">
+            <div className="bg-black/70 backdrop-blur-md text-white w-96 p-10 rounded-2xl flex flex-col items-center text-center gap-6 ">
               <div className="">
                 ➕
               </div>
