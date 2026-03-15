@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
+import { Navigate } from "react-router-dom";
 
 const Admin = () => {
   return (
