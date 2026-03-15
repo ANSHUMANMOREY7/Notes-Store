@@ -7,7 +7,7 @@ const Admin = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("adminAuth");
-    window.location.href = "/"; 
+    window.location.href = "/";
   };
 
   if (!isAuth) {
@@ -15,48 +15,42 @@ const Admin = () => {
   }
 
   return (
-<>
-    <Navbar />
-    
-    <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 text-white font-[font1]">
-      
-        
-    
-  
-  <div className="max-w-6xl mx-auto p-10 pt-24 relative z-10">
-  <div className="flex justify-between items-center border-b border-white/20 pb-6 mb-10">
-   <div>
-    <h1 className="text-4xl font-bold font-[font1]">Admin Panel</h1>
-    <p className="text-purple-300 mt-1">Manage your notes and uploads</p>
-  </div>
-  
-  
+    <>
+      <Navbar />
 
-<button 
-      onClick={handleLogout}
-      className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-bold transition duration-300  shadow-red-500/20 font-[font1] cursor-pointer "
-    >
-      Logout
-    </button>
+      <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 text-white font-[font1]">
+        <div className="max-w-6xl mx-auto p-10 pt-24 relative z-10">
+          <div className="flex justify-between items-center border-b border-white/20 pb-6 mb-10">
+            <div>
+              <h1 className="text-4xl font-bold font-[font1]">Admin Panel</h1>
+              <p className="text-purple-300 mt-1">Manage your notes and uploads</p>
+            </div>
+            <button
+              onClick={handleLogout}
+              className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-bold transition duration-300  shadow-red-500/20 font-[font1] cursor-pointer "
+            >
+              Logout
+            </button>
+          </div>
 
-</div>
+          <div className="flex flex-wrap justify-center gap-10 mt-10">
+            <div className="">
+              <div className="">
+                ➕
+              </div>
+              <h2 className="text-3xl font-bold tracking-tight font-[font1]">Upload Notes</h2>
+              <p className="text-gray-300 font-[font1]">Upload new PDFs and categorize them by subject for students.</p>
+              <div className="">
+                Start Upload
+              </div>
+            </div>
 
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-  
- 
-  <div className="">
-    <div className="w-16 h-16 bg-purple-600/20 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform">📤</div>
-    <h3 className="text-2xl font-bold mb-2">Upload New Note</h3>
-    <p className="text-gray-400">Add new PDF materials, titles, and categorize them by subject.</p>
-  </div>
 
- 
-
-</div>
+          </div>
+        </div>
       </div>
-    </div>
 
-</>
+    </>
   );
 };
 export default Admin;
