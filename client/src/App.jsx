@@ -5,6 +5,7 @@ import Students from "./pages/Portals/Students"
 import AdminLogin from "./pages/Portals/AdminLogin"
 import Admin from "./pages/Portals/Admin"
 import Footer from './components/Footer'
+import ScrollToTop from './components/ScrollToTop'
 
 function App() {
   
@@ -12,6 +13,7 @@ function App() {
     
     
   <div className="flex flex-col min-h-screen">
+    <ScrollToTop />
     <main className="flex-grow">
     <Routes>
      <Route path="/" element={<Home />} />
