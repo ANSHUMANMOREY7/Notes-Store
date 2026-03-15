@@ -30,16 +30,21 @@ const Admin = () => {
     <p className="text-purple-300 mt-1">Manage your notes and uploads</p>
   </div>
   
+  
 
 <button 
       onClick={handleLogout}
-      className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-bold transition duration-300 shadow-lg shadow-red-500/20 font-[font1]"
+      className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-bold transition duration-300  shadow-red-500/20 font-[font1] cursor-pointer "
     >
       Logout
     </button>
 
 </div>
 
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  
+
+</div>
       </div>
     </div>
 
