@@ -10,10 +10,13 @@ const Students = () => {
   const [notes, setNotes] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/notes")
-      .then(res => setNotes(res.data))
-      .catch(err => console.log(err));
-  }, []);
+  axios.get("http://localhost:5000/api/notes") // Ensure this is port 5000
+    .then(res => {
+      console.log("Data received:", res.data); // Add this to debug
+      setNotes(res.data);
+    })
+    .catch(err => console.log(err));
+}, []);
   return (
     <>
     <div className='bg-black w-screen min-h-screen relative'>
