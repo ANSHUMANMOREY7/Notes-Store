@@ -130,7 +130,7 @@ const AdminManageNotes = () => {
                     type="button"
                     onClick={() => handleDelete(note._id)}
                     disabled={deletingId === note._id}
-                    className="flex-1 border border-white/20 text-white py-3 rounded-xl font-bold hover:bg-white/10 transition text-sm disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex-1 border border-red-600 text-red-600 bg-transparent py-3 rounded-xl font-bold hover:bg-red-600/10 transition text-sm disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {deletingId === note._id ? 'Deleting…' : 'Delete'}
                   </button>
