@@ -59,21 +59,21 @@ const Admin = () => {
         </div>
 
         <div className="max-w-7xl mx-auto p-10 pt-24 relative z-10">
-          <div className="flex justify-between items-center border-b border-white/20 pb-6 mb-10">
-            <div>
-              <h1 className="text-4xl font-bold">Admin Panel</h1>
-              <p className="text-purple-300 mt-1">Manage your notes and uploads</p>
+          <div className="relative pb-6 mb-10">
+            <div className="text-center">
+              <h2 className="text-4xl font-bold text-white mb-2">Admin Panel</h2>
+              <p className="text-gray-300 font-normal font-sans mb-10 text-center">Manage your notes and uploads</p>
             </div>
-            <button onClick={handleLogout} className="bg-red-600 hover:bg-red-700 px-6 py-2 rounded-lg font-bold transition cursor-pointer">
+            <button onClick={handleLogout} className="absolute right-0 top-1/2 -translate-y-1/2 bg-red-600 hover:bg-red-700 px-6 py-2 rounded-lg font-bold transition cursor-pointer">
               Logout
             </button>
           </div>
 
           {/* THE THREE CARDS */}
-          <div className="flex flex-wrap justify-center gap-10 mt-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
             
             {/* Card 1: Upload */}
-            <div className="bg-black/70 backdrop-blur-md w-80 p-8 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 hover:scale-105 transition hover:bg-purple-900 group">
+            <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-purple-900 group">
               <div className="w-16 h-16 bg-purple-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">➕</div>
               <h2 className="text-2xl font-bold">Upload Notes</h2>
               <p className="text-gray-300 text-sm">Upload new PDFs and categorize them by subject.</p>
@@ -83,7 +83,7 @@ const Admin = () => {
             </div>
 
             {/* Card 2: Manage */}
-            <div className="bg-black/70 backdrop-blur-md w-80 p-8 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 hover:scale-105 transition hover:bg-blue-900 group">
+            <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-blue-900 group">
               <div className="w-16 h-16 bg-blue-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">📝</div>
               <h2 className="text-2xl font-bold">Manage Notes</h2>
               <p className="text-gray-300 text-sm">Edit details or delete outdated study materials.</p>
@@ -93,7 +93,7 @@ const Admin = () => {
             </div>
 
             {/* Card 3: Stats */}
-            <div className="bg-black/70 backdrop-blur-md w-80 p-8 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 hover:scale-105 transition hover:bg-green-900 group">
+            <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-green-900 group">
               <div className="w-16 h-16 bg-green-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">📊</div>
               <h2 className="text-2xl font-bold">View Stats</h2>
               <p className="text-gray-300 text-sm">Monitor total downloads and student activity.</p>

@@ -15,7 +15,7 @@ const Navbar = () => {
       <Link to="/about" className='bb'>About Us</Link>
       <Link to="/services" className='bb'>Our Services</Link>
       <Link to="/contact" className='bb'>Contact Us</Link>
-      <Link to="/Student" className='bb'>Students Login</Link>
+      <Link to="/Student" className='bb'>Notes</Link>
       <Link to="/admin-login" className='bb'>Admin Login</Link>
       
       
