@@ -4,6 +4,7 @@ import Path from './pages/Portals/Path'
 import Students from "./pages/Portals/Students"
 import AdminLogin from "./pages/Portals/AdminLogin"
 import Admin from "./pages/Portals/Admin"
+import AdminManageNotes from "./pages/Portals/AdminManageNotes"
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
 
@@ -21,6 +22,7 @@ function App() {
      <Route path="/Student" element={<Students/>} />
      <Route path="/Admin-login" element={<AdminLogin/>} />
      <Route path='/Admin' element={<Admin/>}/>
+     <Route path='/Admin/manage-notes' element={<AdminManageNotes/>} />
      <Route path='/Footer' element={<Footer/>} />
     </Routes> 
     </main>

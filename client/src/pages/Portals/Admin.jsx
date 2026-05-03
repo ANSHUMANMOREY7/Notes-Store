@@ -1,6 +1,6 @@
 import { memo, useState } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const Admin = () => {
@@ -12,6 +12,8 @@ const Admin = () => {
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState("");
   const [uploading, setUploading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("adminAuth");
@@ -84,9 +86,9 @@ const Admin = () => {
             <div className="bg-black/70 backdrop-blur-md w-80 p-8 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 hover:scale-105 transition hover:bg-blue-900 group">
               <div className="w-16 h-16 bg-blue-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">📝</div>
               <h2 className="text-2xl font-bold">Manage Notes</h2>
-              <p className="text-gray-300 text-sm">Edit details or delete outdated study materials.</p>
-              <button onClick={() => alert("Manage logic coming soon!")} className="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">
-                View Library
+              <p className="text-gray-300 text-sm">Review, view, or delete uploaded notes from the library.</p>
+              <button onClick={() => navigate('/Admin/manage-notes')} className="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">
+                Open Manager
               </button>
             </div>
 
