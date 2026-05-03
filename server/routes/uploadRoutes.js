@@ -1,29 +1,24 @@
 const express = require("express");
-const upload = require("../controllers/uploadController");
-const fs = require("fs");
-
 const router = express.Router();
-
-
-router.post("/", upload.single("file"), (req, res) => {
-  res.json({
-    message: "File uploaded successfully",
-    file: req.file.filename,
-  });
-});
-
+const fs = require("fs"); 
+const path = require("path");
+const { uploadNote } = require("../controllers/uploadController");
 
 router.get("/", (req, res) => {
-  fs.readdir("uploads", (err, files) => {
-    if (err) return res.status(500).json(err);
+  const uploadsDir = path.join(__dirname, "../uploads");
 
-    const pdfs = files.map(file => ({
+  fs.readdir(uploadsDir, (err, files) => {
+    if (err) {
+      return res.status(500).json({ message: "Could not list files" });
+    }
+
+    const fileList = files.map((file) => ({
       filename: file,
       path: `/uploads/${file}`
     }));
 
-    res.json(pdfs);
+    res.status(200).json(fileList);
   });
 });
-
+router.post("/upload", upload.single("file"), uploadNote);
 module.exports = router;
