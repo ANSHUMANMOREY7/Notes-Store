@@ -47,7 +47,7 @@ const AdminManageNotes = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black to-blue-900 relative overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 relative overflow-x-hidden">
       <Navbar />
       <div className="absolute inset-0 z-0">
         <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{ top: "5%", left: "10%" }} />
@@ -69,7 +69,7 @@ const AdminManageNotes = () => {
             placeholder="Search notes by title or subject..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full p-4 rounded-xl bg-black/60 border border-blue-500/30 text-white outline-none focus:border-blue-400 transition backdrop-blur-md shadow-2xl"
+            className="w-full p-4 rounded-xl bg-black/60 border border-purple-500/30 text-white outline-none focus:border-purple-400 transition backdrop-blur-md shadow-2xl"
           />
         </div>
 
@@ -82,10 +82,10 @@ const AdminManageNotes = () => {
             filteredNotes.map((note) => (
               <div
                 key={note._id}
-                className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-white/5 hover:scale-105 hover:bg-blue-900/50 transition duration-300"
+                className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-white/5 hover:scale-105 hover:bg-purple-900/50 transition duration-300"
               >
                 <div className="flex flex-col gap-2">
-                  <span className="text-[10px] font-bold text-blue-400 uppercase tracking-widest bg-blue-400/10 px-3 py-1 rounded-full w-fit mx-auto">
+                  <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest bg-purple-400/10 px-3 py-1 rounded-full w-fit mx-auto">
                     {note.subject || "General"}
                   </span>
                   <h3 className="text-2xl font-bold tracking-tight">{note.title || "Untitled Note"}</h3>
