@@ -77,7 +77,7 @@ const Admin = () => {
               <div className="w-16 h-16 bg-purple-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">➕</div>
               <h2 className="text-2xl font-bold">Upload Notes</h2>
               <p className="text-gray-300 text-sm">Upload new PDFs and categorize them by subject.</p>
-              <button onClick={() => setShowModal(true)} className="bg-purple-600 hover:bg-purple-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">
+              <button onClick={() => setShowModal(true)} className="bg-purple-600 hover:bg-gradient-to-r hover:from-purple-600 hover:to-fuchsia-500 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">
                 Start Upload
               </button>
             </div>
@@ -86,9 +86,9 @@ const Admin = () => {
             <div className="bg-black/70 backdrop-blur-md w-80 p-8 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 hover:scale-105 transition hover:bg-blue-900 group">
               <div className="w-16 h-16 bg-blue-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">📝</div>
               <h2 className="text-2xl font-bold">Manage Notes</h2>
-              <p className="text-gray-300 text-sm">Review, view, or delete uploaded notes from the library.</p>
-              <button onClick={() => navigate('/Admin/manage-notes')} className="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">
-                Open Manager
+              <p className="text-gray-300 text-sm">Edit details or delete outdated study materials.</p>
+              <button onClick={() => navigate('/Admin/manage-notes')} className="bg-blue-600 hover:bg-gradient-to-r hover:from-blue-600 hover:to-cyan-500 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">
+                View Library
               </button>
             </div>
 
@@ -97,7 +97,7 @@ const Admin = () => {
               <div className="w-16 h-16 bg-green-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">📊</div>
               <h2 className="text-2xl font-bold">View Stats</h2>
               <p className="text-gray-300 text-sm">Monitor total downloads and student activity.</p>
-              <button onClick={() => alert("Stats logic coming soon!")} className="bg-green-600 hover:bg-green-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">
+              <button onClick={() => alert("Stats logic coming soon!")} className="bg-green-600 hover:bg-gradient-to-r hover:from-green-600 hover:to-emerald-500 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">
                 View Analytics
               </button>
             </div>

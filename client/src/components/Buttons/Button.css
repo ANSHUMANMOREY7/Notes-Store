@@ -20,7 +20,7 @@
     transition: all 0.5s ease;
     
 }
-button:hover{
+.button:hover{
     background-image: linear-gradient(to right, #000000, rgb(77, 35, 110));
     border:  none;
     color: white;
