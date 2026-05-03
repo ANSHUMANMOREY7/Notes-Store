@@ -49,7 +49,7 @@ const Admin = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 text-white font-[font1] relative">
+      <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 text-white relative">
         
         
         <div className="absolute inset-0 z-0">
@@ -91,7 +91,9 @@ const Admin = () => {
           <div className="relative pb-6 mb-10">
             <div className="text-center">
               <h2 className="text-4xl font-bold text-white mb-2">Admin Panel</h2>
-              <p className="text-gray-300 font-normal font-sans mb-10 text-center">Manage your notes and uploads</p>
+              <p className="text-gray-300 font-normal font-sans mb-10 text-center">
+                Manage your notes and uploads. Add, view, and delete study materials from a single secure dashboard.
+              </p>
             </div>
             <button onClick={handleLogout} className="absolute right-0 top-1/2 -translate-y-1/2 bg-red-600 hover:bg-red-700 px-6 py-2 rounded-lg font-bold transition cursor-pointer">
               Logout
