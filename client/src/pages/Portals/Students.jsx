@@ -105,7 +105,8 @@ const Students = () => {
                 </a>
                 <a 
                   href={`http://localhost:5000${note.path}`} 
-                  download 
+                  target="_blank" 
+                  rel="noreferrer"
                   className="flex-1 border border-white/20 text-white py-3 rounded-xl font-bold hover:bg-white/10 transition text-sm"
                 >
                   Download
