@@ -129,7 +129,7 @@ const Admin = () => {
                 </select>
                 <input 
                   type="file" accept="application/pdf" required
-                  className="text-sm text-gray-400 cursor-pointer file:cursor-pointer file:bg-purple-600 file:text-white file:border-0 file:px-4 file:py-2 file:rounded-full file:mr-4"
+                  className="text-sm text-gray-400 cursor-pointer file:cursor-pointer file:bg-purple-600 file:text-white file:border-0 file:px-4 file:py-3 file:rounded-xl file:mr-4"
                   onChange={(e) => setFile(e.target.files[0])}
                 />
                 <div className="flex gap-3 mt-4">
