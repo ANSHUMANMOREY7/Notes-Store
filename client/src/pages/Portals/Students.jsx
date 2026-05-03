@@ -1,8 +1,19 @@
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
+import axios from 'axios';
 import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer';
 
+
+
 const Students = () => {
+  
+  const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/notes")
+      .then(res => setNotes(res.data))
+      .catch(err => console.log(err));
+  }, []);
   return (
     <>
     <div className='bg-black w-screen h-screen'>
