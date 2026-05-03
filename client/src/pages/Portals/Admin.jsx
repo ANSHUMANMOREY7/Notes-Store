@@ -129,12 +129,12 @@ const Admin = () => {
                 </select>
                 <input 
                   type="file" accept="application/pdf" required
-                  className="text-sm text-gray-400 file:bg-purple-600 file:text-white file:border-0 file:px-4 file:py-2 file:rounded-full file:mr-4"
+                  className="text-sm text-gray-400 cursor-pointer file:cursor-pointer file:bg-purple-600 file:text-white file:border-0 file:px-4 file:py-2 file:rounded-full file:mr-4"
                   onChange={(e) => setFile(e.target.files[0])}
                 />
                 <div className="flex gap-3 mt-4">
-                  <button type="button" onClick={() => setShowModal(false)} className="flex-1 bg-white/10 py-3 rounded-xl hover:bg-white/20 transition">Cancel</button>
-                  <button type="submit" disabled={uploading} className="flex-1 bg-purple-600 py-3 rounded-xl font-bold hover:bg-purple-700 transition">
+                  <button type="button" onClick={() => setShowModal(false)} className="flex-1 bg-white/10 py-3 rounded-xl hover:bg-white/20 transition cursor-pointer">Cancel</button>
+                  <button type="submit" disabled={uploading} className="flex-1 bg-purple-600 py-3 rounded-xl font-bold hover:bg-purple-700 transition cursor-pointer">
                     {uploading ? "Uploading..." : "Publish"}
                   </button>
                 </div>
