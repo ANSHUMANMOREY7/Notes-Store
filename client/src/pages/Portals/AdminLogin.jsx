@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
+import Button from "../../components/Buttons/Button";
 
 
 const AdminLogin = () => {
@@ -39,26 +40,27 @@ const AdminLogin = () => {
 
 </div>
 
-      <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl w-96 flex flex-col gap-6 transition duration-300  hover:scale-105 transition duration-300">
+      <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl w-96 flex flex-col gap-4 shadow-xl transition duration-300 hover:scale-105 hover:bg-purple-900">
 
         <h2 className="text-2xl font-bold text-center">
           Admin Login
         </h2>
 
-        <input
-          type="password"
-          placeholder="Enter admin password"
-          className="p-3 rounded bg-gray-800 outline-none w-full"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="flex flex-col gap-2">
+          <input
+            type="password"
+            placeholder="Enter admin password"
+            className="p-3 h-14 rounded bg-gray-800 outline-none w-full"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-        <button
-          onClick={handleLogin}
-          className="bg-black p-3 rounded w-full hover:bg-gray-900 transition cursor-pointer"
-        >
-          Login
-        </button>
+          <Button
+            label="Login"
+            onClick={handleLogin}
+            className="full-width"
+          />
+        </div>
 
       </div>
     </div>
