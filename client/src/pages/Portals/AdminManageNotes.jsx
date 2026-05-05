@@ -82,7 +82,7 @@ const AdminManageNotes = () => {
       <div className="relative z-10 flex flex-col items-center pt-24 px-4 w-full">
         <h2 className="text-4xl font-bold text-white mb-2">Admin Notes Manager</h2>
         <p className="text-gray-300 mb-10 text-center max-w-2xl">
-          Review all uploaded notes, open them for inspection, or remove outdated content from the library.
+          Review all uploaded notes, open them for inspection, or remove outdated content .
         </p>
 
         <div className="w-full max-w-md mb-16">
@@ -99,7 +99,28 @@ const AdminManageNotes = () => {
           {loading ? (
             <div className="col-span-full text-center text-white/80">Loading notes...</div>
           ) : filteredNotes.length === 0 ? (
-            <div className="col-span-full text-center text-gray-400 italic">No matching notes found.</div>
+            <div className="col-span-1 md:col-span-2 lg:col-span-3 flex justify-center w-full py-1">
+              <div className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-purple-500/20 w-full max-w-sm backdrop-blur-md">
+                <div className="flex flex-col gap-2">
+                  <span className="text-[10px] font-bold text-red-400 uppercase tracking-widest bg-red-400/10 px-3 py-1 rounded-full w-fit mx-auto">
+                    Admin Notice
+                  </span>
+                  <h3 className="text-2xl font-bold tracking-tight">No Records Found</h3>
+                </div>
+                
+                <p className="text-gray-400 text-sm leading-relaxed">
+                  There are currently no notes matching "<span className="text-purple-300 font-semibold">{searchTerm}</span>" in the repository. 
+                  
+                </p>
+
+                <button 
+                  onClick={() => setSearchTerm("")}
+                  className="w-full bg-purple-600 text-white py-3 rounded-xl font-bold hover:bg-purple-500 transition text-sm shadow-lg cursor-pointer shadow-purple-900/20"
+                >
+                  Reset Admin View
+                </button>
+              </div>
+            </div>
           ) : (
             filteredNotes.map((note) => (
               <div
