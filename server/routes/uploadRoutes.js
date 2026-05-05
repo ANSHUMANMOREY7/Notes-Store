@@ -5,6 +5,7 @@ const path = require("path");
 const fs = require("fs");
 const Note = require("../models/Note");
 const { uploadNote } = require("../controllers/uploadController");
+const { uploadNote, deleteNote, getStats } = require("../controllers/uploadController");
 
 // 1. Define Storage Logic
 const storage = multer.diskStorage({
@@ -18,9 +19,10 @@ const storage = multer.diskStorage({
 
 // 2. INITIALIZE upload (This was missing!)
 const upload = multer({ storage: storage });
-
+router.get("/stats", getStats);
 // 3. Define Routes
 router.get("/", async (req, res) => {
+  
   try {
     const notes = await Note.find().sort({ createdAt: -1 });
     res.json(notes);

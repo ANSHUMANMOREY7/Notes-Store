@@ -1,19 +1,43 @@
-import { memo, useState } from 'react';
+import { memo, useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const Admin = () => {
   const isAuth = localStorage.getItem("adminAuth");
-
- 
+  
   const [showModal, setShowModal] = useState(false);
+  const [showStats, setShowStats] = useState(false);
   const [file, setFile] = useState(null);
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState("");
   const [uploading, setUploading] = useState(false);
+  
+  const [statsData, setStatsData] = useState({
+    totalNotes: 0,
+    totalDownloads: 0,
+    storageUsed: 0, 
+    categoryBreakdown: {}
+  });
 
   const navigate = useNavigate();
+
+  // Function to fetch stats
+  const fetchStats = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/notes/stats");
+      setStatsData(res.data);
+    } catch (err) {
+      console.error("Could not fetch stats", err);
+    }
+  };
+
+  // Fetch stats when user enters Stats Mode
+  useEffect(() => {
+    if (showStats) {
+      fetchStats();
+    }
+  }, [showStats]);
 
   const handleLogout = () => {
     localStorage.removeItem("adminAuth");
@@ -23,22 +47,25 @@ const Admin = () => {
   const handleUpload = async (e) => {
     e.preventDefault();
     setUploading(true);
-
     const formData = new FormData();
     formData.append("title", title);
     formData.append("subject", subject);
-    formData.append("file", file); // 
+    formData.append("file", file);
 
     try {
       await axios.post("http://localhost:5000/api/notes/upload", formData, {
-  headers: { "Content-Type": "multipart/form-data" },
-});
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       alert("Note uploaded successfully!");
+      
+      // REFRESH STATS after upload so they are accurate
+      fetchStats(); 
+      
       setShowModal(false);
       setFile(null); setTitle(""); setSubject("");
     } catch (err) {
       console.error(err);
-      alert("Error uploading file. Make sure backend is running on port 5000");
+      alert("Error uploading file.");
     } finally {
       setUploading(false);
     }
@@ -49,94 +76,112 @@ const Admin = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 text-white relative">
-        
+      {/* Fixed: Always using Purple-Black gradient per your request */}
+      <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 text-white relative transition-colors duration-500">
         
         <div className="absolute inset-0 z-0">
-
-  {/* Small stars */}
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"5%",left:"10%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"10%",left:"20%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"15%",left:"50%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"20%",left:"80%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"25%",left:"35%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"30%",left:"10%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"35%",left:"60%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"40%",left:"70%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"45%",left:"15%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"50%",left:"30%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"55%",left:"75%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"60%",left:"90%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"65%",left:"40%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"70%",left:"55%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"75%",left:"25%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"80%",left:"60%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"85%",left:"45%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"90%",left:"15%"}}></div>
-
-  {/* Medium stars */}
-  <div className="absolute w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{top:"12%",left:"65%"}}></div>
-  <div className="absolute w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{top:"38%",left:"82%"}}></div>
-  <div className="absolute w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{top:"58%",left:"18%"}}></div>
-  <div className="absolute w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{top:"72%",left:"72%"}}></div>
-
-  {/* Colored stars */}
-  <div className="absolute w-2 h-2 bg-purple-300 rounded-full animate-pulse" style={{top:"22%",left:"45%"}}></div>
-  <div className="absolute w-2 h-2 bg-blue-200 rounded-full animate-pulse" style={{top:"55%",left:"75%"}}></div>
-  <div className="absolute w-2 h-2 bg-yellow-200 rounded-full animate-pulse" style={{top:"33%",left:"85%"}}></div>
-
-</div>
-
-        <div className="max-w-7xl mx-auto p-10 pt-24 relative z-10">
-          <div className="relative pb-6 mb-10">
-            <div className="text-center">
-              <h2 className="text-4xl font-bold text-white mb-2">Admin Panel</h2>
-              <p className="text-gray-300 font-normal font-sans mb-10 text-center">
-                Manage your notes and uploads. Add, view, and delete study materials from a single secure dashboard.
-              </p>
-            </div>
-            <button onClick={handleLogout} className="absolute right-0 top-1/2 -translate-y-1/2 bg-red-600 hover:bg-red-700 px-6 py-2 rounded-lg font-bold transition cursor-pointer">
-              Logout
-            </button>
-          </div>
-
-          {/* THE THREE CARDS */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
-            
-            {/* Card 1: Upload */}
-            <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-purple-900 group">
-              <div className="w-16 h-16 bg-purple-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">➕</div>
-              <h2 className="text-2xl font-bold">Upload Notes</h2>
-              <p className="text-gray-300 text-sm">Upload new PDFs and categorize them by subject.</p>
-              <button onClick={() => setShowModal(true)} className="bg-purple-600 hover:bg-purple-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">
-                Start Upload
-              </button>
-            </div>
-
-            {/* Card 2: Manage */}
-            <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-blue-900 group">
-              <div className="w-16 h-16 bg-blue-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">📝</div>
-              <h2 className="text-2xl font-bold">Manage Notes</h2>
-              <p className="text-gray-300 text-sm">Edit details or delete outdated study materials.</p>
-              <button onClick={() => navigate('/Admin/manage-notes')} className="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">
-                View Library
-              </button>
-            </div>
-
-            {/* Card 3: Stats */}
-            <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-green-900 group">
-              <div className="w-16 h-16 bg-green-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">📊</div>
-              <h2 className="text-2xl font-bold">View Stats</h2>
-              <p className="text-gray-300 text-sm">Monitor total downloads and student activity.</p>
-              <button onClick={() => alert("Stats logic coming soon!")} className="bg-green-600 hover:bg-green-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">
-                View Analytics
-              </button>
-            </div>
-
-          </div>
+          {/* Your original star placements */}
+          <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"5%",left:"10%"}}></div>
+          <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"15%",left:"50%"}}></div>
+          <div className="absolute w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{top:"12%",left:"65%"}}></div>
+          <div className="absolute w-2 h-2 bg-purple-300 rounded-full animate-pulse" style={{top:"22%",left:"45%"}}></div>
+          {/* Subtle purple glow instead of green */}
+          <div className="absolute w-32 h-32 bg-purple-600/10 rounded-full blur-[100px]" style={{bottom:"10%",right:"10%"}}></div>
         </div>
 
-        {/* UPLOAD MODAL */}
+        <div className="max-w-7xl mx-auto p-10 pt-24 relative z-10">
+          
+          {!showStats && (
+            <div className="relative pb-6 mb-10">
+              <div className="text-center">
+                <h2 className="text-4xl font-bold text-white mb-2">Admin Panel</h2>
+                <p className="text-gray-300 font-normal font-sans mb-10 text-center">
+                  Manage your notes and uploads. Add, view, and delete study materials from a single secure dashboard.
+                </p>
+              </div>
+              <button onClick={handleLogout} className="absolute right-0 top-1/2 -translate-y-1/2 bg-red-600 hover:bg-red-700 px-6 py-2 rounded-lg font-bold transition cursor-pointer">
+                Logout
+              </button>
+            </div>
+          )}
+
+          {!showStats ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
+              {/* Card 1: Upload */}
+              <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-purple-900 group">
+                <div className="w-16 h-16 bg-purple-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">➕</div>
+                <h2 className="text-2xl font-bold">Upload Notes</h2>
+                <button onClick={() => setShowModal(true)} className="bg-purple-600 hover:bg-purple-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">Start Upload</button>
+              </div>
+
+              {/* Card 2: Manage */}
+              <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-blue-900 group">
+                <div className="w-16 h-16 bg-blue-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">📝</div>
+                <h2 className="text-2xl font-bold">Manage Notes</h2>
+                <button onClick={() => navigate('/Admin/manage-notes')} className="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">View Library</button>
+              </div>
+
+              {/* Card 3: Stats */}
+              <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-green-900 group">
+                <div className="w-16 h-16 bg-green-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">📊</div>
+                <h2 className="text-2xl font-bold">View Stats</h2>
+                <button onClick={() => setShowStats(true)} className="bg-green-600 hover:bg-green-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">View Analytics</button>
+              </div>
+            </div>
+          ) : (
+            /* STATS VIEW (Purple Accents) */
+            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div className="flex justify-between items-center mb-12">
+                <h2 className="text-4xl font-bold">Platform Analytics</h2>
+                <button 
+                  onClick={() => setShowStats(false)} 
+                  className="bg-white text-black px-6 py-2 rounded-xl font-bold hover:bg-gray-200 transition"
+                >
+                  ← Back to Dashboard
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-purple-500/20 shadow-2xl">
+                  <p className="text-purple-400 text-sm font-bold uppercase tracking-widest mb-2">Total Notes</p>
+                  <h3 className="text-5xl font-black">{statsData.totalNotes}</h3>
+                </div>
+
+                <div className="bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-purple-500/20 shadow-2xl">
+                  <p className="text-purple-400 text-sm font-bold uppercase tracking-widest mb-2">Total Downloads</p>
+                  <h3 className="text-5xl font-black">{statsData.totalDownloads}</h3>
+                </div>
+
+                <div className="bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-purple-500/20 shadow-2xl lg:col-span-2">
+                  <div className="flex justify-between mb-4">
+                    <p className="text-purple-400 text-sm font-bold uppercase tracking-widest">Storage Used</p>
+                    <p className="text-xs text-gray-400">{statsData.storageUsed}MB / 500MB</p>
+                  </div>
+                  <div className="w-full bg-white/10 h-4 rounded-full overflow-hidden">
+                    <div 
+                      className="bg-purple-500 h-full transition-all duration-1000" 
+                      style={{ width: `${Math.min((statsData.storageUsed / 500) * 100, 100)}%` }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-10 bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-white/5">
+                <h3 className="text-xl font-bold mb-6">Notes by Subject</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                   {Object.entries(statsData.categoryBreakdown).map(([sub, count]) => (
+                     <div key={sub} className="bg-white/5 p-4 rounded-2xl border border-white/5 text-center">
+                        <p className="text-[10px] text-gray-400 uppercase mb-1">{sub}</p>
+                        <p className="text-2xl font-bold text-purple-400">{count}</p>
+                     </div>
+                   ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* UPLOAD MODAL (Unchanged) */}
         {showModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4">
             <div className="bg-[#121212] border border-white/10 p-8 rounded-3xl w-full max-w-md shadow-2xl">
@@ -145,10 +190,12 @@ const Admin = () => {
                 <input 
                   type="text" placeholder="Note Title" required
                   className="bg-white/5 border border-white/10 p-3 rounded-xl outline-none focus:border-purple-500"
+                  value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
                 <select 
                   required className="bg-white/5 border border-white/10 p-3 rounded-xl outline-none"
+                  value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                 >
                   <option value="" className="bg-black">Select Subject</option>
@@ -160,12 +207,12 @@ const Admin = () => {
                 </select>
                 <input 
                   type="file" accept="application/pdf" required
-                  className="text-sm text-gray-400 cursor-pointer file:cursor-pointer file:bg-purple-600 file:text-white file:border-0 file:px-4 file:py-3 file:rounded-xl file:mr-4"
+                  className="text-sm text-gray-400 file:bg-purple-600 file:text-white file:border-0 file:px-4 file:py-3 file:rounded-xl"
                   onChange={(e) => setFile(e.target.files[0])}
                 />
                 <div className="flex gap-3 mt-4">
-                  <button type="button" onClick={() => setShowModal(false)} className="flex-1 bg-white/10 py-3 rounded-xl hover:bg-white/20 transition cursor-pointer">Cancel</button>
-                  <button type="submit" disabled={uploading} className="flex-1 bg-purple-600 py-3 rounded-xl font-bold hover:bg-purple-700 transition cursor-pointer">
+                  <button type="button" onClick={() => setShowModal(false)} className="flex-1 bg-white/10 py-3 rounded-xl hover:bg-white/20 transition">Cancel</button>
+                  <button type="submit" disabled={uploading} className="flex-1 bg-purple-600 py-3 rounded-xl font-bold hover:bg-purple-700 transition">
                     {uploading ? "Uploading..." : "Publish"}
                   </button>
                 </div>
