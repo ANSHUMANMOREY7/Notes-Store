@@ -3,7 +3,7 @@ import axios from 'axios';
 import Navbar from '../../components/Navbar/Navbar';
 
 const Students = () => {
-  const handleDownload = async (fileUrl, fileName) => {
+ const handleDownload = async (fileUrl, fileName, noteId) => {
     try {
       const response = await fetch(fileUrl);
       const blob = await response.blob();
@@ -15,6 +15,12 @@ const Students = () => {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
+
+     
+      if (noteId) {
+        await axios.put(`http://localhost:5000/api/notes/${noteId}/download`);
+        console.log("Download count updated successfully");
+      }
     } catch (error) {
       console.error("Download failed:", error);
       alert("Could not download the file. Please try again.");
