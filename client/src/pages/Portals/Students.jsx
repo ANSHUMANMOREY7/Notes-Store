@@ -3,6 +3,23 @@ import axios from 'axios';
 import Navbar from '../../components/Navbar/Navbar';
 
 const Students = () => {
+  const handleDownload = async (fileUrl, fileName) => {
+    try {
+      const response = await fetch(fileUrl);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = fileName || 'download.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Download failed:", error);
+      alert("Could not download the file. Please try again.");
+    }
+  };
   const [notes, setNotes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -103,14 +120,13 @@ const Students = () => {
                 >
                   View
                 </a>
-                <a 
-                  href={`http://localhost:5000${note.path}`} 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="flex-1 border border-white/20 text-white py-3 rounded-xl font-bold hover:bg-white/10 transition text-sm"
+               
+                <button 
+                  onClick={() => handleDownload(`http://localhost:5000${note.path}`, note.title)}
+                  className="flex-1 border border-white/20 text-white py-3 rounded-xl font-bold hover:bg-white/10 transition text-sm cursor-pointer"
                 >
                   Download
-                </a>
+                </button>
               </div>
             </div>
           ))}
