@@ -20,6 +20,7 @@ const Students = () => {
       alert("Could not download the file. Please try again.");
     }
   };
+
   const [notes, setNotes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -32,7 +33,6 @@ const Students = () => {
       .catch(err => console.log(err));
   }, []);
 
-  // Your search logic
   const filteredNotes = notes.filter(note => 
     note.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     note.subject?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -42,59 +42,56 @@ const Students = () => {
     <div className="min-h-screen bg-gradient-to-b from-black to-green-900 relative overflow-x-hidden">
       <Navbar />
       
-   
       <div className="absolute inset-0 z-0">
+        {/* Small stars */}
+        <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"5%",left:"10%"}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"10%",left:"20%"}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"15%",left:"50%"}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"20%",left:"80%"}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"25%",left:"35%"}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"30%",left:"10%"}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"35%",left:"60%"}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"40%",left:"70%"}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"45%",left:"15%"}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"50%",left:"30%"}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"55%",left:"75%"}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"60%",left:"90%"}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"65%",left:"40%"}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"70%",left:"55%"}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"75%",left:"25%"}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"80%",left:"60%"}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"85%",left:"45%"}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"90%",left:"15%"}}></div>
 
-  {/* Small stars */}
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"5%",left:"10%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"10%",left:"20%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"15%",left:"50%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"20%",left:"80%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"25%",left:"35%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"30%",left:"10%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"35%",left:"60%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"40%",left:"70%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"45%",left:"15%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"50%",left:"30%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"55%",left:"75%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"60%",left:"90%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"65%",left:"40%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"70%",left:"55%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"75%",left:"25%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"80%",left:"60%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"85%",left:"45%"}}></div>
-  <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"90%",left:"15%"}}></div>
+        {/* Medium stars */}
+        <div className="absolute w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{top:"12%",left:"65%"}}></div>
+        <div className="absolute w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{top:"38%",left:"82%"}}></div>
+        <div className="absolute w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{top:"58%",left:"18%"}}></div>
+        <div className="absolute w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{top:"72%",left:"72%"}}></div>
 
-  {/* Medium stars */}
-  <div className="absolute w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{top:"12%",left:"65%"}}></div>
-  <div className="absolute w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{top:"38%",left:"82%"}}></div>
-  <div className="absolute w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{top:"58%",left:"18%"}}></div>
-  <div className="absolute w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{top:"72%",left:"72%"}}></div>
-
-  {/* Colored stars */}
-  <div className="absolute w-2 h-2 bg-purple-300 rounded-full animate-pulse" style={{top:"22%",left:"45%"}}></div>
-  <div className="absolute w-2 h-2 bg-blue-200 rounded-full animate-pulse" style={{top:"55%",left:"75%"}}></div>
-  <div className="absolute w-2 h-2 bg-yellow-200 rounded-full animate-pulse" style={{top:"33%",left:"85%"}}></div>
-
-</div>
+        {/* Colored stars */}
+        <div className="absolute w-2 h-2 bg-purple-300 rounded-full animate-pulse" style={{top:"22%",left:"45%"}}></div>
+        <div className="absolute w-2 h-2 bg-blue-200 rounded-full animate-pulse" style={{top:"55%",left:"75%"}}></div>
+        <div className="absolute w-2 h-2 bg-yellow-200 rounded-full animate-pulse" style={{top:"33%",left:"85%"}}></div>
+      </div>
 
       <div className="relative z-10 flex flex-col items-center pt-24 px-4 w-full">
-        {/* Header Section */}
         <h2 className="text-4xl font-bold text-white mb-2">Study Resources</h2>
         <p className="text-gray-300 mb-10 text-center">Find verified materials by subject or title</p>
 
-        {/* Search Input styled to match the dark theme */}
         <div className="w-full max-w-md mb-16">
           <input 
             type="text"
+            value={searchTerm}
             placeholder="Search for notes..."
             className="w-full p-4 rounded-xl bg-black/60 border border-green-500/30 text-white outline-none focus:border-green-400 transition backdrop-blur-md shadow-2xl"
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
 
-        {/* Note Cards Grid - Styled exactly like Path.jsx Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-7xl px-6 pb-24">
+        {/* Grid Container */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-7xl px-6 pb-24 min-h-[400px]">
+          {/* Note Cards */}
           {filteredNotes.map((note, index) => (
             <div 
               key={index} 
@@ -116,11 +113,11 @@ const Students = () => {
                   href={`http://localhost:5000${note.path}`} 
                   target="_blank" 
                   rel="noreferrer" 
-                  className="flex-1 bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition text-sm shadow-lg"
+                  className="flex-1 bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition text-sm shadow-lg flex items-center justify-center"
                 >
                   View
                 </a>
-               
+                
                 <button 
                   onClick={() => handleDownload(`http://localhost:5000${note.path}`, note.title)}
                   className="flex-1 border border-white/20 text-white py-3 rounded-xl font-bold hover:bg-white/10 transition text-sm cursor-pointer"
@@ -130,12 +127,33 @@ const Students = () => {
               </div>
             </div>
           ))}
-        </div>
 
-        {/* Empty Result State */}
-        {filteredNotes.length === 0 && (
-          <div className="text-gray-500 text-xl italic pb-20">No matching notes found...</div>
-        )}
+          {/* Centered No-Results Card - Moved INSIDE the Grid Div */}
+          {filteredNotes.length === 0 && (
+            <div className="col-span-1 md:col-span-2 lg:col-span-3 flex justify-center w-full py-1">
+              <div className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-white/5 w-full max-w-sm backdrop-blur-md">
+                <div className="flex flex-col gap-2">
+                  <span className="text-[10px] font-bold text-red-400 uppercase tracking-widest bg-red-400/10 px-3 py-1 rounded-full w-fit mx-auto">
+                    Notice
+                  </span>
+                  <h3 className="text-2xl font-bold tracking-tight">No Matching Notes</h3>
+                </div>
+                
+                <p className="text-gray-400 text-sm leading-relaxed">
+                  We couldn't find any documents for "<span className="text-white font-semibold">{searchTerm}</span>". 
+                  Check your spelling or try another keyword.
+                </p>
+
+                <button 
+                  onClick={() => setSearchTerm("")}
+                  className="w-full bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition text-sm shadow-lg cursor-pointer"
+                >
+                  Clear Search
+                </button>
+              </div>
+            </div>
+          )}
+        </div> {/* Grid End */}
       </div>
     </div>
   );
