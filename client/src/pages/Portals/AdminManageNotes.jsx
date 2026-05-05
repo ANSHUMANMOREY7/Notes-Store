@@ -115,7 +115,7 @@ const AdminManageNotes = () => {
 
                 <button 
                   onClick={() => setSearchTerm("")}
-                  className="w-full bg-purple-600 text-white py-3 rounded-xl font-bold hover:bg-purple-500 transition text-sm shadow-lg cursor-pointer shadow-purple-900/20"
+                  className="w-full bg-white text-black py-3 rounded-xl font-bold  transition text-sm shadow-lg cursor-pointer "
                 >
                   Reset Admin View
                 </button>
