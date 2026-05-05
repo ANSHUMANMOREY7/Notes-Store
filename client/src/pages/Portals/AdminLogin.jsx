@@ -56,7 +56,7 @@ const AdminLogin = () => {
             <input
               type="password"
               placeholder="Enter admin password"
-              className="p-3 h-14 rounded bg-gray-800 outline-none w-full border border-transparent focus:border-purple-500 transition-all text-white"
+              className="p-3 h-14 rounded bg-gray-800 outline-none w-full border border-none focus:border-purple-500 transition-all text-white"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
