@@ -6,7 +6,7 @@
     margin-top: 15px;
 }
 .button{
-    border: transparent;
+    border: none;
     padding: 20px 40px ;
     border-radius: 5px;
     width: fit-content;
@@ -19,7 +19,6 @@
     font-weight: bolder;
     transition: all 0.3s ease;
     box-sizing: border-box;
-    outline: none;
     
 }
 .button.full-width{

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Button from "../../components/Buttons/Button";
@@ -9,14 +9,21 @@ const AdminLogin = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+ useEffect(() => {
+    const isAuth = localStorage.getItem("adminAuth");
+    if (isAuth === "true") {
+      navigate("/admin");
+    }
+  }, [navigate]);
+
   const handleLogin = () => {
-  if (password === "admin123") {
-    localStorage.setItem("adminAuth", "true");
-    navigate("/admin");
-  } else {
-    alert("Wrong password");
-  }
-};
+    if (password === "admin123") {
+      localStorage.setItem("adminAuth", "true");
+      navigate("/admin");
+    } else {
+      alert("Wrong password");
+    }
+  };
 
   return (
     <>
@@ -40,32 +47,30 @@ const AdminLogin = () => {
 
 </div>
 
-      <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl w-96 flex flex-col gap-4 shadow-xl transition duration-300 hover:scale-105 hover:bg-purple-900">
+      <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl w-96 flex flex-col gap-4 shadow-xl transition duration-300 hover:scale-105 hover:bg-purple-900 z-10">
+          <h2 className="text-2xl font-bold text-center">
+            Admin Login
+          </h2>
 
-        <h2 className="text-2xl font-bold text-center">
-          Admin Login
-        </h2>
+          <div className="flex flex-col gap-2">
+            <input
+              type="password"
+              placeholder="Enter admin password"
+              className="p-3 h-14 rounded bg-gray-800 outline-none w-full border border-transparent focus:border-purple-500 transition-all text-white"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
+            />
 
-        <div className="flex flex-col gap-2">
-          <input
-            type="password"
-            placeholder="Enter admin password"
-            className="p-3 h-14 rounded bg-gray-800 outline-none w-full"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-
-          <Button
-            label="Login"
-            onClick={handleLogin}
-            className="full-width"
-          />
+            {/* Using your custom Button component */}
+            <Button 
+              label="Login" 
+              onClick={handleLogin} 
+              className="full-width" 
+            />
+          </div>
         </div>
-
       </div>
-    </div>
- 
-    
     </>
   );
 };
