@@ -50,12 +50,8 @@ const allSubjects = [
   }
 }, [window.location.search]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("adminAuth");
-    window.location.href = "/";
-  };
 
-  // CHUNK 2: Updated upload handler to refresh stats immediately
+  
   const handleUpload = async (e) => {
     e.preventDefault();
     setUploading(true);
@@ -112,9 +108,7 @@ const allSubjects = [
                   Manage your notes and uploads. Add, view, and delete study materials from a single secure dashboard.
                 </p>
               </div>
-              <button onClick={handleLogout} className="absolute right-0 top-1/2 -translate-y-1/2 bg-red-600 hover:bg-red-700 px-6 py-2 rounded-lg font-bold transition cursor-pointer">
-                Logout
-              </button>
+              
             </div>
           )}
 
