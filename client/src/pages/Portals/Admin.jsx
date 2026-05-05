@@ -22,7 +22,7 @@ const Admin = () => {
 
   const navigate = useNavigate();
 
-  // Function to fetch stats
+  // CHUNK 1: Function to fetch analytics from the backend
   const fetchStats = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/notes/stats");
@@ -44,6 +44,7 @@ const Admin = () => {
     window.location.href = "/";
   };
 
+  // CHUNK 2: Updated upload handler to refresh stats immediately
   const handleUpload = async (e) => {
     e.preventDefault();
     setUploading(true);
@@ -56,13 +57,16 @@ const Admin = () => {
       await axios.post("http://localhost:5000/api/notes/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+      
       alert("Note uploaded successfully!");
       
-      // REFRESH STATS after upload so they are accurate
+      // REFRESH STATS after upload so the dashboard is accurate
       fetchStats(); 
       
       setShowModal(false);
-      setFile(null); setTitle(""); setSubject("");
+      setFile(null); 
+      setTitle(""); 
+      setSubject("");
     } catch (err) {
       console.error(err);
       alert("Error uploading file.");
@@ -76,16 +80,13 @@ const Admin = () => {
   return (
     <>
       <Navbar />
-      {/* Fixed: Always using Purple-Black gradient per your request */}
       <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 text-white relative transition-colors duration-500">
         
         <div className="absolute inset-0 z-0">
-          {/* Your original star placements */}
           <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"5%",left:"10%"}}></div>
           <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"15%",left:"50%"}}></div>
           <div className="absolute w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{top:"12%",left:"65%"}}></div>
           <div className="absolute w-2 h-2 bg-purple-300 rounded-full animate-pulse" style={{top:"22%",left:"45%"}}></div>
-          {/* Subtle purple glow instead of green */}
           <div className="absolute w-32 h-32 bg-purple-600/10 rounded-full blur-[100px]" style={{bottom:"10%",right:"10%"}}></div>
         </div>
 
@@ -107,21 +108,18 @@ const Admin = () => {
 
           {!showStats ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
-              {/* Card 1: Upload */}
               <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-purple-900 group">
                 <div className="w-16 h-16 bg-purple-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">➕</div>
                 <h2 className="text-2xl font-bold">Upload Notes</h2>
                 <button onClick={() => setShowModal(true)} className="bg-purple-600 hover:bg-purple-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">Start Upload</button>
               </div>
 
-              {/* Card 2: Manage */}
               <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-blue-900 group">
                 <div className="w-16 h-16 bg-blue-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">📝</div>
                 <h2 className="text-2xl font-bold">Manage Notes</h2>
                 <button onClick={() => navigate('/Admin/manage-notes')} className="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">View Library</button>
               </div>
 
-              {/* Card 3: Stats */}
               <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-green-900 group">
                 <div className="w-16 h-16 bg-green-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">📊</div>
                 <h2 className="text-2xl font-bold">View Stats</h2>
@@ -129,7 +127,6 @@ const Admin = () => {
               </div>
             </div>
           ) : (
-            /* STATS VIEW (Purple Accents) */
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="flex justify-between items-center mb-12">
                 <h2 className="text-4xl font-bold">Platform Analytics</h2>
@@ -169,19 +166,18 @@ const Admin = () => {
               <div className="mt-10 bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-white/5">
                 <h3 className="text-xl font-bold mb-6">Notes by Subject</h3>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                   {Object.entries(statsData.categoryBreakdown).map(([sub, count]) => (
-                     <div key={sub} className="bg-white/5 p-4 rounded-2xl border border-white/5 text-center">
+                    {Object.entries(statsData.categoryBreakdown).map(([sub, count]) => (
+                      <div key={sub} className="bg-white/5 p-4 rounded-2xl border border-white/5 text-center">
                         <p className="text-[10px] text-gray-400 uppercase mb-1">{sub}</p>
                         <p className="text-2xl font-bold text-purple-400">{count}</p>
-                     </div>
-                   ))}
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>
           )}
         </div>
 
-        {/* UPLOAD MODAL (Unchanged) */}
         {showModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4">
             <div className="bg-[#121212] border border-white/10 p-8 rounded-3xl w-full max-w-md shadow-2xl">

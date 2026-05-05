@@ -4,7 +4,6 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const Note = require("../models/Note");
-const { uploadNote } = require("../controllers/uploadController");
 const { uploadNote, deleteNote, getStats } = require("../controllers/uploadController");
 
 // 1. Define Storage Logic
