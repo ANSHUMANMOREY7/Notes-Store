@@ -40,10 +40,15 @@ const allSubjects = [
 
   // Fetch stats when user enters Stats Mode
   useEffect(() => {
-    if (showStats) {
-      fetchStats();
-    }
-  }, [showStats]);
+  const params = new URLSearchParams(window.location.search);
+  const isStatsMode = params.get("view") === "stats";
+  
+  setShowStats(isStatsMode);
+
+  if (isStatsMode) {
+    fetchStats();
+  }
+}, [window.location.search]);
 
   const handleLogout = () => {
     localStorage.removeItem("adminAuth");
@@ -86,6 +91,7 @@ const allSubjects = [
   return (
     <>
       <Navbar />
+      
       <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 text-white relative transition-colors duration-500">
         
         <div className="absolute inset-0 z-0">
@@ -129,20 +135,21 @@ const allSubjects = [
               <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-green-900 group">
                 <div className="w-16 h-16 bg-green-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">📊</div>
                 <h2 className="text-2xl font-bold">View Stats</h2>
-                <button onClick={() => setShowStats(true)} className="bg-green-600 hover:bg-green-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">View Analytics</button>
+                <button 
+  onClick={() => navigate("?view=stats")} 
+  className="bg-green-600 hover:bg-green-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer"
+>
+  View Analytics
+</button>
+                
               </div>
             </div>
           ) : (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <div className="flex justify-between items-center mb-12">
-                <h2 className="text-4xl font-bold">Platform Analytics</h2>
-                <button 
-                  onClick={() => setShowStats(false)} 
-                  className="bg-white text-black px-6 py-2 rounded-xl font-bold hover:bg-gray-200 transition"
-                >
-                  ← Back to Dashboard
-                </button>
-              </div>
+             
+<div className="flex items-center gap-4 mb-12 justify-center">
+  <h2 className="text-4xl font-bold">Platform Analytics</h2>
+</div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div className="bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-purple-500/20 shadow-2xl">
@@ -168,12 +175,12 @@ const allSubjects = [
                   </div>
                 </div>
               </div>
-{/* Admin.jsx - Replace your existing "Notes by Subject" div with this */}
+
 <div className="mt-10 bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-white/5">
   <h3 className="text-xl font-bold mb-6">Notes by Subject</h3>
   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
     {allSubjects.map((sub) => {
-      // Look for the count in your stats, default to 0 if it doesn't exist
+     
       const count = statsData.categoryBreakdown[sub] || 0;
 
       return (
