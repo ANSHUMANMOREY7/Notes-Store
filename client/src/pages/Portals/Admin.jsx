@@ -19,7 +19,13 @@ const Admin = () => {
     storageUsed: 0, 
     categoryBreakdown: {}
   });
-
+const allSubjects = [
+  "SYSTEM Analysis and Design",
+  "Data Structures",
+  "C#.NET",
+  "Cloud Computing",
+  "ORACLE AND PL/SQL"
+];
   const navigate = useNavigate();
 
   // CHUNK 1: Function to fetch analytics from the backend
@@ -162,18 +168,23 @@ const Admin = () => {
                   </div>
                 </div>
               </div>
+{/* Admin.jsx - Replace your existing "Notes by Subject" div with this */}
+<div className="mt-10 bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-white/5">
+  <h3 className="text-xl font-bold mb-6">Notes by Subject</h3>
+  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+    {allSubjects.map((sub) => {
+      // Look for the count in your stats, default to 0 if it doesn't exist
+      const count = statsData.categoryBreakdown[sub] || 0;
 
-              <div className="mt-10 bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-white/5">
-                <h3 className="text-xl font-bold mb-6">Notes by Subject</h3>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                    {Object.entries(statsData.categoryBreakdown).map(([sub, count]) => (
-                      <div key={sub} className="bg-white/5 p-4 rounded-2xl border border-white/5 text-center">
-                        <p className="text-[10px] text-gray-400 uppercase mb-1">{sub}</p>
-                        <p className="text-2xl font-bold text-purple-400">{count}</p>
-                      </div>
-                    ))}
-                </div>
-              </div>
+      return (
+        <div key={sub} className="bg-white/5 p-4 rounded-2xl border border-white/5 text-center">
+          <p className="text-[10px] text-gray-400 uppercase mb-1">{sub}</p>
+          <p className="text-2xl font-bold text-purple-400">{count}</p>
+        </div>
+      );
+    })}
+  </div>
+</div>
             </div>
           )}
         </div>
@@ -209,7 +220,7 @@ const Admin = () => {
                 <div className="flex gap-3 mt-4">
                   <button type="button" onClick={() => setShowModal(false)} className="flex-1 bg-white/10 py-3 rounded-xl hover:bg-white/20 transition">Cancel</button>
                   <button type="submit" disabled={uploading} className="flex-1 bg-purple-600 py-3 rounded-xl font-bold hover:bg-purple-700 transition">
-                    {uploading ? "Uploading..." : "Publish"}
+                    {uploading ? "Uploading..." : "Upload"}
                   </button>
                 </div>
               </form>
