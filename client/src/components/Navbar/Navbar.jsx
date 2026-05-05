@@ -25,7 +25,7 @@ const Navbar = () => {
         
         {isAdmin ? (
           <span 
-            className='bb cursor-pointer text-red-500 font-bold' 
+            className='bb logout-btn' 
             onClick={handleLogout}
           >
             Logout

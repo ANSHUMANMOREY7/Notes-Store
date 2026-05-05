@@ -56,3 +56,19 @@
         opacity: 1;
     }
 }
+.bb.logout-btn {
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+    color:#e25656;
+}
+
+
+.bb.logout-btn:hover {
+    color: #e20000 !important; 
+    background-color: transparent; 
+    text-decoration: underline !important;        
+    text-decoration-color: #ff4d4d !important;   
+    text-underline-offset: 5px !important; 
+    border-bottom: none !important;
+    
+}
