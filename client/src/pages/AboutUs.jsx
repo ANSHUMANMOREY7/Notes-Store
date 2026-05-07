@@ -15,8 +15,8 @@ const AboutUs = () => {
         
         {/* Header Section */}
         <section className="mb-20">
-          <h1 className="text-6xl font-bold  mb-4">
-            Our  <span className="text-purple-400">Vision</span>
+          <h1 className="text-5xl font-bold  mb-4">
+            Our Vision
           </h1>
           
         </section>

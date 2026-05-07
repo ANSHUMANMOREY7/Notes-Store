@@ -88,7 +88,7 @@ const allSubjects = [
     <>
       <Navbar />
       
-      <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 text-white relative transition-colors duration-500">
+      <div className=" font-[font1] min-h-screen bg-gradient-to-b from-black to-purple-900 text-white relative transition-colors duration-500">
         
         <div className="absolute inset-0 z-0">
           <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"5%",left:"10%"}}></div>
@@ -103,7 +103,7 @@ const allSubjects = [
           {!showStats && (
             <div className="relative pb-6 mb-10">
               <div className="text-center">
-                <h2 className="text-4xl font-bold text-white mb-2">Admin Panel</h2>
+                <h2 className="text-4xl font-bold text-white mb-2 font-[font1]">Admin Panel</h2>
                 <p className="text-gray-300 font-normal font-sans mb-10 text-center">
                   Manage your notes and uploads. Add, view, and delete study materials from a single secure dashboard.
                 </p>
@@ -117,7 +117,7 @@ const allSubjects = [
               <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-purple-900 group">
                 <div className="w-16 h-16 bg-purple-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">➕</div>
                 <h2 className="text-2xl font-bold">Upload Notes</h2><p className="text-gray-400 text-center text-sm leading-relaxed">
-            Quickly upload your PDF study materials and notes to the repository with few clicks.
+            upload your PDF study materials and notes to the repository with few clicks.
           </p>
                 <button onClick={() => setShowModal(true)} className="bg-purple-600 hover:bg-purple-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">Start Upload</button>
               </div>

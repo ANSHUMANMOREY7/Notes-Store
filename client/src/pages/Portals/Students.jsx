@@ -39,7 +39,7 @@ const Students = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black to-green-900 relative overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 relative overflow-x-hidden font-[font1]">
       <Navbar />
       
       <div className="absolute inset-0 z-0">
@@ -76,7 +76,7 @@ const Students = () => {
       </div>
 
       <div className="relative z-10 flex flex-col items-center pt-24 px-4 w-full">
-        <h2 className="text-4xl font-bold text-white mb-2">Study Resources</h2>
+        <h2 className="text-4xl font-bold text-white mb-2 font-[font1]">Study Resources</h2>
         <p className="text-gray-300 mb-10 text-center">Find verified materials by subject or title</p>
 
         <div className="w-full max-w-md mb-16">
@@ -84,7 +84,7 @@ const Students = () => {
             type="text"
             value={searchTerm}
             placeholder="Search for notes..."
-            className="w-full p-4 rounded-xl bg-black/60 border border-green-500/30 text-white outline-none focus:border-green-400 transition backdrop-blur-md shadow-2xl"
+            className="w-full p-4 rounded-xl bg-black/60 border border-purple-500/30 text-white outline-none focus:border-purple-400 transition backdrop-blur-md shadow-2xl"
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
@@ -95,10 +95,10 @@ const Students = () => {
           {filteredNotes.map((note, index) => (
             <div 
               key={index} 
-              className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-white/5 hover:scale-105 hover:bg-green-900/50 transition duration-300"
+              className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-white/5 hover:scale-105 hover:bg-purple-900/50 transition duration-300"
             >
               <div className="flex flex-col gap-2">
-                <span className="text-[10px] font-bold text-green-400 uppercase tracking-widest bg-green-400/10 px-3 py-1 rounded-full w-fit mx-auto">
+                <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest bg-purple-400/10 px-3 py-1 rounded-full w-fit mx-auto">
                   {note.subject || "General"}
                 </span>
                 <h3 className="text-2xl font-bold tracking-tight">{note.title || "Untitled Note"}</h3>

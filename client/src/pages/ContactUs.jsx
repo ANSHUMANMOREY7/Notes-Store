@@ -3,7 +3,13 @@ import Navbar from '../components/Navbar/Navbar';
 
 const ContactUs = () => {
   return (
-   <><Navbar/></>
+    <>
+    
+    <Navbar />
+   
+    
+    
+     </>
   );
 };
 
