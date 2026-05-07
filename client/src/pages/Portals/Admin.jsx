@@ -160,11 +160,23 @@ const allSubjects = [
                   <h3 className="text-5xl font-black">{statsData.totalNotes}</h3>
                 </div>
 
-                <div className="bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-purple-500/20 shadow-2xl">
-                  <p className="text-purple-400 text-sm font-bold uppercase tracking-widest mb-2">Total Downloads</p>
-                  <h3 className="text-5xl font-black">{statsData.totalDownloads}</h3>
-                </div>
+              <div className="bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-purple-500/20 shadow-2xl relative overflow-hidden group">
+  <div className="flex justify-between items-center mb-2">
+    <p className="text-purple-400 text-sm font-bold uppercase tracking-widest">Storage Status</p>
+    <div className="flex h-2 w-2 relative">
+      <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${statsData.storageUsed > 400 ? 'bg-red-400' : 'bg-gr8een-400'}`}></span>
+      <span className={`relative inline-flex rounded-full h-2 w-2 ${statsData.storageUsed > 400 ? 'bg-red-500' : 'bg-green-500'}`}></span>
+    </div>
+  </div>
 
+  <h3 className="text-4xl font-black text-white">
+    {statsData.storageUsed > 450 ? "CRITICAL" : statsData.storageUsed > 250 ? "HEAVY" : "OPTIMAL"}
+  </h3>
+  
+  <p className="text-gray-500 text-[10px] mt-2 font-mono uppercase tracking-tighter">
+    {500 - statsData.storageUsed}MB Remaining Capacity
+  </p>
+</div>
                 <div className="bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-purple-500/20 shadow-2xl lg:col-span-2">
                   <div className="flex justify-between mb-4">
                     <p className="text-purple-400 text-sm font-bold uppercase tracking-widest">Storage Used</p>
