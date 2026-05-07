@@ -2,6 +2,7 @@ import { memo, useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from 'axios';
+import StarsBackground from '../../components/StarBackground';
 
 const Admin = () => {
   const isAuth = sessionStorage.getItem("adminAuth");
@@ -87,16 +88,10 @@ const allSubjects = [
   return (
     <>
       <Navbar />
-      
+      <StarsBackground />
       <div className=" font-[font1] min-h-screen bg-gradient-to-b from-black to-purple-900 text-white relative transition-colors duration-500">
         
-        <div className="absolute inset-0 z-0">
-          <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"5%",left:"10%"}}></div>
-          <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{top:"15%",left:"50%"}}></div>
-          <div className="absolute w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{top:"12%",left:"65%"}}></div>
-          <div className="absolute w-2 h-2 bg-purple-300 rounded-full animate-pulse" style={{top:"22%",left:"45%"}}></div>
-          <div className="absolute w-32 h-32 bg-purple-600/10 rounded-full blur-[100px]" style={{bottom:"10%",right:"10%"}}></div>
-        </div>
+        <StarsBackground />
 
         <div className="max-w-7xl mx-auto p-10 pt-24 relative z-10">
           

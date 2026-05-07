@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import emailjs from '@emailjs/browser';
 import Navbar from '../components/Navbar/Navbar';
+import StarsBackground from '../components/StarBackground';
 
 const ContactUs = () => {
   const form = useRef();
@@ -29,11 +30,12 @@ const ContactUs = () => {
   
       <Navbar />
     <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 text-white relative overflow-x-hidden font-[font1]">
-
+    
       {/* Signature Background Glows */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] bg-purple-900/20 rounded-full blur-[120px]"></div>
       </div>
+      
 
       <div className="relative z-10 max-w-6xl mx-auto px-8 pt-22 pb-16">
         
@@ -41,7 +43,7 @@ const ContactUs = () => {
         <div className="mb-10 text-center ">
          
           <h1 className="text-5xl ">
-            Get In touch
+            Contact Us
           </h1>
           
         </div>
@@ -122,6 +124,7 @@ const ContactUs = () => {
         </div>
       </div>
     </div>
+    <StarsBackground />
       </>
   );
 };
