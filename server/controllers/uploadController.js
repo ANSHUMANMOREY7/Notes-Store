@@ -58,7 +58,7 @@ const deleteNote = async (req, res) => {
 };
 
 
-// uploadController.js (Add to the bottom)
+
 
 const getStats = async (req, res) => {
   try {

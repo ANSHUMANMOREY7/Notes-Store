@@ -10,7 +10,7 @@ const AdminLogin = () => {
   const navigate = useNavigate();
 
  useEffect(() => {
-    const isAuth = localStorage.getItem("adminAuth");
+    const isAuth = sessionStorage.getItem("adminAuth");
     if (isAuth === "true") {
       navigate("/admin");
     }
@@ -18,13 +18,13 @@ const AdminLogin = () => {
 
   const handleLogin = () => {
     if (password === "admin123") {
-      localStorage.setItem("adminAuth", "true");
+      // Changed to sessionStorage
+      sessionStorage.setItem("adminAuth", "true");
       navigate("/admin");
     } else {
       alert("Wrong password");
     }
   };
-
   return (
     <>
     <Navbar />

@@ -4,7 +4,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const Admin = () => {
-  const isAuth = localStorage.getItem("adminAuth");
+  const isAuth = sessionStorage.getItem("adminAuth");
   
   const [showModal, setShowModal] = useState(false);
   const [showStats, setShowStats] = useState(false);

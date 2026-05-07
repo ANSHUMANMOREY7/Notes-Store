@@ -6,9 +6,9 @@ import { Link ,useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const isAdmin = localStorage.getItem("adminAuth") === "true";
+ const isAdmin = sessionStorage.getItem("adminAuth") === "true";
   const handleLogout = () => {
-    localStorage.removeItem("adminAuth");
+    sessionStorage.removeItem("adminAuth");
     navigate("/");
     window.location.reload();
   };
