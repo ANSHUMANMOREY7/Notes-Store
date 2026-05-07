@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import emailjs from '@emailjs/browser';
 import Navbar from '../components/Navbar/Navbar';
 import StarsBackground from '../components/StarBackground';
-
+import { toast } from 'react-hot-toast';
 const ContactUs = () => {
   const form = useRef();
 
@@ -17,7 +17,7 @@ const ContactUs = () => {
       'WyWS68ennaUOloT8W'
     )
     .then((result) => {
-        alert("Message Sent Successfully!");
+       toast.success('Message sent successfully!');
         e.target.reset();
     }, (error) => {
         alert("Failed to send message. Please try again.");
