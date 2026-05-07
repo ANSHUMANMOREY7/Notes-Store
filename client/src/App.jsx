@@ -8,7 +8,7 @@ import AdminManageNotes from "./pages/Portals/AdminManageNotes"
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
 import AboutUs from './pages/AboutUs';
-
+import ContactUs from './pages/ContactUs';
 function App() {
   
   return (
@@ -18,7 +18,8 @@ function App() {
     <ScrollToTop />
     <main className="flex-grow">
     <Routes>
-     <Route path="/" element={<Home />} />
+      <Route path='/Contact' element={<ContactUs />} />
+      <Route path="/" element={<Home />} />
      <Route path='/Path' element={<Path/>} />
      <Route path="/Student" element={<Students/>} />
      <Route path="/Admin-login" element={<AdminLogin/>} />
