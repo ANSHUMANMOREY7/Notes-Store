@@ -1,28 +1,40 @@
+.navbar a:first-child {
+    margin-right: auto;
+}
 .icon-text {
-    text-decoration: none;
+text-decoration: none;
     font-size: 31px;
-    margin-right: 140px;
+    font-weight: bold;
+    color: black;
+    margin-right: 0;
     
 }
 
 .navbar {
-    display: flex;
+  display: flex;
     flex-direction: row;
     background-color: white;
-    font-size: 15px;
-    text-decoration: none;
-    padding-left: 3vw;
-    padding-right: 5vw;
+    padding: 0 7vw; 
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1000;
     height: 65px;
-    display: flex;
-    justify-content: space-around;
     align-items: center;
+    
+    gap: 70px;
+    
+
     opacity: 0;
+
     animation: slideDown 2s ease-out 1s forwards;
+
+    box-sizing: border-box;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+
+    animation: slideDown 2s ease-out 1s forwards;
+
     box-sizing: border-box;
 }
 
@@ -58,17 +70,21 @@
 }
 .bb.logout-btn {
     cursor: pointer;
-    transition: color 0.3s ease, transform 0.3s ease;
+   transition: all 0.3s ease;
     color:#e25656;
+    transition: 0.4s;
+    border-bottom: 1px solid transparent;
 }
 
 
 .bb.logout-btn:hover {
     color: #e20000 !important; 
     background-color: transparent; 
-    text-decoration: underline !important;        
+    /* text-decoration: underline !important;         */
     text-decoration-color: #ff4d4d !important;   
     text-underline-offset: 5px !important; 
-    border-bottom: none !important;
-    
+   transform: none !important;
+    border-bottom: 1px solid #e20000 !important;
+     
+    transform: translateY(-1px);
 }
