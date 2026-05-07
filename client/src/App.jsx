@@ -7,6 +7,7 @@ import Admin from "./pages/Portals/Admin"
 import AdminManageNotes from "./pages/Portals/AdminManageNotes"
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
+import AboutUs from './pages/AboutUs';
 
 function App() {
   
@@ -23,6 +24,7 @@ function App() {
      <Route path="/Admin-login" element={<AdminLogin/>} />
      <Route path='/Admin' element={<Admin/>}/>
      <Route path='/Admin/manage-notes' element={<AdminManageNotes/>} />
+     <Route path="/about" element={<AboutUs />} />
      <Route path='/Footer' element={<Footer/>} />
     </Routes> 
     </main>
