@@ -117,7 +117,7 @@ const allSubjects = [
               <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-purple-900 group">
                 <div className="w-16 h-16 bg-purple-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">➕</div>
                 <h2 className="text-2xl font-bold">Upload Notes</h2><p className="text-gray-400 text-center text-sm leading-relaxed">
-            Quickly upload your PDF study materials and notes to the repository with just a few clicks.
+            Quickly upload your PDF study materials and notes to the repository with few clicks.
           </p>
                 <button onClick={() => setShowModal(true)} className="bg-purple-600 hover:bg-purple-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">Start Upload</button>
               </div>
@@ -215,15 +215,15 @@ const allSubjects = [
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4">
             <div className="bg-[#121212] border border-white/10 p-8 rounded-3xl w-full max-w-md shadow-2xl">
               <h2 className="text-2xl font-bold mb-6 text-purple-400">Add New Note</h2>
-              <form onSubmit={handleUpload} className="flex flex-col gap-4">
+              <form onSubmit={handleUpload} className="flex flex-col gap-4 ">
                 <input 
-                  type="text" placeholder="Note Title" required
+                  type="text" placeholder="Notes Title" required
                   className="bg-white/5 border border-white/10 p-3 rounded-xl outline-none focus:border-purple-500"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
                 <select 
-                  required className="bg-white/5 border border-white/10 p-3 rounded-xl outline-none"
+                  required className="bg-white/5 border border-white/10 p-3 rounded-xl outline-none focus:border-purple-500 text-gray-400"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                 >
@@ -240,8 +240,8 @@ const allSubjects = [
                   onChange={(e) => setFile(e.target.files[0])}
                 />
                 <div className="flex gap-3 mt-4">
-                  <button type="button" onClick={() => setShowModal(false)} className="flex-1 bg-white/10 py-3 rounded-xl hover:bg-white/20 transition">Cancel</button>
-                  <button type="submit" disabled={uploading} className="flex-1 bg-purple-600 py-3 rounded-xl font-bold hover:bg-purple-700 transition">
+                  <button type="button" onClick={() => setShowModal(false)} className="flex-1 bg-white/10 py-3 rounded-xl hover:bg-white/20 transition cursor-pointer">Cancel</button>
+                  <button type="submit" disabled={uploading} className=" cursor-pointer flex-1 bg-purple-600 py-3 rounded-xl font-bold hover:bg-purple-700 transition">
                     {uploading ? "Uploading..." : "Upload"}
                   </button>
                 </div>
