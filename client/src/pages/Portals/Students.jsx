@@ -48,7 +48,7 @@ const Students = () => {
       <StarsBackground />
       <div className="relative z-10 flex flex-col items-center pt-24 px-4 w-full">
         <h2 className="text-4xl font-bold text-white mb-2 font-[font1]">Study Resources</h2>
-        <p className="text-gray-300 mb-10 text-center">Find verified materials by subject or title</p>
+        <p className="text-gray-300 font-normal font-sans mb-10 text-center">Find verified materials by subject or title</p>
 
         <div className="w-full max-w-md mb-16">
           <input 

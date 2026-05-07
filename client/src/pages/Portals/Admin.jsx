@@ -146,10 +146,10 @@ const allSubjects = [
           ) : (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
              
-<div className="flex items-center gap-4 mb-12 justify-center">
+<div className="flex items-center gap-4 mb-1 justify-center">
   <h2 className="text-4xl font-bold">Platform Analytics</h2>
 </div>
-
+  <p className="text-gray-300 font-normal font-sans mb-10 text-center">Insights into your notes repository</p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div className="bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-purple-500/20 shadow-2xl">
                   <p className="text-purple-400 text-sm font-bold uppercase tracking-widest mb-2">Total Notes</p>

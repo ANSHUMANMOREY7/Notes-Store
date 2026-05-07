@@ -32,7 +32,7 @@ const StarsBackground = () => {
       ))}
 
       {/* Colored stars */}
-      <div className="absolute w-2 h-2 bg-purple-300 rounded-full animate-pulse" style={{top:"22%",left:"45%"}}></div>
+      <div className="absolute w-2 h-2 bg-purple-300 rounded-full animate-pulse" style={{top:"28%",left:"65%"}}></div>
       <div className="absolute w-2 h-2 bg-blue-200 rounded-full animate-pulse" style={{top:"55%",left:"75%"}}></div>
       <div className="absolute w-2 h-2 bg-yellow-200 rounded-full animate-pulse" style={{top:"33%",left:"85%"}}></div>
     </div>

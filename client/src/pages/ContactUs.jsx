@@ -42,10 +42,13 @@ const ContactUs = () => {
         {/* Header Section */}
         <div className="mb-10 text-center ">
          
-          <h1 className="text-5xl ">
+          <h1 className="text-4xl ">
             Contact Us
           </h1>
-          
+          <p className="text-gray-300 font-normal font-sans mb-10 text-center">
+            Have questions, feedback, or need support? We're here to help! 
+            
+          </p>
         </div>
 
         <div className="grid lg:grid-cols-5 gap-8 items-stretch">
