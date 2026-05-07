@@ -20,24 +20,31 @@ function App() {
   <div className="flex flex-col min-h-screen">
     <Toaster 
         position="center-top"
-        toastOptions={{
-         
-          style: {
-            background: '#1a1a1a', 
-            color: '#fff',        
-            border: '1px solid #a855f7', 
-            borderRadius: '16px',
-            fontSize: '14px',
-            padding: '16px',
-            boxShadow: '0 4px 20px rgba(168, 85, 247, 0.2)',
-          },
-          success: {
-            iconTheme: {
-              primary: '#a855f7',
-              secondary: '#fff',
-            },
-          },
-        }}
+       toastOptions={{
+  style: {
+    background: '#1a1717', 
+    color: '#fff',        
+    borderRadius: '16px',
+    fontSize: '14px',
+    padding: '16px',
+  
+  },
+  success: {
+   
+    iconTheme: {
+      primary: '#22c55e',   
+      secondary: '#fff',  
+    },
+  
+  },
+  error: {
+    iconTheme: {
+      primary: '#ef4444',   
+      secondary: '#fff',
+    },
+  
+  }
+}}
       />
     
     <ScrollToTop />

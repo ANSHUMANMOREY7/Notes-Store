@@ -3,6 +3,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import StarsBackground from '../../components/StarBackground';
+import { toast } from 'react-hot-toast';
 
 const Admin = () => {
   const isAuth = sessionStorage.getItem("adminAuth");
@@ -66,7 +67,7 @@ const allSubjects = [
         headers: { "Content-Type": "multipart/form-data" },
       });
       
-      alert("Note uploaded successfully!");
+      toast.success("Note uploaded successfully!");
       
       // REFRESH STATS after upload so the dashboard is accurate
       fetchStats(); 
@@ -77,7 +78,7 @@ const allSubjects = [
       setSubject("");
     } catch (err) {
       console.error(err);
-      alert("Error uploading file.");
+      toast.error("Error uploading file.");
     } finally {
       setUploading(false);
     }

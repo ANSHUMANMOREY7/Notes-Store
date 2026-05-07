@@ -2,7 +2,7 @@ import { memo } from 'react';
 import React from 'react';
 import './Navbar.css';
 import { Link ,useNavigate } from 'react-router-dom';
-
+import { toast } from 'react-hot-toast';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -10,7 +10,8 @@ const Navbar = () => {
   const handleLogout = () => {
     sessionStorage.removeItem("adminAuth");
     navigate("/");
-    window.location.reload();
+    
+    toast.success("Logged out successfully!");
   };
   return (
     <>

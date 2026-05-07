@@ -2,6 +2,7 @@ import { memo, useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from '../../components/Navbar/Navbar';
 import StarsBackground from '../../components/StarBackground';
+import { toast } from 'react-hot-toast';
 
 const Students = () => {
   const handleDownload = async (fileUrl, fileName) => {
@@ -16,9 +17,10 @@ const Students = () => {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
+      toast.success("Download successful!");
     } catch (error) {
-      console.error("Download failed:", error);
-      alert("Could not download the file. Please try again.");
+      toast.error("Download failed:", error);
+      toast.error("Could not download the file. Please try again.");
     }
   };
 

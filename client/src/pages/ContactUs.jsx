@@ -20,7 +20,7 @@ const ContactUs = () => {
        toast.success('Message sent successfully!');
         e.target.reset();
     }, (error) => {
-        alert("Failed to send message. Please try again.");
+        toast.error('Failed to send message. Please try again later.');
     });
   };
 

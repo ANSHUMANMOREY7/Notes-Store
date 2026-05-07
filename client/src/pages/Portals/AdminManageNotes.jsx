@@ -2,6 +2,7 @@ import { memo, useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from '../../components/Navbar/Navbar';
 import StarsBackground from '../../components/StarBackground';
+import { toast } from 'react-hot-toast';
 
 const AdminManageNotes = () => {
   const [notes, setNotes] = useState([]);
@@ -16,7 +17,7 @@ const AdminManageNotes = () => {
       setNotes(res.data);
     } catch (err) {
       console.error(err);
-      alert("Unable to load notes. Make sure the backend is running.");
+      toast.error("Unable to load notes. Please check your connection.");
     } finally {
       setLoading(false);
     }
@@ -27,21 +28,61 @@ const AdminManageNotes = () => {
     fetchNotes();
   }, []);
 
-  const handleDelete = async (id) => {
-    const confirmed = window.confirm("Delete this note permanently?");
-    if (!confirmed) return;
-    try {
-      setDeletingId(id);
-      await axios.delete(`http://localhost:5000/api/notes/${id}`);
-      setNotes((prev) => prev.filter((note) => note._id !== id));
-    } catch (err) {
-      console.error(err);
-      alert("Unable to delete note. Please try again.");
-    } finally {
-      setDeletingId(null);
-    }
-  };
+ const handleDelete = (id) => {
+  toast((t) => (
+    <div className="flex flex-col gap-4">
+      <p className="text-white font-medium text-center">
+        Delete this PDF permanently?
+      </p>
+      <div className="flex gap-3 justify-center">
+        
+        <button
+          onClick={async () => {
+            toast.dismiss(t.id);
+            await executeDeletion(id);
+          }}
+          className="px-6 py-2 border border-red-600 text-red-600 rounded-xl font-bold hover:bg-red-500/10 transition hover:text-red transition-all duration-300 cursor-pointer"
+        >
+          Yes, Delete
+        </button>
 
+        {/* Styled CANCEL Button - Matching your card's View button style */}
+        <button
+          onClick={() => toast.dismiss(t.id)}
+          className="px-6 py-2 bg-white text-black rounded-xl font-bold hover:bg-gray-200 transition-all duration-300 cursor-pointer"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  ), {
+    duration: 10 * 1000 , // 20 seconds = 20000 milliseconds
+    position: 'top-center',
+    // Removed the red border here
+    style: {
+      background: '#1a1a1a',
+      border: '1px solid #333', // Subtle dark border instead of red
+      padding: '24px',
+      borderRadius: '20px',
+      boxShadow: '0 10px 25px rgba(0,0,0,0.5)'
+    }
+  });
+};
+
+// Separated Deletion Logic
+const executeDeletion = async (id) => {
+  const loadingId = toast.loading("Purging from database...");
+  try {
+    setDeletingId(id);
+    await axios.delete(`http://localhost:5000/api/notes/${id}`);
+    setNotes((prev) => prev.filter((note) => note._id !== id));
+    toast.success("Note deleted!", { id: loadingId });
+  } catch (err) {
+    toast.error("Failed to delete.", { id: loadingId });
+  } finally {
+    setDeletingId(null);
+  }
+};
   const filteredNotes = notes.filter((note) =>
     note.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     note.subject?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -124,7 +165,7 @@ const AdminManageNotes = () => {
                     type="button"
                     onClick={() => handleDelete(note._id)}
                     disabled={deletingId === note._id}
-                    className="flex-1 border border-red-600 text-red-600 bg-transparent py-3 rounded-xl font-bold hover:bg-red-600/10 transition text-sm disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex-1 border border-red-600 text-red-600 bg-transparent py-3 rounded-xl font-bold hover:bg-red-600/10 transition text-sm cursor-pointer disabled:opacity-50"
                   >
                     {deletingId === note._id ? 'Deleting…' : 'Delete'}
                   </button>

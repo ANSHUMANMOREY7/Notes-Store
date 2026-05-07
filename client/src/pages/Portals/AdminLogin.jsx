@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Button from "../../components/Buttons/Button";
 import StarsBackground from "../../components/StarBackground";
+import { toast } from 'react-hot-toast';
 
 
 const AdminLogin = () => {
@@ -19,11 +20,11 @@ const AdminLogin = () => {
 
   const handleLogin = () => {
     if (password === "admin123") {
-      // Changed to sessionStorage
+      toast.success("Login successful!");
       sessionStorage.setItem("adminAuth", "true");
       navigate("/admin");
     } else {
-      alert("Wrong password");
+      toast.error("Wrong password!");
     }
   };
   return (
