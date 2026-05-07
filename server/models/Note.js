@@ -1,5 +1,10 @@
 const mongoose = require("mongoose");
+require('dotenv').config();
 
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("🚀 Connected to MongoDB Atlas!"))
+  .catch((err) => console.error("❌ Connection error:", err));
+  
 const NoteSchema = new mongoose.Schema({
   title: { type: String, required: true },
   subject: { type: String, required: true },
