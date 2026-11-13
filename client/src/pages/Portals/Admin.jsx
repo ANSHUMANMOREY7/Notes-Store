@@ -33,7 +33,7 @@ const allSubjects = [
   // CHUNK 1: Function to fetch analytics from the backend
   const fetchStats = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/notes/stats");
+     const res = await axios.get("https://notes-store-backend.onrender.com/api/notes/stats");
       setStatsData(res.data);
     } catch (err) {
       console.error("Could not fetch stats", err);
@@ -63,7 +63,7 @@ const allSubjects = [
     formData.append("file", file);
 
     try {
-      await axios.post("http://localhost:5000/api/notes/upload", formData, {
+      await axios.post("https://notes-store-backend.onrender.com/api/notes/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       

@@ -38,7 +38,7 @@ const Students = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    axios.get("http://localhost:5000/api/notes")
+    axios.get("https://notes-store-backend.onrender.com/api/notes")
       .then(res => {
         setNotes(res.data);
       })
