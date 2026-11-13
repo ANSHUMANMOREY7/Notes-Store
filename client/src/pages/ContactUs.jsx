@@ -37,7 +37,7 @@ const ContactUs = () => {
       </div>
       
 
-      <div className="relative z-10 max-w-6xl mx-auto px-8 pt-22 pb-16">
+      <div className="contact-content relative z-10 max-w-6xl mx-auto px-8 pt-22 pb-16">
         
         {/* Header Section */}
         <div className="mb-10 text-center ">
@@ -51,11 +51,11 @@ const ContactUs = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-8 items-stretch">
+        <div className="contact-card-grid grid md:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-8 items-stretch">
           
           {/* Left Side: Faculty Info Card */}
 <div className="lg:col-span-2">
-  <div className="h-full bg-white/5 backdrop-blur-2xl p-10 rounded-[2.5rem] border border-white/10 shadow-2xl relative overflow-hidden flex flex-col justify-center">
+  <div className="contact-card h-full bg-black/70 p-10 rounded-[2.5rem] border border-white/5 shadow-2xl relative overflow-hidden flex flex-col justify-center">
     {/* Subtle inner glow */}
     <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-600/10 rounded-full blur-3xl"></div>
     
@@ -90,22 +90,22 @@ const ContactUs = () => {
 
           {/* Right Side: Contact Form Card */}
           <div className="lg:col-span-3">
-            <div className="bg-white/5 backdrop-blur-2xl p-10 rounded-[2.5rem] border border-white/10 shadow-2xl relative overflow-hidden">
-              <form ref={form} onSubmit={sendEmail} className="space-y-6 relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="contact-card bg-black/70 p-10 rounded-[2.5rem] border border-white/5 shadow-2xl relative overflow-hidden">
+              <form ref={form} onSubmit={sendEmail} className="contact-form space-y-4 lg:space-y-6 relative z-10">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
                   <input 
                     name="name" 
                     type="text" 
                     placeholder="Full Name"
                     required
-                    className="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-purple-500 focus:bg-black/60 transition-all font-[font1] placeholder:text-gray-500"
+                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 lg:rounded-2xl lg:px-6 lg:py-4 focus:outline-none focus:border-purple-500 focus:bg-black/60 transition-all font-[font1] placeholder:text-gray-500"
                   />
                   <input 
                     name="subject" 
                     type="text" 
                     placeholder="Subject"
                     required
-                    className="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-purple-500 focus:bg-black/60 transition-all font-[font1] placeholder:text-gray-500"
+                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 lg:rounded-2xl lg:px-6 lg:py-4 focus:outline-none focus:border-purple-500 focus:bg-black/60 transition-all font-[font1] placeholder:text-gray-500"
                   />
                 </div>
 
@@ -114,10 +114,10 @@ const ContactUs = () => {
                   rows="6"
                   placeholder="Your detailed message regarding notes or system improvement..."
                   required
-                  className="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-purple-500 focus:bg-black/60 transition-all resize-none font-[font1] placeholder:text-gray-500"
+                  className="contact-message w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 lg:rounded-2xl lg:px-6 lg:py-4 focus:outline-none focus:border-purple-500 focus:bg-black/60 transition-all resize-none font-[font1] placeholder:text-gray-500"
                 ></textarea>
 
-                <button type="submit" className="w-full py-5 rounded-2xl bg-purple-600 hover:bg-purple-500 text-white font-bold tracking-widest uppercase hover:scale-[1.01] active:scale-[0.98] transition-all shadow-lg shadow-purple-900/40 cursor-pointer">
+                <button type="submit" className="contact-submit w-full py-3 rounded-xl bg-black text-white font-bold transition text-sm shadow-lg cursor-pointer">
                   Send Message
                 </button>
               </form>

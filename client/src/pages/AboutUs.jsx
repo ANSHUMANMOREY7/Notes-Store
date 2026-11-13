@@ -15,7 +15,7 @@ const AboutUs = () => {
       <div className="relative z-10 max-w-4xl mx-auto px-6 pt-32 pb-20 text-center">
         
         {/* Header Section */}
-        <section className="mb-20">
+        <section className="mb-12 lg:mb-20">
           <h1 className="text-5xl font-bold  mb-4">
             Our Vision
           </h1>
@@ -23,12 +23,12 @@ const AboutUs = () => {
         </section>
 
         {/* Text Content */}
-        <div className="space-y-24">
+        <div className="space-y-12 md:space-y-16 lg:space-y-24">
           
           {/* Section 1: Concept */}
           <section className="animate-in fade-in slide-in-from-bottom-8 duration-700">
-            <h2 className="text-sm font-bold text-purple-400 uppercase tracking-[0.3em] mb-6">The Concept</h2>
-            <p className="text-2xl md:text-3xl font-normal leading-relaxed text-gray-200">
+            <h2 className="text-sm font-bold text-purple-400 uppercase tracking-[0.3em] mb-4 lg:mb-6">The Concept</h2>
+            <p className="text-xl md:text-2xl lg:text-3xl font-normal leading-relaxed text-gray-200">
               Notes Store was created to be a <span className="text-white font-bold">centralized repository</span>. 
               One destination to eliminate the struggle of finding study materials.
             </p>
@@ -43,8 +43,8 @@ const AboutUs = () => {
 
           {/* Section 2: Audience */}
           <section className="animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
-            <h2 className="text-sm font-bold text-purple-400 uppercase tracking-[0.3em] mb-6">The Audience</h2>
-            <p className="text-2xl md:text-3xl font-normal leading-relaxed text-gray-200">
+            <h2 className="text-sm font-bold text-purple-400 uppercase tracking-[0.3em] mb-4 lg:mb-6">The Audience</h2>
+            <p className="text-xl md:text-2xl lg:text-3xl font-normal leading-relaxed text-gray-200">
               Tailored specifically for our <span className="text-white font-bold">MCA Students</span>, 
               providing a structured path to academic excellence.
             </p>
@@ -59,8 +59,8 @@ const AboutUs = () => {
 
           {/* Section 3: Authority */}
           <section className="animate-in fade-in slide-in-from-bottom-8 duration-700 delay-400">
-            <h2 className="text-sm font-bold text-purple-400 uppercase tracking-[0.3em] mb-6">The Authority</h2>
-            <p className="text-2xl md:text-3xl font-normal leading-relaxed text-gray-200">
+            <h2 className="text-sm font-bold text-purple-400 uppercase tracking-[0.3em] mb-4 lg:mb-6">The Authority</h2>
+            <p className="text-xl md:text-2xl lg:text-3xl font-normal leading-relaxed text-gray-200">
               All materials are <span className="text-white font-bold">verified and circulated by our faculty</span>, 
               ensuring 100% academic accuracy and relevance.
             </p>

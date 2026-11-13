@@ -16,3 +16,196 @@ html, body {
     font-family: Font1;
     src: url(../public/Fonts/Poppins-SemiBold.ttf);
 }
+
+.admin-card-grid,
+.study-resource-grid {
+    grid-auto-rows: minmax(21.25rem, 1fr);
+}
+
+.home-mission-content {
+    display: contents;
+}
+
+.contact-submit {
+    border: 0 solid transparent;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.contact-submit:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+    color: white;
+}
+
+@media (max-width: 1023px) {
+    .home-mission-content {
+        display: block;
+        width: 100%;
+        max-width: 56rem;
+        margin: 0 auto;
+    }
+
+    .home-mission-title {
+        margin: 0 0 1.25rem;
+        padding: 1rem 0;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        line-height: 1.1;
+        text-align: justify;
+    }
+
+    .home-mission-lead {
+        max-width: 48rem;
+        margin: 0 0 1rem;
+        padding: 0;
+        font-size: clamp(1.25rem, 2.4vw, 2rem);
+        font-weight: 600;
+        line-height: 1.4;
+        text-align: justify;
+    }
+
+    .home-mission-description {
+        max-width: 68ch;
+        margin: 0;
+        padding: 0;
+        color: #e5e7eb;
+        font-size: clamp(1rem, 1.35vw, 1.125rem);
+        line-height: 1.8;
+        text-align: justify;
+    }
+
+    .admin-card-grid > div {
+        min-height: 21.25rem;
+        padding: 1.5rem;
+    }
+
+    .home-mission-content,
+    .home-mission > .main-btn {
+        position: relative;
+        z-index: 1;
+    }
+
+    .home-mission > .main-btn {
+        margin-top: 2rem;
+    }
+
+    .home-hero-title {
+        font-size: clamp(2.5rem, 10vw, 6rem) !important;
+        line-height: 1.1 !important;
+        margin-top: 1rem !important;
+    }
+
+    .home-hero-subtitle {
+        font-size: clamp(1.25rem, 4.5vw, 2.75rem) !important;
+        line-height: 1.25 !important;
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .admin-card-grid {
+        padding-right: 1.5rem;
+        padding-left: 1.5rem;
+    }
+
+    .home-screen {
+        width: 100%;
+    }
+
+    .home-mission {
+        width: 100%;
+        min-height: 100svh;
+        height: auto;
+        padding: 5rem 1.25rem;
+        align-items: flex-start;
+    }
+
+    .home-mission-title {
+        margin-bottom: 1rem;
+        padding: 0;
+        font-size: clamp(2.25rem, 9vw, 3rem);
+    }
+
+    .portal-options {
+        min-height: 100svh;
+        height: auto;
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 6.5rem 1rem 2rem;
+    }
+
+    .portal-option {
+        width: min(100%, 24rem);
+        padding: 1.5rem;
+    }
+
+    .contact-content {
+        padding: 6.5rem 1rem 2rem;
+    }
+
+    .contact-card-grid {
+        padding-right: 1.5rem;
+        padding-left: 1.5rem;
+    }
+
+    .contact-card {
+        padding: 1rem;
+        border-radius: 1rem;
+    }
+
+    .contact-message {
+        height: 6.5rem;
+    }
+
+    .admin-content {
+        padding: 6rem 1rem 2rem;
+    }
+
+    .admin-login-card {
+        width: calc(100% - 2rem);
+        max-width: 24rem;
+        padding: 1.5rem;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .admin-card-grid {
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
+    }
+
+    .portal-options {
+        min-height: 100svh;
+        height: auto;
+        gap: 2rem;
+        padding: 7rem 2rem 3rem;
+    }
+
+    .portal-option {
+        width: min(42vw, 24rem);
+        padding: 2rem;
+    }
+
+    .contact-content {
+        padding: 7rem 2rem 3rem;
+    }
+
+    .contact-card-grid {
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
+    }
+
+    .contact-card {
+        padding: 1rem;
+        border-radius: 1rem;
+    }
+
+    .contact-message {
+        height: 6.5rem;
+    }
+
+    .admin-content {
+        padding: 7rem 2rem 3rem;
+    }
+}

@@ -5,13 +5,13 @@ import HomeBottomText from './HomeBottomText';
 import Navbar from '../../components/Navbar/Navbar';
 const Home = () => {
   return (
-    <div>
+    <div className='home-screen'>
       <Navbar />
     <div className='overflow-x-hidden overflow-y-auto'>
-      <div className='h-screen w-screen absolute top-0  '>
+      <div className='home-screen h-screen w-screen absolute top-0  '>
         <Video />
         </div>
-        <div className='w-screen h-screen relative flex flex-col justify-center items-center '>
+        <div className='home-screen w-screen h-screen relative flex flex-col justify-center items-center '>
         <HomeHeroText />
         
       </div>

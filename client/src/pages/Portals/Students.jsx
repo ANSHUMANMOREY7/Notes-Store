@@ -70,7 +70,7 @@ const Students = () => {
         </div>
 
         {/* Grid Container */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-7xl px-6 pb-24 min-h-[400px]">
+        <div className="study-resource-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-7xl px-6 pb-24 min-h-[400px]">
           {/* Note Cards */}
           {filteredNotes.map((note, index) => (
             <div 

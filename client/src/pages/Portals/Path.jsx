@@ -14,10 +14,10 @@ const Path = () => {
 
       <Navbar />
 <StarsBackground />
-   <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-10px)] gap-26">
+   <div className="portal-options relative z-10 flex items-center justify-center min-h-[calc(100vh-10px)] gap-26">
 
   {/* Student Card */}
-  <div className="bg-black/70 text-white w-96 p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-xl hover:scale-105 transition duration-300 hover:bg-purple-900 transition duration-300 ">
+  <div className="portal-option bg-black/70 text-white w-96 p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-xl hover:scale-105 transition duration-300 hover:bg-purple-900 transition duration-300 ">
 
     <h2 className="text-3xl font-bold">Student</h2>
 
@@ -35,7 +35,7 @@ const Path = () => {
 
 
   {/* Admin Card */}
-  <div className="bg-black/70 text-white w-96 p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-xl hover:scale-105 transition duration-300 hover:bg-purple-900 transition duration-300">
+  <div className="portal-option bg-black/70 text-white w-96 p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-xl hover:scale-105 transition duration-300 hover:bg-purple-900 transition duration-300">
 
     <h2 className="text-3xl font-bold">Admin</h2>
 
