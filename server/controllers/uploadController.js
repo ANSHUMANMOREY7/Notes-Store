@@ -1,101 +1,147 @@
-const Note = require("../models/Note"); 
+const Note = require("../models/Note");
+const cloudinary = require("../config/cloudinary");
 
-const uploadNote = async (req, res) => { 
+// Upload PDF to Cloudinary
+const uploadToCloudinary = (file) => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder: "notes-store",
+        resource_type: "raw",
+        public_id: `${Date.now()}.pdf`,
+      },
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result);
+        }
+      }
+    );
+
+    uploadStream.end(file.buffer);
+  });
+};
+
+// Upload Note
+const uploadNote = async (req, res) => {
   try {
     const { title, subject } = req.body;
 
-    if (!req.file) {
-      return res.status(400).json({ message: "No file uploaded" });
+    if (!title || !subject) {
+      return res.status(400).json({
+        message: "Title and subject are required",
+      });
     }
 
-   
+    if (!req.file) {
+      return res.status(400).json({
+        message: "No file uploaded",
+      });
+    }
+
+    // Upload PDF to Cloudinary
+    const result = await uploadToCloudinary(req.file);
+
+    // Save note details in MongoDB
     const newNote = new Note({
       title,
       subject,
-      filename: req.file.filename,
-      path: `/uploads/${req.file.filename}`,
+      filename: req.file.originalname,
+      path: result.secure_url,
+      cloudinaryPublicId: result.public_id,
+      fileSize: result.bytes,
     });
 
-    // 4. Save to the database
-    await newNote.save(); 
-
-    console.log("Database Success:", newNote);
+    await newNote.save();
 
     res.status(200).json({
-      message: "File uploaded and saved to database successfully",
+      message: "File uploaded successfully",
       note: newNote,
     });
   } catch (error) {
-    console.error("Database Error:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    console.error("Upload Error:", error);
+    res.status(500).json({
+      message: "File upload failed",
+    });
   }
 };
 
-const fs = require("fs");
-const path = require("path");
-
+// Delete Note
 const deleteNote = async (req, res) => {
   try {
-    const noteId = req.params.id;
-    const note = await Note.findById(noteId);
+    const note = await Note.findById(req.params.id);
 
     if (!note) {
-      return res.status(404).json({ message: "Note not found" });
+      return res.status(404).json({
+        message: "Note not found",
+      });
     }
 
-    const filePath = path.join(__dirname, "..", note.path.replace(/^\//, ""));
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
+    // Delete PDF from Cloudinary
+    if (note.cloudinaryPublicId) {
+      await cloudinary.uploader.destroy(note.cloudinaryPublicId, {
+        resource_type: "raw",
+      });
     }
 
-    await Note.findByIdAndDelete(noteId);
+    // Delete note from MongoDB
+    await Note.findByIdAndDelete(req.params.id);
 
-    res.status(200).json({ message: "Note deleted successfully" });
+    res.status(200).json({
+      message: "Note deleted successfully",
+    });
   } catch (error) {
     console.error("Delete Error:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({
+      message: "Error deleting note",
+    });
   }
 };
 
-
-
-
+// Get Statistics
 const getStats = async (req, res) => {
   try {
     const notes = await Note.find();
-    
-    // 1. Total Notes Count
-    const totalNotes = notes.length;
-    
-    // 2. Calculate Storage (Loop through files to get size)
-    let totalSizeBytes = 0;
-    notes.forEach(note => {
-      // Replaces leading slash to find the file in the local uploads folder
-      const filePath = path.join(__dirname, "..", note.path.replace(/^\//, ""));
-      if (fs.existsSync(filePath)) {
-        const stats = fs.statSync(filePath);
-        totalSizeBytes += stats.size;
-      }
-    });
-    const storageUsedMB = (totalSizeBytes / (1024 * 1024)).toFixed(2);
 
-    // 3. Subject Breakdown (Counting occurrences of each subject)
+    const totalNotes = notes.length;
+
+    // Calculate total storage
+    let totalSizeBytes = 0;
+
+    notes.forEach((note) => {
+      totalSizeBytes += note.fileSize || 0;
+    });
+
+    const storageUsedMB = (
+      totalSizeBytes / (1024 * 1024)
+    ).toFixed(2);
+
+    // Count notes by subject
     const breakdown = {};
-    notes.forEach(note => {
-      breakdown[note.subject] = (breakdown[note.subject] || 0) + 1;
+
+    notes.forEach((note) => {
+      breakdown[note.subject] =
+        (breakdown[note.subject] || 0) + 1;
     });
 
     res.status(200).json({
       totalNotes,
-      totalDownloads: 0, 
+      totalDownloads: 0,
       storageUsed: storageUsedMB,
-      categoryBreakdown: breakdown
+      categoryBreakdown: breakdown,
     });
   } catch (error) {
     console.error("Stats Error:", error);
-    res.status(500).json({ message: "Error generating stats" });
+
+    res.status(500).json({
+      message: "Error generating stats",
+    });
   }
 };
 
-// Update your exports to include the new function
-module.exports = { uploadNote, deleteNote, getStats };
+module.exports = {
+  uploadNote,
+  deleteNote,
+  getStats,
+};

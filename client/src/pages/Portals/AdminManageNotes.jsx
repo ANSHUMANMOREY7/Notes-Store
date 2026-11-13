@@ -154,7 +154,7 @@ const executeDeletion = async (id) => {
 
                 <div className="flex gap-4 w-full mt-auto pt-4">
                   <a
-                    href={`http://localhost:5000${note.path}`}
+                    href={note.path}
                     target="_blank"
                     rel="noreferrer"
                     className="flex-1 bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition text-sm shadow-lg"

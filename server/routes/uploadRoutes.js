@@ -1,27 +1,24 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const path = require("path");
-const fs = require("fs");
-const Note = require("../models/Note");
-const { uploadNote, deleteNote, getStats } = require("../controllers/uploadController");
 
-// 1. Define Storage Logic
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
+const Note = require("../models/Note");
+const {
+  uploadNote,
+  deleteNote,
+  getStats,
+} = require("../controllers/uploadController");
+
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage: storage,
 });
 
-// 2. INITIALIZE upload (This was missing!)
-const upload = multer({ storage: storage });
+// Get storage statistics
 router.get("/stats", getStats);
-// 3. Define Routes
+
+// Get all notes
 router.get("/", async (req, res) => {
-  
   try {
     const notes = await Note.find().sort({ createdAt: -1 });
     res.json(notes);
@@ -30,28 +27,10 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const note = await Note.findById(id);
-    if (!note) {
-      return res.status(404).json({ message: "Note not found" });
-    }
+// Delete a note
+router.delete("/:id", deleteNote);
 
-    const notePath = path.join(__dirname, "..", note.path.replace(/^\//, ""));
-    if (fs.existsSync(notePath)) {
-      fs.unlinkSync(notePath);
-    }
-
-    await Note.findByIdAndDelete(id);
-    res.status(200).json({ message: "Note deleted successfully" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Error deleting note" });
-  }
-});
-
-// Now 'upload' is defined and can be used here
+// Upload a PDF
 router.post("/upload", upload.single("file"), uploadNote);
 
 module.exports = router;

@@ -6,24 +6,33 @@ import { toast } from 'react-hot-toast';
 
 const Students = () => {
   const handleDownload = async (fileUrl, fileName) => {
-    try {
-      const response = await fetch(fileUrl);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = fileName || 'download.pdf';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-      toast.success("Download successful!");
-    } catch (error) {
-      toast.error("Download failed:", error);
-      toast.error("Could not download the file. Please try again.");
-    }
-  };
+  try {
+    const response = await fetch(fileUrl);
 
+    if (!response.ok) {
+      throw new Error("File download failed");
+    }
+
+    const blob = await response.blob();
+
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName || "download.pdf";
+
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+
+    toast.success("Download successful!");
+  } catch (error) {
+    console.error("Download Error:", error);
+    toast.error("Could not download the file. Please try again.");
+  }
+};
   const [notes, setNotes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -81,7 +90,7 @@ const Students = () => {
 
               <div className="flex gap-4 w-full mt-auto pt-4">
                 <a 
-                  href={`http://localhost:5000${note.path}`} 
+                  href={note.path}
                   target="_blank" 
                   rel="noreferrer" 
                   className="flex-1 bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition text-sm shadow-lg flex items-center justify-center"
@@ -90,7 +99,7 @@ const Students = () => {
                 </a>
                 
                 <button 
-                  onClick={() => handleDownload(`http://localhost:5000${note.path}`, note.title)}
+                  onClick={() => handleDownload(note.path, note.title)}
                   className="flex-1 border border-white/20 text-white py-3 rounded-xl font-bold hover:bg-white/10 transition text-sm cursor-pointer"
                 >
                   Download

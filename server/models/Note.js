@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-require('dotenv').config();
 
 const NoteSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -7,6 +6,15 @@ const NoteSchema = new mongoose.Schema({
   filename: { type: String, required: true },
   path: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
+
+  cloudinaryPublicId: {
+  type: String,
+},
+
+fileSize: {
+  type: Number,
+  default: 0,
+},
 });
 
 module.exports = mongoose.model("Note", NoteSchema);
