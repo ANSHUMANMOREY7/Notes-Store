@@ -208,22 +208,33 @@ const filteredNotes = notes.filter(note =>
 
           {/* Centered No-Results Card - Moved INSIDE the Grid Div */}
           {!loading && filteredNotes.length === 0 && (
-            <div className="col-span-1 md:col-span-2 lg:col-span-3 flex justify-center w-full py-1">
-              <div className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-white/5 w-full max-w-sm backdrop-blur-md">
-                <div className="flex flex-col gap-2">
-                  <span className="text-[10px] font-bold text-red-400 uppercase tracking-widest bg-red-400/10 px-3 py-1 rounded-full w-fit mx-auto">
-                    Notice
-                  </span>
-                  <h3 className="text-2xl font-bold tracking-tight">No Matching Notes</h3>
-                </div>
+  <div className="col-span-1 md:col-span-2 lg:col-span-3 flex justify-center w-full py-1">
+    <div className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-white/5 w-full max-w-sm backdrop-blur-md">
+      <div className="flex flex-col gap-2">
+        <span className="text-[10px] font-bold text-red-400 uppercase tracking-widest bg-red-400/10 px-3 py-1 rounded-full w-fit mx-auto">
+          Notice
+        </span>
+        <h3 className="text-2xl font-bold tracking-tight">No Matching Notes</h3>
+      </div>
 
-                <p className="text-gray-400 text-sm leading-relaxed">
-                  No notes are available right now.
-                </p>
+      <p className="text-gray-400 text-sm leading-relaxed">
+        No notes found for this semester and subject.
+      </p>
 
-              </div>
-            </div>
-          )}
+      <button
+        onClick={() => {
+          setSelectedSemester("all");
+          setSelectedSubject("all");
+          setVisibleCount(3);
+          window.dispatchEvent(new Event("stars-shuffle"));
+        }}
+        className="w-full bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition text-sm shadow-lg cursor-pointer"
+      >
+        Reset Filters
+      </button>
+    </div>
+  </div>
+)}
 
           {/* Load More Button */}
 
