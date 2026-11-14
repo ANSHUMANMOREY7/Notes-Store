@@ -48,7 +48,7 @@ function App() {
       />
     
         <ScrollToTop />
-    <StarsBackground semester={location.pathname} />
+    <StarsBackground semester={location.pathname + location.search} />
     <main className="flex-grow">
     <Routes>
       <Route path='/Contact' element={<ContactUs />} />

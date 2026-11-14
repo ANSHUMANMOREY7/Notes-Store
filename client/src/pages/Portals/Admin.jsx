@@ -142,8 +142,11 @@ const allSubjects = [
                 <p className="text-gray-400 text-center text-sm leading-relaxed">
             Track total storage and total number of active materials in your database.
           </p>
-                <button 
-  onClick={() => navigate("?view=stats")} 
+               <button 
+  onClick={() => {
+    navigate("?view=stats");
+    
+  }}
   className="bg-green-600 hover:bg-green-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer"
 >
   View Analytics
