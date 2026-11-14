@@ -1,13 +1,33 @@
-import { memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import Button from '../../components/Buttons/Button';
 import StarsBackground from '../../components/StarBackground';
 
 const HomeBottomText = () => {
+  const sectionRef = useRef(null);
+
+  // Send the "stars-shuffle" signal whenever the mission section scrolls into view
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          window.dispatchEvent(new Event("stars-shuffle"));
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
 <>
 
 
-    <div className='home-mission w-screen h-screen bg-gradient-to-b from-black to-purple-900 text-white p-10 flex flex-col justify-center items-start relative overflow-hidden'>
+    <div ref={sectionRef} className='home-mission w-screen h-screen bg-gradient-to-b from-black to-purple-900 text-white p-10 flex flex-col justify-center items-start relative overflow-hidden'>
       
       <div className='home-mission-content'>
         <h2 className='home-mission-title font-[font1] text-white text-7xl p-10'>Our Mission</h2>

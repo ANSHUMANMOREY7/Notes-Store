@@ -5,9 +5,11 @@ import StarsBackground from '../../components/StarBackground';
 import { toast } from 'react-hot-toast';
 
 const AdminManageNotes = () => {
+  
   const [notes, setNotes] = useState([]);
   const [selectedSemester, setSelectedSemester] = useState("all");
   const [selectedSubject, setSelectedSubject] = useState("all");
+  const [visibleCount, setVisibleCount] = useState(3);
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState(null);
 
@@ -79,26 +81,30 @@ const AdminManageNotes = () => {
       setNotes((prev) => prev.filter((note) => note._id !== id));
       toast.success("Note deleted!", { id: loadingId });
     } catch (err) {
-  console.error("Delete Error:", err);
-  toast.error("Failed to delete.", { id: loadingId });
-} finally {
+      console.error("Delete Error:", err);
+      toast.error("Failed to delete.", { id: loadingId });
+    } finally {
       setDeletingId(null);
     }
   };
-  // Subjects that exist in the selected semester (taken from the database notes)
-  const availableSubjects = [
-    ...new Set(
-      notes
-        .filter((note) => selectedSemester === "all" || String(note.semester) === selectedSemester)
-        .map((note) => note.subject?.trim())
-        .filter(Boolean)
-    ),
-  ].sort();
+
+  const availableSubjects = [...new Set(
+    notes
+      .filter((note) =>
+        selectedSemester === "all" || String(note.semester) === selectedSemester
+      )
+      .map((note) => note.subject)
+      .filter((subject) => typeof subject === "string")
+      .map((subject) => subject.trim())
+      .filter(Boolean)
+  )].sort((a, b) => a.localeCompare(b));
 
   const filteredNotes = notes.filter((note) =>
     (selectedSemester === "all" || String(note.semester) === selectedSemester) &&
     (selectedSubject === "all" || note.subject?.trim() === selectedSubject)
   );
+
+  const visibleNotes = filteredNotes.slice(0, visibleCount);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 relative overflow-x-hidden">
@@ -135,7 +141,10 @@ const AdminManageNotes = () => {
           {/* Subject dropdown */}
           <select
             value={selectedSubject}
-            onChange={(e) => setSelectedSubject(e.target.value)}
+            onChange={(e) => {
+              setSelectedSubject(e.target.value);
+              setVisibleCount(3);
+            }}
             className="md:w-72 px-4 py-3 rounded-xl text-sm font-semibold bg-black/60 border border-purple-500/30 text-white outline-none focus:border-purple-400 transition backdrop-blur-md cursor-pointer"
           >
             <option value="all" className="bg-black text-white">All Subjects</option>
@@ -193,6 +202,7 @@ const AdminManageNotes = () => {
                   onClick={() => {
                     setSelectedSemester("all");
                     setSelectedSubject("all");
+                    setVisibleCount(3);
                   }}
                   className="w-full bg-white text-black py-3 rounded-xl font-bold  transition text-sm shadow-lg cursor-pointer "
                 >
@@ -201,7 +211,7 @@ const AdminManageNotes = () => {
               </div>
             </div>
           ) : (
-            filteredNotes.map((note) => (
+            visibleNotes.map((note) => (
               <div
                 key={note._id}
                 className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-white/5 hover:scale-105 hover:bg-purple-900/50 transition duration-300"
@@ -237,6 +247,18 @@ const AdminManageNotes = () => {
                 </div>
               </div>
             ))
+                    )}
+        </div>
+
+        {/* Load More Button */}
+        <div className="w-full flex justify-center items-center h-24 -mt-12">
+          {!loading && visibleCount < filteredNotes.length && (
+            <button
+              onClick={() => setVisibleCount(prev => prev + 3)}
+              className="px-12 py-4 rounded-xl font-bold text-white text-base tracking-wide bg-purple-600/80 border border-purple-400/40 shadow-2xl backdrop-blur-md hover:bg-purple-500 hover:scale-105 transition duration-300 cursor-pointer"
+            >
+              Load More
+            </button>
           )}
         </div>
       </div>
