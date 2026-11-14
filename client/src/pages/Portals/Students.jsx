@@ -38,6 +38,7 @@ const Students = () => {
   const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(3);
   const [selectedSemester, setSelectedSemester] = useState("all");
+  const [selectedSubject, setSelectedSubject] = useState("all");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -58,9 +59,20 @@ const Students = () => {
 
   }, []);
 
-  const filteredNotes = notes.filter(note =>
-    selectedSemester === "all" || String(note.semester) === selectedSemester
-  );
+  // Subjects that exist in the selected semester (taken from the database notes)
+const availableSubjects = [
+  ...new Set(
+    notes
+      .filter(note => selectedSemester === "all" || String(note.semester) === selectedSemester)
+      .map(note => note.subject?.trim())
+      .filter(Boolean)
+  ),
+].sort();
+
+const filteredNotes = notes.filter(note =>
+  (selectedSemester === "all" || String(note.semester) === selectedSemester) &&
+  (selectedSubject === "all" || note.subject?.trim() === selectedSubject)
+);
   const visibleNotes = filteredNotes.slice(0, visibleCount);
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 relative overflow-x-hidden font-[font1]">
@@ -69,17 +81,17 @@ const Students = () => {
       <StarsBackground />
       <div className="relative z-10 flex flex-col items-center pt-24 px-4 w-full">
         <h2 className="text-4xl font-bold text-white mb-2 font-[font1]">Study Resources</h2>
-        <p className="text-gray-300 font-normal font-sans mb-10 text-center">Find verified materials by subject or title</p>
+        <p className="text-gray-300 font-normal font-sans mb-10 text-center">Find verified materials by Semester and Subject</p>
 
-        <div className="w-full max-w-3xl mb-8">
-  <p className="text-white font-semibold mb-3">Select Semester</p>
-
-  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="w-full max-w-4xl mb-8 flex flex-col md:flex-row gap-3">
+  {/* Semester buttons */}
+  <div className="grid grid-cols-4 gap-3 md:flex-1">
     {["1", "2", "3", "4"].map((sem) => (
       <button
         key={sem}
         onClick={() => {
           setSelectedSemester(selectedSemester === sem ? "all" : sem);
+          setSelectedSubject("all");
           setVisibleCount(3);
         }}
         className={`py-3 rounded-xl text-sm font-semibold text-white transition cursor-pointer ${
@@ -92,6 +104,23 @@ const Students = () => {
       </button>
     ))}
   </div>
+
+  {/* Subject dropdown */}
+  <select
+    value={selectedSubject}
+    onChange={(e) => {
+      setSelectedSubject(e.target.value);
+      setVisibleCount(3);
+    }}
+    className="md:w-72 px-4 py-3 rounded-xl text-sm font-semibold bg-black/60 border border-purple-500/30 text-white outline-none focus:border-purple-400 transition backdrop-blur-md cursor-pointer"
+  >
+    <option value="all" className="bg-black text-white">All Subjects</option>
+    {availableSubjects.map((subject) => (
+      <option key={subject} value={subject} className="bg-black text-white">
+        {subject}
+      </option>
+    ))}
+  </select>
 </div>
 
 
