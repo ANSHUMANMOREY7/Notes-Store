@@ -41,7 +41,7 @@ const Students = () => {
   const [selectedSubject, setSelectedSubject] = useState("all");
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     toast.success("Student login successfull!");
     axios.get("https://notes-store-backend.onrender.com/api/notes")
       .then(res => {
