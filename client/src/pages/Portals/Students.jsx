@@ -78,7 +78,7 @@ const filteredNotes = notes.filter(note =>
     <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 relative overflow-x-hidden font-[font1]">
       <Navbar />
 
-      <StarsBackground />
+      <StarsBackground semester={selectedSemester} />
       <div className="relative z-10 flex flex-col items-center pt-24 px-4 w-full">
         <h2 className="text-4xl font-bold text-white mb-2 font-[font1]">Study Resources</h2>
         <p className="text-gray-300 font-normal font-sans mb-10 text-center">Find verified materials by Semester and Subject</p>
@@ -163,7 +163,7 @@ const filteredNotes = notes.filter(note =>
               {visibleNotes.map((note, index) => (
                 <div
                   key={note._id || index}
-                  className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-white/5 hover:scale-105 hover:bg-purple-900/50 transition duration-300"
+                  className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-white/5 md:hover:scale-105 hover:bg-purple-900/50 transition duration-300"
                 >
                   {/* Unit Badge */}
                   <span className="text-sm font-bold text-purple-400 uppercase tracking-widest bg-purple-400/10 px-5 py-2 rounded-full w-fit mx-auto">

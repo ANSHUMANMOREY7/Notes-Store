@@ -13,7 +13,7 @@ const Path = () => {
       
 
       <Navbar />
-<StarsBackground />
+<StarsBackground pattern={5} />
    <div className="portal-options relative z-10 flex items-center justify-center min-h-[calc(100vh-10px)] gap-26">
 
   {/* Student Card */}

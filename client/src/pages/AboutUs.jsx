@@ -11,7 +11,7 @@ const AboutUs = () => {
     <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 text-white relative overflow-x-hidden font-[font1]">
 
       
-  <StarsBackground />
+  <StarsBackground pattern={1} />
       <div className="relative z-10 max-w-4xl mx-auto px-6 pt-32 pb-20 text-center">
         
         {/* Header Section */}

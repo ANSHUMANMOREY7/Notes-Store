@@ -79,8 +79,9 @@ const AdminManageNotes = () => {
       setNotes((prev) => prev.filter((note) => note._id !== id));
       toast.success("Note deleted!", { id: loadingId });
     } catch (err) {
-      toast.error("Failed to delete.", { id: loadingId });
-    } finally {
+  console.error("Delete Error:", err);
+  toast.error("Failed to delete.", { id: loadingId });
+} finally {
       setDeletingId(null);
     }
   };
@@ -102,7 +103,7 @@ const AdminManageNotes = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 relative overflow-x-hidden">
       <Navbar />
-      <StarsBackground />
+      <StarsBackground semester={selectedSemester} />
 
       <div className="relative z-10 flex flex-col items-center pt-24 px-4 w-full">
         <h2 className="text-4xl font-bold text-white mb-2">Admin Notes Manager</h2>

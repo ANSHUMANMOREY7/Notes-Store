@@ -98,10 +98,10 @@ const allSubjects = [
   return (
     <>
       <Navbar />
-      <StarsBackground />
+      <StarsBackground pattern={3} />
       <div className=" font-[font1] min-h-screen bg-gradient-to-b from-black to-purple-900 text-white relative transition-colors duration-500">
         
-        <StarsBackground />
+        <StarsBackground pattern={3} />
 
         <div className="admin-content max-w-7xl mx-auto p-10 pt-24 relative z-10">
           

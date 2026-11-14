@@ -31,7 +31,7 @@ const AdminLogin = () => {
     <>
     <Navbar />
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-black to-purple-900 text-white relative overflow-hidden">
-   <StarsBackground />
+   <StarsBackground pattern={4} />
 
       <div className="admin-login-card bg-black/70 backdrop-blur-md p-10 rounded-2xl w-96 flex flex-col gap-4 shadow-xl transition duration-300 hover:scale-105 hover:bg-purple-900 z-10">
           <h2 className="text-2xl font-bold text-center">
