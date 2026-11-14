@@ -6,7 +6,8 @@ import { toast } from 'react-hot-toast';
 
 const AdminManageNotes = () => {
   const [notes, setNotes] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedSemester, setSelectedSemester] = useState("all");
+  const [selectedSubject, setSelectedSubject] = useState("all");
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState(null);
 
@@ -28,70 +29,80 @@ const AdminManageNotes = () => {
     fetchNotes();
   }, []);
 
- const handleDelete = (id) => {
-  toast((t) => (
-    <div className="flex flex-col gap-4">
-      <p className="text-white font-medium text-center">
-        Delete this PDF permanently?
-      </p>
-      <div className="flex gap-3 justify-center">
-        
-        <button
-          onClick={async () => {
-            toast.dismiss(t.id);
-            await executeDeletion(id);
-          }}
-          className="px-6 py-2 border border-red-600 text-red-600 rounded-xl font-bold hover:bg-red-500/10 transition hover:text-red transition-all duration-300 cursor-pointer"
-        >
-          Yes, Delete
-        </button>
+  const handleDelete = (id) => {
+    toast((t) => (
+      <div className="flex flex-col gap-4">
+        <p className="text-white font-medium text-center">
+          Delete this PDF permanently?
+        </p>
+        <div className="flex gap-3 justify-center">
 
-        {/* Styled CANCEL Button - Matching your card's View button style */}
-        <button
-          onClick={() => toast.dismiss(t.id)}
-          className="px-6 py-2 bg-white text-black rounded-xl font-bold hover:bg-gray-200 transition-all duration-300 cursor-pointer"
-        >
-          Cancel
-        </button>
+          <button
+            onClick={async () => {
+              toast.dismiss(t.id);
+              await executeDeletion(id);
+            }}
+            className="px-6 py-2 border border-red-600 text-red-600 rounded-xl font-bold hover:bg-red-500/10 transition hover:text-red transition-all duration-300 cursor-pointer"
+          >
+            Yes, Delete
+          </button>
+
+          {/* Styled CANCEL Button - Matching your card's View button style */}
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            className="px-6 py-2 bg-white text-black rounded-xl font-bold hover:bg-gray-200 transition-all duration-300 cursor-pointer"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
-    </div>
-  ), {
-    duration: 10 * 1000 , // 20 seconds = 20000 milliseconds
-    position: 'top-center',
-    // Removed the red border here
-    style: {
-      background: '#1a1a1a',
-      border: '1px solid #333', // Subtle dark border instead of red
-      padding: '24px',
-      borderRadius: '20px',
-      boxShadow: '0 10px 25px rgba(0,0,0,0.5)'
-    }
-  });
-};
+    ), {
+      duration: 10 * 1000, // 20 seconds = 20000 milliseconds
+      position: 'top-center',
+      // Removed the red border here
+      style: {
+        background: '#1a1a1a',
+        border: '1px solid #333', // Subtle dark border instead of red
+        padding: '24px',
+        borderRadius: '20px',
+        boxShadow: '0 10px 25px rgba(0,0,0,0.5)'
+      }
+    });
+  };
 
-// Separated Deletion Logic
-const executeDeletion = async (id) => {
-  const loadingId = toast.loading("Purging from database...");
-  try {
-    setDeletingId(id);
-    await axios.delete(`https://notes-store-backend.onrender.com/api/notes/${id}`);
-    setNotes((prev) => prev.filter((note) => note._id !== id));
-    toast.success("Note deleted!", { id: loadingId });
-  } catch (err) {
-    toast.error("Failed to delete.", { id: loadingId });
-  } finally {
-    setDeletingId(null);
-  }
-};
+  // Separated Deletion Logic
+  const executeDeletion = async (id) => {
+    const loadingId = toast.loading("Purging from database...");
+    try {
+      setDeletingId(id);
+      await axios.delete(`https://notes-store-backend.onrender.com/api/notes/${id}`);
+      setNotes((prev) => prev.filter((note) => note._id !== id));
+      toast.success("Note deleted!", { id: loadingId });
+    } catch (err) {
+      toast.error("Failed to delete.", { id: loadingId });
+    } finally {
+      setDeletingId(null);
+    }
+  };
+  // Subjects that exist in the selected semester (taken from the database notes)
+  const availableSubjects = [
+    ...new Set(
+      notes
+        .filter((note) => selectedSemester === "all" || String(note.semester) === selectedSemester)
+        .map((note) => note.subject?.trim())
+        .filter(Boolean)
+    ),
+  ].sort();
+
   const filteredNotes = notes.filter((note) =>
-    note.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    note.subject?.toLowerCase().includes(searchTerm.toLowerCase())
+    (selectedSemester === "all" || String(note.semester) === selectedSemester) &&
+    (selectedSubject === "all" || note.subject?.trim() === selectedSubject)
   );
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 relative overflow-x-hidden">
       <Navbar />
-     <StarsBackground />
+      <StarsBackground />
 
       <div className="relative z-10 flex flex-col items-center pt-24 px-4 w-full">
         <h2 className="text-4xl font-bold text-white mb-2">Admin Notes Manager</h2>
@@ -99,45 +110,70 @@ const executeDeletion = async (id) => {
           Review all uploaded notes, open them for inspection, or remove outdated content .
         </p>
 
-        <div className="w-full max-w-md mb-16">
-          <input
-            type="text"
-            placeholder="Search notes by title or subject..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full p-4 rounded-xl bg-black/60 border border-purple-500/30 text-white outline-none focus:border-purple-400 transition backdrop-blur-md shadow-2xl"
-          />
+        <div className="w-full max-w-4xl mb-12 flex flex-col md:flex-row gap-3">
+          {/* Semester buttons */}
+          <div className="grid grid-cols-4 gap-3 md:flex-1">
+            {["1", "2", "3", "4"].map((sem) => (
+              <button
+                key={sem}
+                onClick={() => {
+                  setSelectedSemester(selectedSemester === sem ? "all" : sem);
+                  setSelectedSubject("all");
+                }}
+                className={`py-3 rounded-xl text-sm font-semibold text-white transition cursor-pointer ${selectedSemester === sem
+                    ? "bg-purple-600"
+                    : "bg-white/10 hover:bg-white/20"
+                  }`}
+              >
+                Sem {sem}
+              </button>
+            ))}
+          </div>
+
+          {/* Subject dropdown */}
+          <select
+            value={selectedSubject}
+            onChange={(e) => setSelectedSubject(e.target.value)}
+            className="md:w-72 px-4 py-3 rounded-xl text-sm font-semibold bg-black/60 border border-purple-500/30 text-white outline-none focus:border-purple-400 transition backdrop-blur-md cursor-pointer"
+          >
+            <option value="all" className="bg-black text-white">All Subjects</option>
+            {availableSubjects.map((subject) => (
+              <option key={subject} value={subject} className="bg-black text-white">
+                {subject}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-7xl px-6 pb-24">
           {loading ? (
-  <>
-    {[1, 2, 3].map((item) => (
-      <div
-        key={item}
-        className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-white/5 animate-pulse min-h-[300px]"
-      >
-        {/* Subject placeholder */}
-        <div className="w-28 h-5 bg-purple-400/20 rounded-full"></div>
+            <>
+              {[1, 2, 3].map((item) => (
+                <div
+                  key={item}
+                  className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-white/5 animate-pulse min-h-[300px]"
+                >
+                  {/* Subject placeholder */}
+                  <div className="w-28 h-5 bg-purple-400/20 rounded-full"></div>
 
-        {/* Title placeholder */}
-        <div className="w-3/4 h-7 bg-white/10 rounded-lg"></div>
+                  {/* Title placeholder */}
+                  <div className="w-3/4 h-7 bg-white/10 rounded-lg"></div>
 
-        {/* Description placeholder */}
-        <div className="w-full flex flex-col items-center gap-3">
-          <div className="w-full h-3 bg-white/10 rounded"></div>
-          <div className="w-4/5 h-3 bg-white/10 rounded"></div>
-        </div>
+                  {/* Description placeholder */}
+                  <div className="w-full flex flex-col items-center gap-3">
+                    <div className="w-full h-3 bg-white/10 rounded"></div>
+                    <div className="w-4/5 h-3 bg-white/10 rounded"></div>
+                  </div>
 
-        {/* Button placeholders */}
-        <div className="flex gap-4 w-full mt-auto pt-4">
-          <div className="flex-1 h-12 bg-white/10 rounded-xl"></div>
-          <div className="flex-1 h-12 bg-purple-400/20 rounded-xl"></div>
-        </div>
-      </div>
-    ))}
-  </>
-) : filteredNotes.length === 0 ? (
+                  {/* Button placeholders */}
+                  <div className="flex gap-4 w-full mt-auto pt-4">
+                    <div className="flex-1 h-12 bg-white/10 rounded-xl"></div>
+                    <div className="flex-1 h-12 bg-purple-400/20 rounded-xl"></div>
+                  </div>
+                </div>
+              ))}
+            </>
+          ) : filteredNotes.length === 0 ? (
             <div className="col-span-1 md:col-span-2 lg:col-span-3 flex justify-center w-full py-1">
               <div className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-purple-500/20 w-full max-w-sm backdrop-blur-md">
                 <div className="flex flex-col gap-2">
@@ -146,14 +182,16 @@ const executeDeletion = async (id) => {
                   </span>
                   <h3 className="text-2xl font-bold tracking-tight">No Records Found</h3>
                 </div>
-                
+
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  There are currently no notes matching "<span className="text-purple-300 font-semibold">{searchTerm}</span>" in the repository. 
-                  
+                  No notes found for this semester and subject.
                 </p>
 
-                <button 
-                  onClick={() => setSearchTerm("")}
+                <button
+                  onClick={() => {
+                    setSelectedSemester("all");
+                    setSelectedSubject("all");
+                  }}
                   className="w-full bg-white text-black py-3 rounded-xl font-bold  transition text-sm shadow-lg cursor-pointer "
                 >
                   Reset Admin View
@@ -174,8 +212,8 @@ const executeDeletion = async (id) => {
                 </div>
 
                 <p className="text-gray-400 text-sm leading-relaxed break-words">
-  {note.description || "No description provided."}
-</p>
+                  {note.description || "No description provided."}
+                </p>
 
                 <div className="flex gap-4 w-full mt-auto pt-4">
                   <a
