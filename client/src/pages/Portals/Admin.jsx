@@ -23,13 +23,7 @@ const Admin = () => {
     storageUsed: 0, 
     categoryBreakdown: {}
   });
-const allSubjects = [
-  "SYSTEM Analysis and Design",
-  "Data Structures",
-  "C#.NET",
-  "Cloud Computing",
-  "ORACLE AND PL/SQL"
-];
+
   const navigate = useNavigate();
 
   // CHUNK 1: Function to fetch analytics from the backend
@@ -171,7 +165,7 @@ const allSubjects = [
   <div className="flex justify-between items-center mb-2">
     <p className="text-purple-400 text-sm font-bold uppercase tracking-widest">Storage Status</p>
     <div className="flex h-2 w-2 relative">
-      <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${statsData.storageUsed > 400 ? 'bg-red-400' : 'bg-gr8een-400'}`}></span>
+      <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${statsData.storageUsed > 400 ? 'bg-red-400' : 'bg-green-400'}`}></span>
       <span className={`relative inline-flex rounded-full h-2 w-2 ${statsData.storageUsed > 400 ? 'bg-red-500' : 'bg-green-500'}`}></span>
     </div>
   </div>
@@ -201,17 +195,18 @@ const allSubjects = [
 <div className="mt-10 bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-white/5">
   <h3 className="text-xl font-bold mb-6">Notes by Subject</h3>
   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-    {allSubjects.map((sub) => {
-     
-      const count = statsData.categoryBreakdown[sub] || 0;
-
-      return (
-        <div key={sub} className="bg-white/5 p-4 rounded-2xl border border-white/5 text-center">
-          <p className="text-[10px] text-gray-400 uppercase mb-1">{sub}</p>
-          <p className="text-2xl font-bold text-purple-400">{count}</p>
-        </div>
-      );
-    })}
+    {Object.entries(statsData.categoryBreakdown || {}).length === 0 ? (
+  <p className="text-gray-400 text-sm col-span-full text-center">
+    No notes uploaded yet.
+  </p>
+) : (
+  Object.entries(statsData.categoryBreakdown).map(([sub, count]) => (
+    <div key={sub} className="bg-white/5 p-4 rounded-2xl border border-white/5 text-center">
+      <p className="text-[10px] text-gray-400 uppercase mb-1">{sub}</p>
+      <p className="text-2xl font-bold text-purple-400">{count}</p>
+    </div>
+  ))
+)}
   </div>
 </div>
             </div>
