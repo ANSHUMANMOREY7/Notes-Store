@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 
 const coloredClasses = ["bg-purple-300", "bg-blue-200", "bg-yellow-200"];
 
@@ -10,13 +10,23 @@ const makePositions = (count) =>
   }));
 
 const StarsBackground = ({ semester = "all" }) => {
-  // Re-runs when the page opens or when the semester changes
-  const small = useMemo(() => makePositions(18), [semester]);
-  const medium = useMemo(() => makePositions(4), [semester]);
-  const colored = useMemo(() => makePositions(3), [semester]);
+  const [shuffle, setShuffle] = useState(0);
+
+  // Listen for the "stars-shuffle" signal sent by the Sem buttons
+  useEffect(() => {
+    const handler = () => setShuffle((n) => n + 1);
+    window.addEventListener("stars-shuffle", handler);
+    return () => window.removeEventListener("stars-shuffle", handler);
+  }, []);
+
+  // New positions when the page changes OR a shuffle signal arrives
+  const key = `${semester}-${shuffle}`;
+  const small = useMemo(() => makePositions(18), [key]);
+  const medium = useMemo(() => makePositions(4), [key]);
+  const colored = useMemo(() => makePositions(3), [key]);
 
   return (
-    <div className="absolute inset-0 z-0 pointer-events-none">
+    <div className="fixed inset-0 z-[5] pointer-events-none">
       {/* Small stars */}
       {small.map((pos, i) => (
         <div

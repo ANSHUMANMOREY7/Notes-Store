@@ -8,7 +8,7 @@ const HomeBottomText = () => {
 
 
     <div className='home-mission w-screen h-screen bg-gradient-to-b from-black to-purple-900 text-white p-10 flex flex-col justify-center items-start relative overflow-hidden'>
-      <StarsBackground />
+      
       <div className='home-mission-content'>
         <h2 className='home-mission-title font-[font1] text-white text-7xl p-10'>Our Mission</h2>
         <div className='home-mission-lead font-[font1] px-10 text-3xl font-bold text-justify'>

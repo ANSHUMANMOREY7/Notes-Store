@@ -103,7 +103,7 @@ const AdminManageNotes = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 relative overflow-x-hidden">
       <Navbar />
-      <StarsBackground semester={selectedSemester} />
+      
 
       <div className="relative z-10 flex flex-col items-center pt-24 px-4 w-full">
         <h2 className="text-4xl font-bold text-white mb-2">Admin Notes Manager</h2>
@@ -120,6 +120,7 @@ const AdminManageNotes = () => {
                 onClick={() => {
                   setSelectedSemester(selectedSemester === sem ? "all" : sem);
                   setSelectedSubject("all");
+                  window.dispatchEvent(new Event("stars-shuffle"));
                 }}
                 className={`py-3 rounded-xl text-sm font-semibold text-white transition cursor-pointer ${selectedSemester === sem
                     ? "bg-purple-600"

@@ -8,10 +8,10 @@ const Home = () => {
     <div className='home-screen'>
       <Navbar />
     <div className='overflow-x-hidden overflow-y-auto'>
-      <div className='home-screen h-screen w-screen absolute top-0  '>
+      <div className='home-screen h-screen w-screen absolute top-0 z-10'>
         <Video />
         </div>
-        <div className='home-screen w-screen h-screen relative flex flex-col justify-center items-center '>
+        <div className='home-screen w-screen h-screen relative z-10 flex flex-col justify-center items-center '>
         <HomeHeroText />
         
       </div>

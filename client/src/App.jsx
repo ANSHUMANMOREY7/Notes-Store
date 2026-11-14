@@ -1,4 +1,5 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
+import StarsBackground from './components/StarBackground'
 import Home from './pages/Home/Home'
 import Path from './pages/Portals/Path'
 import Students from "./pages/Portals/Students"
@@ -12,8 +13,7 @@ import ContactUs from './pages/ContactUs';
 import { Toaster } from 'react-hot-toast'
 
 function App() {
-  
-  
+  const location = useLocation();
   return (
     
     
@@ -47,7 +47,8 @@ function App() {
 }}
       />
     
-    <ScrollToTop />
+        <ScrollToTop />
+    <StarsBackground semester={location.pathname} />
     <main className="flex-grow">
     <Routes>
       <Route path='/Contact' element={<ContactUs />} />
@@ -61,7 +62,9 @@ function App() {
      <Route path='/Footer' element={<Footer/>} />
     </Routes> 
     </main>
-    <Footer />
+        <div className="relative z-10">
+      <Footer />
+    </div>
     </div>
     
   )

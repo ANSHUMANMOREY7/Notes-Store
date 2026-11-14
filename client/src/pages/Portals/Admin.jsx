@@ -2,7 +2,6 @@ import { memo, useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from 'axios';
-import StarsBackground from '../../components/StarBackground';
 import { toast } from 'react-hot-toast';
 
 const Admin = () => {
@@ -98,10 +97,10 @@ const allSubjects = [
   return (
     <>
       <Navbar />
-      <StarsBackground pattern={3} />
+      
       <div className=" font-[font1] min-h-screen bg-gradient-to-b from-black to-purple-900 text-white relative transition-colors duration-500">
         
-        <StarsBackground pattern={3} />
+        
 
         <div className="admin-content max-w-7xl mx-auto p-10 pt-24 relative z-10">
           

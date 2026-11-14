@@ -127,7 +127,7 @@ const ContactUs = () => {
         </div>
       </div>
     </div>
-    <StarsBackground pattern={2} />
+    
       </>
   );
 };
