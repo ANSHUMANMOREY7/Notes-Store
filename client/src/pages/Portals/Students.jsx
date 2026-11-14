@@ -115,41 +115,49 @@ const Students = () => {
 
   <>
     {/* Note Cards */}
-    {filteredNotes.map((note, index) => (
-            <div 
-              key={index} 
-              className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-white/5 hover:scale-105 hover:bg-purple-900/50 transition duration-300"
-            >
-              <div className="flex flex-col gap-2">
-                <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest bg-purple-400/10 px-3 py-1 rounded-full w-fit mx-auto">
-                  {note.subject || "General"}
-                </span>
-                <h3 className="text-2xl font-bold tracking-tight">{note.title || "Untitled Note"}</h3>
-              </div>
-              
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Access and download this verified study material for your preparation.
-              </p>
+    
+{filteredNotes.map((note, index) => (
+  <div
+    key={note._id || index}
+    className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-white/5 hover:scale-105 hover:bg-purple-900/50 transition duration-300"
+  >
+    {/* Unit Badge */}
+    <span className="text-sm font-bold text-purple-400 uppercase tracking-widest bg-purple-400/10 px-5 py-2 rounded-full w-fit mx-auto">
+      UNIT-{note.unit || "N/A"}
+    </span>
 
-              <div className="flex gap-4 w-full mt-auto pt-4">
-                <a 
-                  href={note.path}
-                  target="_blank" 
-                  rel="noreferrer" 
-                  className="flex-1 bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition text-sm shadow-lg flex items-center justify-center"
-                >
-                  View
-                </a>
-                
-                <button 
-                  onClick={() => handleDownload(note.path, note.title)}
-                  className="flex-1 border border-white/20 text-white py-3 rounded-xl font-bold hover:bg-white/10 transition text-sm cursor-pointer"
-                >
-                  Download
-                </button>
-              </div>
-            </div>
-          ))}     
+    {/* Subject */}
+    <h3 className="text-2xl font-bold tracking-tight">
+      {note.subject || "General"}
+    </h3>
+
+    {/* Description */}
+    <p className="text-gray-400 text-sm leading-relaxed">
+      {note.description?.trim() ||
+        "Access and download this verified study material for your preparation."}
+    </p>
+
+    {/* Existing Buttons */}
+    <div className="flex gap-4 w-full mt-auto pt-4">
+      <a
+        href={note.path}
+        target="_blank"
+        rel="noreferrer"
+        className="flex-1 bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition text-sm shadow-lg flex items-center justify-center"
+      >
+        View
+      </a>
+
+      <button
+        onClick={() => handleDownload(note.path, note.filename || "notes.pdf")}
+        className="flex-1 border border-white/20 text-white py-3 rounded-xl font-bold hover:bg-white/10 transition text-sm cursor-pointer"
+      >
+        Download
+      </button>
+    </div>
+  </div>
+))}
+    
             </>
 )}
 

@@ -11,8 +11,11 @@ const Admin = () => {
   const [showModal, setShowModal] = useState(false);
   const [showStats, setShowStats] = useState(false);
   const [file, setFile] = useState(null);
-  const [title, setTitle] = useState("");
+
   const [subject, setSubject] = useState("");
+  const [semester, setSemester] = useState("");
+  const [unit, setUnit] = useState("");
+  const [description, setDescription] = useState("");
   const [uploading, setUploading] = useState(false);
   
   const [statsData, setStatsData] = useState({
@@ -58,8 +61,12 @@ const allSubjects = [
     e.preventDefault();
     setUploading(true);
     const formData = new FormData();
-    formData.append("title", title);
+
+    formData.append("title", subject);
     formData.append("subject", subject);
+    formData.append("semester", semester);
+    formData.append("unit", unit);
+    formData.append("description", description);
     formData.append("file", file);
 
     try {
@@ -73,9 +80,11 @@ const allSubjects = [
       fetchStats(); 
       
       setShowModal(false);
-      setFile(null); 
-      setTitle(""); 
+      setFile(null);
       setSubject("");
+      setSemester("");
+      setUnit("");
+      setDescription("");
     } catch (err) {
       console.error(err);
       toast.error("Error uploading file.");
@@ -208,28 +217,59 @@ const allSubjects = [
         </div>
 
         {showModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-2">
             <div className="bg-[#121212] border border-white/10 p-8 rounded-3xl w-full max-w-md shadow-2xl">
-              <h2 className="text-2xl font-bold mb-6 text-purple-400">Add New Note</h2>
-              <form onSubmit={handleUpload} className="flex flex-col gap-4 ">
-                <input 
-                  type="text" placeholder="Notes Title" required
-                  className="bg-white/5 border border-white/10 p-3 rounded-xl outline-none focus:border-purple-500"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-                <select 
-                  required className="bg-white/5 border border-white/10 p-3 rounded-xl outline-none focus:border-purple-500 text-gray-400"
-                  value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
+              <h2 className="text-2xl font-bold mb-2 text-purple-400">Add New Note</h2>
+              <form onSubmit={handleUpload} className="flex flex-col gap-3 ">
+                              {/* Subject */}
+                  <input
+                    type="text"
+                    placeholder="Subject"
+                    required
+                    className="bg-white/5 border border-white/10 p-3 rounded-xl outline-none focus:border-purple-500"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                  />
+                  
+
+                {/* Semester */}
+                <select
+                  required
+                  className="bg-white/5 border border-white/10 p-3 rounded-xl outline-none focus:border-purple-500 text-gray-400"
+                  value={semester}
+                  onChange={(e) => setSemester(e.target.value)}
                 >
-                  <option value="" className="bg-black">Select Subject</option>
-                  <option value="SYSTEM Analysis and Design" className="bg-black">SYSTEM Analysis and Design</option>
-                  <option value="Data Structures" className="bg-black">Data Structures</option>
-                  <option value="C#.NET" className="bg-black">C#.NET</option>
-                  <option value="Cloud Computing" className="bg-black">Cloud Computing</option>
-                  <option value="ORACLE AND PL/SQL" className="bg-black">ORACLE AND PL/SQL</option>
+                  <option value="" className="bg-black">Select Semester</option>
+                  {[1, 2, 3, 4].map((sem) => (
+                    <option key={sem} value={sem} className="bg-black">
+                      Semester {sem}
+                    </option>
+                  ))}
                 </select>
+
+                {/* Unit */}
+                <select
+                  required
+                  className="bg-white/5 border border-white/10 p-3 rounded-xl outline-none focus:border-purple-500 text-gray-400"
+                  value={unit}
+                  onChange={(e) => setUnit(e.target.value)}
+                >
+                  <option value="" className="bg-black">Select Unit</option>
+                  {[1, 2, 3, 4, 5].map((u) => (
+                    <option key={u} value={u} className="bg-black">
+                      Unit {u}
+                    </option>
+                  ))}
+                </select>
+
+                {/* About Notes */}
+                <textarea
+                  placeholder="About these notes (optional)"
+                  rows="3"
+                  className="bg-white/5 border border-white/10 p-3 rounded-xl outline-none focus:border-purple-500 text-white resize-none"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
                 <input 
                   type="file" accept="application/pdf" required
                   className="text-sm text-gray-400 file:bg-purple-600 file:text-white file:border-0 file:px-4 file:py-3 file:rounded-xl"

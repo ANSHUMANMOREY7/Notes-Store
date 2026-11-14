@@ -26,7 +26,11 @@ const uploadToCloudinary = (file) => {
 // Upload Note
 const uploadNote = async (req, res) => {
   try {
-    const { title, subject, semester, unit } = req.body;
+    const { title, subject, semester, unit, description } = req.body;
+
+        // TEMPORARY DEBUG LOGS
+    console.log("Upload Body:", req.body);
+    console.log("Description:", req.body.description);
 
     if (!title || !subject) {
       return res.status(400).json({
@@ -49,6 +53,7 @@ const uploadNote = async (req, res) => {
     subject,
     semester: semester ? Number(semester) : undefined,
     unit: unit ? Number(unit) : undefined,
+    description: description || "",
     filename: req.file.originalname,
     path: result.secure_url,
     cloudinaryPublicId: result.public_id,
