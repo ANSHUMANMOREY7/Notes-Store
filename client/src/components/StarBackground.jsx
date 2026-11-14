@@ -1,12 +1,12 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const coloredClasses = ["bg-purple-300", "bg-blue-200", "bg-yellow-200"];
 
 // Positions are numbers now (0-95), used as vw / vh units
-const makePositions = (count) =>
-  Array.from({ length: count }, () => ({
-    x: Math.floor(Math.random() * 95),
-    y: Math.floor(Math.random() * 95),
+const makePositions = (count, seed = 0) =>
+  Array.from({ length: count }, (_, index) => ({
+    x: Math.floor((((Math.random() + seed + index) % 1) * 95)),
+    y: Math.floor((((Math.random() + seed * 0.7 + index * 0.13) % 1) * 95)),
   }));
 
 const starStyle = (pos) => ({
@@ -15,7 +15,7 @@ const starStyle = (pos) => ({
   transform: `translate(${pos.x}vw, ${pos.y}vh)`,
 });
 
-const StarsBackground = ({ semester = "all" }) => {
+const StarsBackground = () => {
   const [shuffle, setShuffle] = useState(0);
 
   // Listen for the "stars-shuffle" signal
@@ -25,10 +25,9 @@ const StarsBackground = ({ semester = "all" }) => {
     return () => window.removeEventListener("stars-shuffle", handler);
   }, []);
 
-  const key = `${semester}-${shuffle}`;
-  const small = useMemo(() => makePositions(18), [key]);
-  const medium = useMemo(() => makePositions(4), [key]);
-  const colored = useMemo(() => makePositions(3), [key]);
+  const small = makePositions(18, shuffle);
+  const medium = makePositions(4, shuffle + 1);
+  const colored = makePositions(3, shuffle + 2);
 
   return (
     <div className="fixed inset-0 z-[5] pointer-events-none overflow-hidden">

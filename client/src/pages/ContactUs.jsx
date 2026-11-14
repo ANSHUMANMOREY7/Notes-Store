@@ -1,27 +1,24 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import emailjs from '@emailjs/browser';
 import Navbar from '../components/Navbar/Navbar';
-import StarsBackground from '../components/StarBackground';
 import { toast } from 'react-hot-toast';
+
 const ContactUs = () => {
-  const form = useRef();
+  const form = useRef(null);
 
   const sendEmail = (e) => {
     e.preventDefault();
-    emailjs.init("WyWS68ennaUOloT8W");
-    
-    emailjs.sendForm(
-      'Anshumanmorey', 
-      'template_6i9ugya', 
-      form.current, 
-      'WyWS68ennaUOloT8W'
-    )
-    .then((result) => {
-       toast.success('Message sent successfully!');
+    emailjs.init('WyWS68ennaUOloT8W');
+
+    emailjs
+      .sendForm('Anshumanmorey', 'template_6i9ugya', form.current, 'WyWS68ennaUOloT8W')
+      .then(() => {
+        toast.success('Message sent successfully!');
         e.target.reset();
-    }, (error) => {
+      })
+      .catch(() => {
         toast.error('Failed to send message. Please try again later.');
-    });
+      });
   };
 
   return (

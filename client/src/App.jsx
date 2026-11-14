@@ -59,7 +59,6 @@ function App() {
      <Route path='/Admin' element={<Admin/>}/>
      <Route path='/Admin/manage-notes' element={<AdminManageNotes/>} />
      <Route path="/about" element={<AboutUs />} />
-     <Route path='/Footer' element={<Footer/>} />
     </Routes> 
     </main>
         <div className="relative z-10">

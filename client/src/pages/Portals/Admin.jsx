@@ -1,6 +1,6 @@
 import { memo, useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
@@ -25,6 +25,7 @@ const Admin = () => {
   });
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   // CHUNK 1: Function to fetch analytics from the backend
   const fetchStats = async () => {
@@ -38,15 +39,15 @@ const Admin = () => {
 
   // Fetch stats when user enters Stats Mode
   useEffect(() => {
-  const params = new URLSearchParams(window.location.search);
-  const isStatsMode = params.get("view") === "stats";
-  
-  setShowStats(isStatsMode);
+    const params = new URLSearchParams(location.search);
+    const isStatsMode = params.get('view') === 'stats';
 
-  if (isStatsMode) {
-    fetchStats();
-  }
-}, [window.location.search]);
+    setShowStats(isStatsMode);
+
+    if (isStatsMode) {
+      fetchStats();
+    }
+  }, [location.search]);
 
 
   
