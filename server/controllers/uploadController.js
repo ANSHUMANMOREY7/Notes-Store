@@ -27,11 +27,7 @@ const uploadToCloudinary = (file) => {
 const uploadNote = async (req, res) => {
   try {
     const { title, subject, semester, unit, description } = req.body;
-
-        // TEMPORARY DEBUG LOGS
-    console.log("Upload Body:", req.body);
-    console.log("Description:", req.body.description);
-
+    
     if (!title || !subject) {
       return res.status(400).json({
         message: "Title and subject are required",

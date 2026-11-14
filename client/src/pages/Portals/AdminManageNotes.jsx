@@ -173,9 +173,9 @@ const executeDeletion = async (id) => {
                   <h3 className="text-2xl font-bold tracking-tight">{note.title || "Untitled Note"}</h3>
                 </div>
 
-                <p className="text-gray-400 text-sm leading-relaxed">
-                  Manage this upload by viewing the file or deleting it from the collection.
-                </p>
+                <p className="text-gray-400 text-sm leading-relaxed break-words">
+  {note.description || "No description provided."}
+</p>
 
                 <div className="flex gap-4 w-full mt-auto pt-4">
                   <a
