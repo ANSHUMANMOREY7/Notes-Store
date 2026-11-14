@@ -111,8 +111,33 @@ const executeDeletion = async (id) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-7xl px-6 pb-24">
           {loading ? (
-            <div className="col-span-full text-center text-white/80">Loading notes...</div>
-          ) : filteredNotes.length === 0 ? (
+  <>
+    {[1, 2, 3].map((item) => (
+      <div
+        key={item}
+        className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-white/5 animate-pulse min-h-[300px]"
+      >
+        {/* Subject placeholder */}
+        <div className="w-28 h-5 bg-purple-400/20 rounded-full"></div>
+
+        {/* Title placeholder */}
+        <div className="w-3/4 h-7 bg-white/10 rounded-lg"></div>
+
+        {/* Description placeholder */}
+        <div className="w-full flex flex-col items-center gap-3">
+          <div className="w-full h-3 bg-white/10 rounded"></div>
+          <div className="w-4/5 h-3 bg-white/10 rounded"></div>
+        </div>
+
+        {/* Button placeholders */}
+        <div className="flex gap-4 w-full mt-auto pt-4">
+          <div className="flex-1 h-12 bg-white/10 rounded-xl"></div>
+          <div className="flex-1 h-12 bg-purple-400/20 rounded-xl"></div>
+        </div>
+      </div>
+    ))}
+  </>
+) : filteredNotes.length === 0 ? (
             <div className="col-span-1 md:col-span-2 lg:col-span-3 flex justify-center w-full py-1">
               <div className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-purple-500/20 w-full max-w-sm backdrop-blur-md">
                 <div className="flex flex-col gap-2">
