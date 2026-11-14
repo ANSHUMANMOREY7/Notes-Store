@@ -26,7 +26,7 @@ const uploadToCloudinary = (file) => {
 // Upload Note
 const uploadNote = async (req, res) => {
   try {
-    const { title, subject } = req.body;
+    const { title, subject, semester, unit } = req.body;
 
     if (!title || !subject) {
       return res.status(400).json({
@@ -45,13 +45,15 @@ const uploadNote = async (req, res) => {
 
     // Save note details in MongoDB
     const newNote = new Note({
-      title,
-      subject,
-      filename: req.file.originalname,
-      path: result.secure_url,
-      cloudinaryPublicId: result.public_id,
-      fileSize: result.bytes,
-    });
+    title,
+    subject,
+    semester: semester ? Number(semester) : undefined,
+    unit: unit ? Number(unit) : undefined,
+    filename: req.file.originalname,
+    path: result.secure_url,
+    cloudinaryPublicId: result.public_id,
+    fileSize: result.bytes,
+  });
 
     await newNote.save();
 
