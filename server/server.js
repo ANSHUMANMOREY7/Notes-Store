@@ -11,7 +11,10 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/notes", uploadRoutes);
-
+app.use((err, req, res, next) => {
+  console.error("Server error:", err);
+  res.status(500).json({ message: err.message });
+});
 
 app.get("/", (req, res) => {
   res.send("Backend running 🚀");
