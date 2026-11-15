@@ -125,7 +125,7 @@ const visibleNotes = sortedNotes.slice(0, visibleCount);
       </button>
     ))}
   </div>
-<div className="flex flex-col sm:flex-row gap-3"></div>
+
   {/* Subject dropdown */}
   <select
     value={selectedSubject}
@@ -214,7 +214,12 @@ const visibleNotes = sortedNotes.slice(0, visibleCount);
                     {note.description?.trim() ||
                       "Access and download this verified study material for your preparation."}
                   </p>
-
+                      {note.pages && (
+                    <p className="text-xs text-gray-500 font-semibold tracking-wide">
+                      📄 {note.pages} {note.pages === 1 ? "page" : "pages"}
+                      {note.fileSize ? ` · ${(note.fileSize / (1024 * 1024)).toFixed(1)} MB` : ""}
+                    </p>
+                  )}
                   {/* Existing Buttons */}
                   <div className="flex gap-4 w-full mt-auto pt-4">
                     <a
