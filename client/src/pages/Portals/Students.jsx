@@ -5,6 +5,22 @@ import StarsBackground from '../../components/StarBackground';
 import { toast } from 'react-hot-toast';
 
 const getUnitLabel = (u) => (u === "QB" ? "Question Bank" : `Unit ${u}`);
+
+const sortNotes = (notes, order) => {
+  return [...notes].sort((a, b) => {
+    const aQB = a.unit === "QB";
+    const bQB = b.unit === "QB";
+
+    // Question Bank always on top
+    if (aQB && !bQB) return -1;
+    if (!aQB && bQB) return 1;
+    if (aQB && bQB) return 0;
+
+    const diff = Number(a.unit) - Number(b.unit);
+    return order === "asc" ? diff : -diff;
+  });
+};
+
 const Students = () => {
   const handleDownload = async (fileUrl, fileName) => {
     try {
@@ -41,6 +57,8 @@ const Students = () => {
   const [selectedSemester, setSelectedSemester] = useState("all");
   const [selectedSubject, setSelectedSubject] = useState("all");
 
+  const [unitOrder, setUnitOrder] = useState("asc"); // "asc" = 1 to 5, "desc" = 5 to 1
+
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     toast.success("Student login successfull!");
@@ -74,7 +92,8 @@ const filteredNotes = notes.filter(note =>
   (selectedSemester === "all" || String(note.semester) === selectedSemester) &&
   (selectedSubject === "all" || note.subject?.trim() === selectedSubject)
 );
-  const visibleNotes = filteredNotes.slice(0, visibleCount);
+const sortedNotes = sortNotes(filteredNotes, unitOrder);
+const visibleNotes = sortedNotes.slice(0, visibleCount);
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 relative overflow-x-hidden font-[font1]">
       <Navbar />
@@ -106,7 +125,7 @@ const filteredNotes = notes.filter(note =>
       </button>
     ))}
   </div>
-
+<div className="flex flex-col sm:flex-row gap-3"></div>
   {/* Subject dropdown */}
   <select
     value={selectedSubject}
@@ -123,6 +142,18 @@ const filteredNotes = notes.filter(note =>
       </option>
     ))}
   </select>
+    {/* Unit order dropdown */}
+  <select
+  value={unitOrder}
+  onChange={(e) => {
+    setUnitOrder(e.target.value);
+    setVisibleCount(3);
+  }}
+  className="md:w-48 px-4 py-3 rounded-xl text-sm font-semibold bg-black/60 border border-purple-500/30 text-white outline-none focus:border-purple-400 transition backdrop-blur-md cursor-pointer"
+>
+  <option value="asc" className="bg-black text-white">Unit 1 → 5</option>
+  <option value="desc" className="bg-black text-white">Unit 5 → 1</option>
+</select>
 </div>
 
 
@@ -171,6 +202,7 @@ const filteredNotes = notes.filter(note =>
 <span className="text-sm font-bold text-purple-400 uppercase tracking-widest bg-purple-400/10 px-5 py-2 rounded-full w-fit mx-auto">
   {note.unit ? getUnitLabel(note.unit) : "N/A"}
 </span>
+
 
                   {/* Subject */}
                   <h3 className="text-2xl font-bold tracking-tight">
@@ -224,11 +256,12 @@ const filteredNotes = notes.filter(note =>
 
       <button
         onClick={() => {
-          setSelectedSemester("all");
-          setSelectedSubject("all");
-          setVisibleCount(3);
-          window.dispatchEvent(new Event("stars-shuffle"));
-        }}
+  setSelectedSemester("all");
+  setSelectedSubject("all");
+  setUnitOrder("asc");
+  setVisibleCount(3);
+  window.dispatchEvent(new Event("stars-shuffle"));
+}}
         className="w-full bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition text-sm shadow-lg cursor-pointer"
       >
         Reset Filters
