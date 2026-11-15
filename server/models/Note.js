@@ -18,6 +18,7 @@ fileSize: {
   type: Number,
   default: 0,
 },
+pages: { type: Number },
 });
 
 module.exports = mongoose.model("Note", NoteSchema);

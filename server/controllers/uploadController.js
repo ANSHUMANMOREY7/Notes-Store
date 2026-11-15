@@ -1,5 +1,16 @@
 const Note = require("../models/Note");
 const cloudinary = require("../config/cloudinary");
+const { PDFDocument } = require("pdf-lib");
+
+const getPageCount = async (buffer) => {
+  try {
+    const pdf = await PDFDocument.load(buffer, { ignoreEncryption: true });
+    return pdf.getPageCount();
+  } catch (err) {
+    console.error("Page count failed:", err.message);
+    return undefined; // don't block the upload if counting fails
+  }
+};
 
 // Upload PDF to Cloudinary
 const uploadToCloudinary = (file) => {
@@ -24,7 +35,22 @@ const uploadToCloudinary = (file) => {
 };
 
 const uploadNote = async (req, res) => {
-  console.log("UPLOAD HIT", req.body, !!req.file?.buffer);
+
+  const pageCount = await getPageCount(req.file.buffer);
+  console.log("PAGE COUNT:", pageCount);
+const newNote = new Note({
+  title,
+  subject,
+  semester: semester ? Number(semester) : undefined,
+  unit,
+  description: description || "",
+  filename: req.file.originalname,
+  path: result.secure_url,
+  cloudinaryPublicId: result.public_id,
+  fileSize: result.bytes,
+  pages: pageCount,   // <-- new
+});
+
   try {
     const { title, subject, semester, unit, description } = req.body;
 
