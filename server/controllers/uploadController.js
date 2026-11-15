@@ -23,38 +23,37 @@ const uploadToCloudinary = (file) => {
   });
 };
 
-// Upload Note
 const uploadNote = async (req, res) => {
+  console.log("UPLOAD HIT", req.body, !!req.file?.buffer);
   try {
     const { title, subject, semester, unit, description } = req.body;
-    
+
     if (!title || !subject) {
-      return res.status(400).json({
-        message: "Title and subject are required",
-      });
+      return res.status(400).json({ message: "Title and subject are required" });
+    }
+
+    if (!unit) {
+      return res.status(400).json({ message: "Unit is required" });
     }
 
     if (!req.file) {
-      return res.status(400).json({
-        message: "No file uploaded",
-      });
+      return res.status(400).json({ message: "No file uploaded" });
     }
 
     // Upload PDF to Cloudinary
     const result = await uploadToCloudinary(req.file);
 
-    // Save note details in MongoDB
     const newNote = new Note({
-    title,
-    subject,
-    semester: semester ? Number(semester) : undefined,
-    unit: unit ? Number(unit) : undefined,
-    description: description || "",
-    filename: req.file.originalname,
-    path: result.secure_url,
-    cloudinaryPublicId: result.public_id,
-    fileSize: result.bytes,
-  });
+      title,
+      subject,
+      semester: semester ? Number(semester) : undefined,
+      unit,
+      description: description || "",
+      filename: req.file.originalname,
+      path: result.secure_url,
+      cloudinaryPublicId: result.public_id,
+      fileSize: result.bytes,
+    });
 
     await newNote.save();
 
@@ -66,6 +65,7 @@ const uploadNote = async (req, res) => {
     console.error("Upload Error:", error);
     res.status(500).json({
       message: "File upload failed",
+      error: error.message,
     });
   }
 };

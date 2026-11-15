@@ -4,6 +4,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import StarsBackground from '../../components/StarBackground';
 import { toast } from 'react-hot-toast';
 
+const getUnitLabel = (u) => (u === "QB" ? "Question Bank" : `Unit ${u}`);
 const Students = () => {
   const handleDownload = async (fileUrl, fileName) => {
     try {
@@ -167,9 +168,9 @@ const filteredNotes = notes.filter(note =>
                   className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-white/5 md:hover:scale-105 hover:bg-purple-900/50 transition duration-300"
                 >
                   {/* Unit Badge */}
-                  <span className="text-sm font-bold text-purple-400 uppercase tracking-widest bg-purple-400/10 px-5 py-2 rounded-full w-fit mx-auto">
-                    UNIT-{note.unit || "N/A"}
-                  </span>
+<span className="text-sm font-bold text-purple-400 uppercase tracking-widest bg-purple-400/10 px-5 py-2 rounded-full w-fit mx-auto">
+  {note.unit ? getUnitLabel(note.unit) : "N/A"}
+</span>
 
                   {/* Subject */}
                   <h3 className="text-2xl font-bold tracking-tight">

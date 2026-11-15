@@ -3,6 +3,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+const getUnitLabel = (u) => (u === "QB" ? "Question Bank" : `Unit ${u}`);
 
 const Admin = () => {
   const isAuth = sessionStorage.getItem("adminAuth");
@@ -17,6 +18,7 @@ const Admin = () => {
   const [description, setDescription] = useState("");
   const [uploading, setUploading] = useState(false);
   
+
   const [statsData, setStatsData] = useState({
     totalNotes: 0,
     totalDownloads: 0,
@@ -213,7 +215,7 @@ const Admin = () => {
             </div>
           )}
         </div>
-
+          
         {showModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-2">
             <div className="bg-[#121212] border border-white/10 p-8 rounded-3xl w-full max-w-md shadow-2xl">
@@ -253,9 +255,9 @@ const Admin = () => {
                   onChange={(e) => setUnit(e.target.value)}
                 >
                   <option value="" className="bg-black">Select Unit</option>
-                  {[1, 2, 3, 4, 5].map((u) => (
+                  {[1, 2, 3, 4, 5, "QB"].map((u) => (
                     <option key={u} value={u} className="bg-black">
-                      Unit {u}
+                      {getUnitLabel(u)}
                     </option>
                   ))}
                 </select>
