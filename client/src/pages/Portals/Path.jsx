@@ -1,14 +1,10 @@
-import { memo, useEffect } from "react";
 import { GraduationCap, ShieldCheck } from "lucide-react";
 import Navbar from "../../components/Navbar/Navbar";
-import Button from "../../components/Buttons/Button"
+import Button from "../../components/Buttons/Button";
 import StarsBackground from "../../components/StarBackground";
 
 const Path = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-  
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 relative overflow-hidden">
       
@@ -78,4 +74,4 @@ const Path = () => {
   );
 };
 
-export default memo(Path);
+export default Path;
