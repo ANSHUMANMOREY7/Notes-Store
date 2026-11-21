@@ -2,7 +2,6 @@ import { useState , useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Button from "../../components/Buttons/Button";
-import StarsBackground from "../../components/StarBackground";
 import { toast } from 'react-hot-toast';
 
 
