@@ -1,13 +1,9 @@
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
-
+const PendingStaff = require("../models/PendingStaff");
 const Staff = require("../models/Staff");
 const AllowedStaff = require("../models/AllowedStaff");
 const transporter = require("../config/mail");
-
-// Temporary OTP storage.
-// We'll replace this with MongoDB storage before deployment.
-const pendingRegistrations = new Map();
 
 const registerStaff = async (req, res) => {
   try {
@@ -49,7 +45,28 @@ const registerStaff = async (req, res) => {
         message: "This staff account already exists",
       });
     }
+    const pendingStaff = await PendingStaff.findOne({
+        
+  email: normalizedEmail,
+});
+if (
+  pendingStaff &&
+  pendingStaff.attempts >= 5 &&
+  pendingStaff.expiresAt.getTime() > Date.now()
+) {
+  return res.status(429).json({
+    message: "Too many incorrect attempts. Try again after the OTP expires",
+  });
+}
 
+if (
+  pendingStaff?.lastOtpSentAt &&
+  Date.now() - pendingStaff.lastOtpSentAt.getTime() < 60 * 1000
+) {
+  return res.status(429).json({
+    message: "Please wait 60 seconds before requesting another OTP",
+  });
+}
     // Generate a secure 6-digit OTP
     const otp = crypto.randomInt(100000, 1000000).toString();
 
@@ -59,13 +76,24 @@ const registerStaff = async (req, res) => {
       .update(otp)
       .digest("hex");
 
-    pendingRegistrations.set(normalizedEmail, {
+   await PendingStaff.findOneAndUpdate(
+  { email: normalizedEmail },
+  {
+    $set: {
       name: name.trim(),
       passwordHash,
       otpHash,
-      expiresAt: Date.now() + 10 * 60 * 1000,
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000),
       attempts: 0,
-    });
+      lastOtpSentAt: new Date(),
+    },
+  },
+  {
+    upsert: true,
+    returnDocument: "after",
+    runValidators: true,
+  }
+);
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
@@ -85,4 +113,146 @@ const registerStaff = async (req, res) => {
   }
 };
 
-module.exports = { registerStaff };
+const verifyStaffOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    if (
+      typeof email !== "string" ||
+      typeof otp !== "string" ||
+      !/^\d{6}$/.test(otp)
+    ) {
+      return res.status(400).json({
+        message: "Enter a valid email and 6-digit OTP",
+      });
+    }
+
+    const normalizedEmail = email.trim().toLowerCase();
+
+    // Find the pending registration
+    const pendingStaff = await PendingStaff.findOne({
+      email: normalizedEmail,
+    }).select("+passwordHash +otpHash");
+
+    if (!pendingStaff) {
+      return res.status(400).json({
+        message: "Registration not found or expired",
+      });
+    }
+
+    // Check OTP expiration
+    if (pendingStaff.expiresAt.getTime() <= Date.now()) {
+      await PendingStaff.deleteOne({ _id: pendingStaff._id });
+
+      return res.status(400).json({
+        message: "OTP expired. Please register again",
+      });
+    }
+
+    // Allow a maximum of 5 incorrect attempts
+    if (pendingStaff.attempts >= 5) {
+      return res.status(429).json({
+        message: "Too many incorrect attempts. Request a new OTP",
+      });
+    }
+
+    // Hash the submitted OTP
+    const submittedOtpHash = crypto
+      .createHash("sha256")
+      .update(otp)
+      .digest("hex");
+
+    const isValidOtp = crypto.timingSafeEqual(
+      Buffer.from(submittedOtpHash, "hex"),
+      Buffer.from(pendingStaff.otpHash, "hex")
+    );
+
+    
+if (!isValidOtp) {
+  const result = await PendingStaff.updateOne(
+    {
+      _id: pendingStaff._id,
+      attempts: { $lt: 5 },
+      expiresAt: { $gt: new Date() },
+    },
+    {
+      $inc: { attempts: 1 },
+    }
+  );
+
+  if (result.modifiedCount === 0) {
+    return res.status(429).json({
+      message: "OTP expired or too many attempts",
+    });
+  }
+
+  return res.status(400).json({
+    message: "Incorrect OTP",
+  });
+}
+
+
+const claimedRegistration = await PendingStaff.findOneAndDelete({
+  _id: pendingStaff._id,
+  otpHash: submittedOtpHash,
+  attempts: { $lt: 5 },
+  expiresAt: { $gt: new Date() },
+});
+
+if (!claimedRegistration) {
+  return res.status(400).json({
+    message: "OTP expired, already used, or too many attempts",
+  });
+}
+
+
+
+    // Confirm that the email is still approved
+    const allowed = await AllowedStaff.findOne({
+      email: normalizedEmail,
+    });
+
+    if (!allowed) {
+      return res.status(403).json({
+        message: "This email is no longer approved",
+      });
+    }
+
+    // Create the permanent staff account
+    await Staff.create({
+      name: pendingStaff.name,
+      email: normalizedEmail,
+      password: pendingStaff.passwordHash,
+      isVerified: true,
+    });
+
+    // Mark approved email as registered
+    await AllowedStaff.updateOne(
+      { email: normalizedEmail },
+      { $set: { registered: true } }
+    );
+
+    return res.status(201).json({
+      message: "Email verified. Staff account created successfully",
+    });
+
+  } catch (error) {
+    if (error.code === 11000) {
+      return res.status(409).json({
+        message: "Staff account already exists",
+      });
+    }
+
+    console.error("OTP verification error:", error);
+
+    return res.status(500).json({
+      message: "Email verification failed",
+    });
+  }
+};
+
+
+module.exports = {
+  registerStaff,
+  verifyStaffOtp,
+};
