@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const PendingStaff = require("../models/PendingStaff");
@@ -192,7 +193,7 @@ if (!isValidOtp) {
 }
 
 
-const claimedRegistration = await PendingStaff.findOneAndDelete({
+const claimedRegistration = await PendingStaff.findOne({
   _id: pendingStaff._id,
   otpHash: submittedOtpHash,
   attempts: { $lt: 5 },
@@ -205,38 +206,79 @@ if (!claimedRegistration) {
   });
 }
 
+if (!claimedRegistration) {
+  return res.status(400).json({
+    message: "OTP expired, already used, or too many attempts",
+  });
+}
 
+  
+    // Complete staff registration using MongoDB transaction
+    await mongoose.connection.transaction(async (session) => {
 
-    // Confirm that the email is still approved
-    const allowed = await AllowedStaff.findOne({
-      email: normalizedEmail,
+      // Check and remove the pending registration
+      const pending = await PendingStaff.findOneAndDelete({
+        _id: pendingStaff._id,
+        otpHash: submittedOtpHash,
+        attempts: { $lt: 5 },
+        expiresAt: { $gt: new Date() },
+      }).session(session);
+
+      if (!pending) {
+        throw new Error("INVALID_REGISTRATION");
+      }
+
+      // Confirm the email is approved
+      const allowed = await AllowedStaff.findOneAndUpdate(
+        {
+          email: normalizedEmail,
+          registered: false,
+        },
+        {
+          $set: { registered: true },
+        },
+        {
+          session,
+          returnDocument: "after",
+        }
+      );
+
+      if (!allowed) {
+        throw new Error("NOT_APPROVED");
+      }
+
+      // Create the permanent verified staff account
+      await Staff.create(
+        [
+          {
+            name: pending.name,
+            email: normalizedEmail,
+            password: pending.passwordHash,
+            isVerified: true,
+          },
+        ],
+        { session }
+      );
     });
-
-    if (!allowed) {
-      return res.status(403).json({
-        message: "This email is no longer approved",
-      });
-    }
-
-    // Create the permanent staff account
-    await Staff.create({
-      name: pendingStaff.name,
-      email: normalizedEmail,
-      password: pendingStaff.passwordHash,
-      isVerified: true,
-    });
-
-    // Mark approved email as registered
-    await AllowedStaff.updateOne(
-      { email: normalizedEmail },
-      { $set: { registered: true } }
-    );
 
     return res.status(201).json({
       message: "Email verified. Staff account created successfully",
     });
 
+  
   } catch (error) {
+    if (error.message === "INVALID_REGISTRATION") {
+      return res.status(400).json({
+        message: "OTP expired, already used, or too many attempts",
+      });
+    }
+
+    if (error.message === "NOT_APPROVED") {
+      return res.status(403).json({
+        message: "Email not approved or already registered",
+      });
+    }
+
     if (error.code === 11000) {
       return res.status(409).json({
         message: "Staff account already exists",
