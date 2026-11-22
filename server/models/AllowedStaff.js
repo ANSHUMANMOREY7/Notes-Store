@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const approvedStaffSchema = new mongoose.Schema(
+const allowedStaffSchema = new mongoose.Schema(
   {
     email: {
       type: String,
@@ -19,6 +19,7 @@ const approvedStaffSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model(
-  "ApprovedStaff",
-  approvedStaffSchema
+  "AllowedStaff",
+  allowedStaffSchema,
+  "approvedstaffs"
 );
