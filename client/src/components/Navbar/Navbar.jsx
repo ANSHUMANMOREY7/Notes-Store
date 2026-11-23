@@ -8,11 +8,11 @@ import { FaBars, FaTimes } from 'react-icons/fa';
 const Navbar = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isAdmin = sessionStorage.getItem("adminAuth") === "true";
+  const isAdmin = Boolean(sessionStorage.getItem("adminToken")); 
   const closeMenu = () => setIsMenuOpen(false);
 
   const handleLogout = () => {
-    sessionStorage.removeItem("adminAuth");
+    sessionStorage.removeItem("adminToken");
     navigate("/");
     closeMenu();
     toast.success("Logged out successfully!");

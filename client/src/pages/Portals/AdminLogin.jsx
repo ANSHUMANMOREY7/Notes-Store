@@ -7,25 +7,100 @@ import { ShieldCheck } from "lucide-react";
 
 const AdminLogin = () => {
 
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
- useEffect(() => {
-    const isAuth = sessionStorage.getItem("adminAuth");
-    if (isAuth === "true") {
-      navigate("/admin");
-    }
-  }, [navigate]);
+useEffect(() => {
+  const token = sessionStorage.getItem("adminToken");
 
-  const handleLogin = () => {
-    if (password === "admin123") {
-      toast.success("Login successful!");
-      sessionStorage.setItem("adminAuth", "true");
-      navigate("/admin");
-    } else {
-      toast.error("Wrong password!");
+  if (token) {
+    navigate("/admin", { replace: true });
+  }
+}, [navigate]);
+
+  
+const handleSendOtp = async () => {
+  if (!email.trim()) {
+    return toast.error("Please enter your email");
+  }
+
+  setLoading(true);
+
+  try {
+    const response = await fetch(
+      "http://localhost:5000/api/auth/request-login-otp",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email.trim(),
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to send OTP");
     }
-  };
+
+    toast.success("OTP sent to your email!");
+    setOtpSent(true);
+
+  } catch (error) {
+    toast.error(error.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+const handleVerifyOtp = async () => {
+  if (!/^\d{6}$/.test(otp)) {
+    return toast.error("Enter a valid 6-digit OTP");
+  }
+
+  setLoading(true);
+
+  try {
+    const response = await fetch(
+      "http://localhost:5000/api/auth/verify-login-otp",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email.trim(),
+          otp,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Invalid OTP");
+    }
+
+    // Store JWT after successful verification
+    sessionStorage.setItem("adminToken", data.token);
+
+    toast.success("Login successful!");
+    navigate("/admin", { replace: true });
+
+  } catch (error) {
+    toast.error(error.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
   return (
   <>
     <Navbar />
@@ -57,20 +132,75 @@ const AdminLogin = () => {
         </h2>
 
         <div className="flex flex-col gap-2">
-          <input
-            type="password"
-            placeholder="Enter admin password"
-            className="p-3 h-12 rounded bg-gray-800 outline-none w-full border border-transparent focus:border-purple-500 transition-all text-white"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
-          />
+          
+<input
+  type="email"
+  placeholder="Enter registered email"
+  className="p-3 h-12 rounded bg-gray-800 outline-none w-full border border-transparent focus:border-purple-500 transition-all text-white"
+  value={email}
+  disabled={otpSent || loading}
+  onChange={(e) => setEmail(e.target.value)}
+  onKeyDown={(e) => {
+    if (e.key === "Enter" && !otpSent && !loading) {
+      handleSendOtp();
+    }
+  }}
+/>
 
-          <Button
-            label="Login"
-            onClick={handleLogin}
-            className="full-width"
-          />
+
+{/* OTP Input - appears after OTP is sent */}
+{otpSent && (
+  <input
+    type="text"
+    inputMode="numeric"
+    maxLength={6}
+    placeholder="Enter 6-digit OTP"
+    className="p-3 h-12 rounded bg-gray-800 outline-none w-full border border-transparent focus:border-purple-500 transition-all text-white"
+    value={otp}
+    onChange={(e) =>
+      setOtp(e.target.value.replace(/\D/g, ""))
+    }
+    onKeyDown={(e) => {
+      if (e.key === "Enter" && !loading) {
+        handleVerifyOtp();
+      }
+    }}
+  />
+)}
+
+
+          
+<Button
+  label={
+    loading
+      ? "Please wait..."
+      : otpSent
+      ? "Verify & Login"
+      : "Send OTP"
+  }
+  onClick={
+    loading
+      ? () => {}
+      : otpSent
+      ? handleVerifyOtp
+      : handleSendOtp
+  }
+  className="full-width"
+/>
+
+{otpSent && (
+  <button
+    type="button"
+    className="text-sm text-purple-300 hover:text-white"
+    onClick={() => {
+      setOtpSent(false);
+      setOtp("");
+    }}
+  >
+    Change Email
+  </button>
+)}
+
         </div>
 
       </div>

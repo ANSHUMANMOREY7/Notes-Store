@@ -6,7 +6,7 @@ import { toast } from 'react-hot-toast';
 const getUnitLabel = (u) => (u === "QB" ? "Question Bank" : `Unit ${u}`);
 
 const Admin = () => {
-  const isAuth = sessionStorage.getItem("adminAuth");
+  const isAuth = sessionStorage.getItem("adminToken");
   
   const [showModal, setShowModal] = useState(false);
   const [showStats, setShowStats] = useState(false);
@@ -32,7 +32,16 @@ const Admin = () => {
   // CHUNK 1: Function to fetch analytics from the backend
   const fetchStats = async () => {
     try {
-     const res = await axios.get("https://notes-store-backend.onrender.com/api/notes/stats");
+    const token = sessionStorage.getItem("adminToken");
+
+const res = await axios.get(
+  "http://localhost:5000/api/notes/stats",
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+);
       setStatsData(res.data);
     } catch (err) {
       console.error("Could not fetch stats", err);
