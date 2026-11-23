@@ -4,6 +4,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import Button from "../../components/Buttons/Button";
 import { toast } from 'react-hot-toast';
 import { ShieldCheck } from "lucide-react";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const AdminLogin = () => {
 
@@ -31,7 +32,7 @@ const handleSendOtp = async () => {
 
   try {
     const response = await fetch(
-      "http://localhost:5000/api/auth/request-login-otp",
+      `${API_URL}/api/auth/request-login-otp`,
       {
         method: "POST",
         headers: {
@@ -69,7 +70,7 @@ const handleVerifyOtp = async () => {
 
   try {
     const response = await fetch(
-      "http://localhost:5000/api/auth/verify-login-otp",
+      `${API_URL}/api/auth/verify-login-otp`,
       {
         method: "POST",
         headers: {

@@ -3,6 +3,8 @@ import Navbar from '../../components/Navbar/Navbar';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+const API_URL = import.meta.env.VITE_API_URL;
+
 const getUnitLabel = (u) => (u === "QB" ? "Question Bank" : `Unit ${u}`);
 
 const Admin = () => {
@@ -35,7 +37,7 @@ const Admin = () => {
     const token = sessionStorage.getItem("adminToken");
 
 const res = await axios.get(
-  "http://localhost:5000/api/notes/stats",
+  "${API_URL}/api/notes/stats",
   {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -79,7 +81,7 @@ const res = await axios.get(
 const token = sessionStorage.getItem("adminToken");
 
 await axios.post(
-  "http://localhost:5000/api/notes/upload",
+  "${API_URL}/api/notes/upload",
   formData,
   {
     headers: {

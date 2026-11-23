@@ -3,6 +3,7 @@ import axios from 'axios';
 import Navbar from '../../components/Navbar/Navbar';
 import StarsBackground from '../../components/StarBackground';
 import { toast } from 'react-hot-toast';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const AdminManageNotes = () => {
   
@@ -16,7 +17,8 @@ const AdminManageNotes = () => {
   const fetchNotes = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("https://notes-store-backend.onrender.com/api/notes");
+      const res = await axios.get(`${API_URL}/api/notes`
+);
       setNotes(res.data);
     } catch (err) {
       console.error(err);
@@ -80,14 +82,11 @@ const AdminManageNotes = () => {
 
 const token = sessionStorage.getItem("adminToken");
 
-await axios.delete(
-  `http://localhost:5000/api/notes/${id}`,
-  {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-);
+await axios.delete(`${API_URL}/api/notes/${id}`, {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
       setNotes((prev) => prev.filter((note) => note._id !== id));
       toast.success("Note deleted!", { id: loadingId });
     } catch (err) {

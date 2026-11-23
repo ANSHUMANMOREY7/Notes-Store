@@ -3,6 +3,7 @@ import axios from 'axios';
 import Navbar from '../../components/Navbar/Navbar';
 import StarsBackground from '../../components/StarBackground';
 import { toast } from 'react-hot-toast';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const getUnitLabel = (u) => (u === "QB" ? "Question Bank" : `Unit ${u}`);
 
@@ -62,7 +63,7 @@ const Students = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     toast.success("Student login successfull!");
-    axios.get("https://notes-store-backend.onrender.com/api/notes")
+    axios.get("`${API_URL}/api/notes`")
       .then(res => {
 
         setNotes(res.data);

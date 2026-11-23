@@ -1,10 +1,10 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Button from "../../components/Buttons/Button";
 import { toast } from "react-hot-toast";
 import { ShieldCheck } from "lucide-react";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const StaffRegister = () => {
   const [name, setName] = useState("");
@@ -25,7 +25,7 @@ const handleSendOtp = async () => {
 
   try {
     const response = await fetch(
-      "http://localhost:5000/api/auth/register",
+      "`${API_URL}/api/auth/register`",
       {
         method: "POST",
         headers: {
@@ -63,7 +63,7 @@ const handleVerifyOtp = async () => {
 
   try {
     const response = await fetch(
-      "http://localhost:5000/api/auth/verify-otp",
+      `${API_URL}/api/auth/verify-otp`,
       {
         method: "POST",
         headers: {
