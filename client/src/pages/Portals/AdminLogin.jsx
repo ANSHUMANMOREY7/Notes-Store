@@ -119,7 +119,8 @@ const handleVerifyOtp = async () => {
 </div>
 
       {/* Admin Login Card */}
-      <div className="admin-login-card bg-black/70 backdrop-blur-md p-8 sm:p-10 rounded-2xl w-full max-w-sm flex flex-col gap-5 shadow-xl transition duration-300 hover:scale-[1.02] hover:bg-purple-900 z-10">
+      <div className="admin-login-card bg-black/70 backdrop-blur-md p-6 sm:p-8 rounded-2xl w-full max-w-sm flex flex-col gap-4 shadow-xl transition duration-300 hover:scale-[1.02] hover:bg-purple-900 z-10"
+>
 
         <ShieldCheck
           size={49}
@@ -185,6 +186,16 @@ const handleVerifyOtp = async () => {
   }
   className="full-width"
 />
+
+<p className="text-center text-sm text-gray-400 mt-1">
+  New faculty member?{" "}
+  <span
+    onClick={() => navigate("/staff-register")}
+    className="text-white hover:text-purple-300 cursor-pointer font-semibold transition-colors"
+  >
+    Register here
+  </span>
+</p>
 
 {otpSent && (
   <button
