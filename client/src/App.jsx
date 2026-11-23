@@ -10,6 +10,7 @@ import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
+import StaffRegister from "./pages/Portals/StaffRegister";
 import { Toaster } from 'react-hot-toast'
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
      <Route path='/Path' element={<Path/>} />
      <Route path="/Student" element={<Students/>} />
      <Route path="/Admin-login" element={<AdminLogin/>} />
+     <Route path="/Staff-register" element={<StaffRegister/>} />
      <Route path='/Admin' element={<Admin/>}/>
      <Route path='/Admin/manage-notes' element={<AdminManageNotes/>} />
      <Route path="/about" element={<AboutUs />} />

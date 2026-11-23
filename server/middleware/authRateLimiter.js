@@ -11,6 +11,16 @@ const registerLimiter = rateLimit({
   },
 });
 
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 5,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  message: {
+    message: "Too many login requests. Try again in 15 minutes.",
+  },
+});
+
 // Limit OTP verification requests
 const verifyOtpLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -24,5 +34,6 @@ const verifyOtpLimiter = rateLimit({
 
 module.exports = {
   registerLimiter,
+  loginLimiter,
   verifyOtpLimiter,
 };

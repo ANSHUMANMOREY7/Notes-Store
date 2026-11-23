@@ -10,6 +10,7 @@ const {
 
 const {
   registerLimiter,
+  loginLimiter,
   verifyOtpLimiter,
 } = require("../middleware/authRateLimiter");
 
@@ -20,7 +21,7 @@ router.post("/register", registerLimiter, registerStaff);
 router.post("/verify-otp", verifyOtpLimiter, verifyStaffOtp);
 
 // Request OTP for staff login
-router.post("/request-login-otp", registerLimiter, requestLoginOtp);
+router.post("/request-login-otp", loginLimiter, requestLoginOtp);
 
 // Verify login OTP and receive JWT
 router.post("/verify-login-otp", verifyOtpLimiter, verifyLoginOtp);
