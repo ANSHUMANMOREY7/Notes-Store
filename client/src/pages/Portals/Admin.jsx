@@ -80,15 +80,11 @@ const res = await axios.get(
 
 const token = sessionStorage.getItem("adminToken");
 
-await axios.post(
-  "${API_URL}/api/notes/upload",
-  formData,
-  {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-);
+await axios.post(`${API_URL}/api/notes/upload`, formData, {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 
       
       toast.success("Note uploaded successfully!");

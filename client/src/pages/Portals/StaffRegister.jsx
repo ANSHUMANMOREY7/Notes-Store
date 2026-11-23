@@ -23,20 +23,20 @@ const handleSendOtp = async () => {
 
   setLoading(true);
 
-  try {
-    const response = await fetch(
-      "`${API_URL}/api/auth/register`",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: name.trim(),
-          email: email.trim(),
-        }),
-      }
-    );
+ try {
+  const response = await fetch(
+    `${API_URL}/api/auth/register`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name.trim(),
+        email: email.trim(),
+      }),
+    }
+  );
 
     const data = await response.json();
 
