@@ -10,7 +10,16 @@ const app = express();
 // Trust Render's reverse proxy
 app.set("trust proxy", 1);
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://notes-store-ghrce.netlify.app",
+    ],
+    methods: ["GET", "POST", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(express.json());
 
 app.use("/api/notes", uploadRoutes);
