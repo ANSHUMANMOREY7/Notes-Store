@@ -60,36 +60,45 @@ const Students = () => {
 
    const unitOrder = "asc"; // "asc" = 1 to 5
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-    toast.success("Student login successfull!");
-    axios.get("`${API_URL}/api/notes`")
-      .then(res => {
+ 
+useEffect(() => {
+  window.scrollTo({ top: 0, left: 0, behavior: "instant" });
 
-        setNotes(res.data);
+  toast.success("Student login successful!");
 
-      })
-      .catch(err => {
-        console.error(err);
-        toast.error("Unable to load notes. Please check your connection.");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+  axios.get(`${API_URL}/api/notes`)
+    .then(res => {
+      if (!Array.isArray(res.data)) {
+        throw new Error("Invalid notes response");
+      }
 
-  }, []);
+      setNotes(res.data);
+    })
+    .catch(err => {
+      console.error("Notes fetch error:", err);
+      setNotes([]);
+      toast.error("Unable to load notes. Please try again.");
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+
+}, []);
+
 
   // Subjects that exist in the selected semester (taken from the database notes)
+const safeNotes = Array.isArray(notes) ? notes : [];
+
 const availableSubjects = [
   ...new Set(
-    notes
-      .filter(note => selectedSemester === "all" || String(note.semester) === selectedSemester)
+    safeNotes
+  .filter(note => selectedSemester === "all" || String(note.semester) === selectedSemester)
       .map(note => note.subject?.trim())
       .filter(Boolean)
   ),
 ].sort();
 
-const filteredNotes = notes.filter(note =>
+const filteredNotes = safeNotes.filter(note =>
   (selectedSemester === "all" || String(note.semester) === selectedSemester) &&
   (selectedSubject === "all" || note.subject?.trim() === selectedSubject)
 );
