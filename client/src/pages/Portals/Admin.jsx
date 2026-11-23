@@ -75,9 +75,19 @@ const res = await axios.get(
     formData.append("file", file);
 
     try {
-      await axios.post("https://notes-store-backend.onrender.com/api/notes/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+
+const token = sessionStorage.getItem("adminToken");
+
+await axios.post(
+  "http://localhost:5000/api/notes/upload",
+  formData,
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+);
+
       
       toast.success("Note uploaded successfully!");
       

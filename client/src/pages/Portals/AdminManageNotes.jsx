@@ -77,7 +77,17 @@ const AdminManageNotes = () => {
     const loadingId = toast.loading("Purging from database...");
     try {
       setDeletingId(id);
-      await axios.delete(`https://notes-store-backend.onrender.com/api/notes/${id}`);
+
+const token = sessionStorage.getItem("adminToken");
+
+await axios.delete(
+  `http://localhost:5000/api/notes/${id}`,
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+);
       setNotes((prev) => prev.filter((note) => note._id !== id));
       toast.success("Note deleted!", { id: loadingId });
     } catch (err) {
