@@ -149,24 +149,22 @@ const handleVerifyOtp = async () => {
 
 
 {/* OTP Input - appears after OTP is sent */}
-{otpSent && (
-  <input
-    type="text"
-    inputMode="numeric"
-    maxLength={6}
-    placeholder="Enter 6-digit OTP"
-    className="p-3 h-12 rounded bg-gray-800 outline-none w-full border border-transparent focus:border-purple-500 transition-all text-white"
-    value={otp}
-    onChange={(e) =>
-      setOtp(e.target.value.replace(/\D/g, ""))
-    }
-    onKeyDown={(e) => {
-      if (e.key === "Enter" && !loading) {
-        handleVerifyOtp();
-      }
-    }}
-  />
-)}
+
+<input
+  type="text"
+  inputMode="numeric"
+  maxLength={6}
+  placeholder="Enter 6-digit OTP"
+  className={`p-3 h-12 rounded bg-gray-800 outline-none w-full border border-transparent focus:border-purple-500 transition-all text-white ${
+    !otpSent
+      ? "opacity-40 cursor-not-allowed"
+      : "opacity-100"
+  }`}
+  value={otp}
+  onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
+  disabled={!otpSent || loading}
+/>
+
 
 
           
