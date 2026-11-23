@@ -313,7 +313,7 @@ visibleNotes.map((note) => (
 
     {/* PDF Information */}
     {(note.pages || note.fileSize) && (
-      <p className="mt-auto text-xs text-gray-500 font-semibold tracking-wide">
+      <p className=" text-xs text-gray-500 font-semibold tracking-wide">
         📄 {note.pages
           ? `${note.pages} ${note.pages === 1 ? "page" : "pages"}`
           : "PDF"}
@@ -324,7 +324,7 @@ visibleNotes.map((note) => (
     )}
 
     {/* View + Delete Buttons */}
-    <div className={`flex gap-4 w-full pt-4 ${!(note.pages || note.fileSize) ? "mt-auto" : ""}`}>
+    <div className="flex gap-4 w-full mt-auto pt-4">
       <a
         href={note.path}
         target="_blank"
