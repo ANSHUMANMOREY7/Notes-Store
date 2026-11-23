@@ -3,7 +3,6 @@ const crypto = require("crypto");
 const PendingStaff = require("../models/PendingStaff");
 const Staff = require("../models/Staff");
 const AllowedStaff = require("../models/AllowedStaff");
-const transporter = require("../config/mail");
 const jwt = require("jsonwebtoken");
 const LoginOtp = require('../models/loginOtp');
 
@@ -120,12 +119,35 @@ const registerStaff = async (req, res) => {
     }
 
     // Send OTP to approved staff email
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: normalizedEmail,
+    const emailResponse = await fetch(
+  "https://api.brevo.com/v3/smtp/email",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "api-key": process.env.BREVO_API_KEY,
+    },
+    body: JSON.stringify({
+      sender: {
+        name: process.env.BREVO_SENDER_NAME,
+        email: process.env.BREVO_SENDER_EMAIL,
+      },
+      to: [
+        {
+          email: normalizedEmail,
+        },
+      ],
       subject: "Notes Store - Verify Your Email",
-      text: `Your Notes Store verification code is ${otp}. It expires in 10 minutes. If you didn't request this, ignore this email.`,
-    });
+      textContent: `Your Notes Store verification code is ${otp}. It expires in 10 minutes. If you didn't request this, ignore this email.`,
+    }),
+  }
+);
+
+if (!emailResponse.ok) {
+  const errorData = await emailResponse.text();
+  console.error("Brevo email error:", emailResponse.status, errorData);
+  throw new Error("Failed to send verification email");
+}
 
     return res.status(200).json({
       message: "Verification code sent to your email",
@@ -414,12 +436,40 @@ const requestLoginOtp = async (req, res) => {
     }
 
     // Send OTP to registered staff email
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: normalizedEmail,
+   
+// Send Login OTP using Brevo HTTPS API
+const emailResponse = await fetch(
+  "https://api.brevo.com/v3/smtp/email",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "api-key": process.env.BREVO_API_KEY,
+    },
+    body: JSON.stringify({
+      sender: {
+        name: process.env.BREVO_SENDER_NAME,
+        email: process.env.BREVO_SENDER_EMAIL,
+      },
+      to: [{ email: normalizedEmail }],
       subject: "Notes Store - Login OTP",
-      text: `Your Notes Store login OTP is ${otp}. It expires in 10 minutes. If you didn't request this, ignore this email.`,
-    });
+      textContent: `Your Notes Store login OTP is ${otp}. It expires in 10 minutes. If you didn't request this, ignore this email.`,
+    }),
+  }
+);
+
+if (!emailResponse.ok) {
+  const errorData = await emailResponse.text();
+
+  console.error(
+    "Brevo login OTP error:",
+    emailResponse.status,
+    errorData
+  );
+
+  throw new Error("Failed to send login OTP");
+}
+
 
     return res.status(200).json({
       message: "Login OTP sent to your email",
