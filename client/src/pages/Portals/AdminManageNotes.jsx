@@ -109,10 +109,38 @@ await axios.delete(
       .filter(Boolean)
   )].sort((a, b) => a.localeCompare(b));
 
-  const filteredNotes = notes.filter((note) =>
-    (selectedSemester === "all" || String(note.semester) === selectedSemester) &&
-    (selectedSubject === "all" || note.subject?.trim() === selectedSubject)
-  );
+  
+const getUnitOrder = (unit) => {
+  if (String(unit).toUpperCase() === "QB") return 0;
+
+  const number = Number(unit);
+  return Number.isInteger(number) && number >= 1 && number <= 5
+    ? number
+    : 6;
+};
+
+const filteredNotes = notes
+  .filter((note) =>
+    (selectedSemester === "all" ||
+      String(note.semester) === selectedSemester) &&
+    (selectedSubject === "all" ||
+      note.subject?.trim() === selectedSubject)
+  )
+  .sort((a, b) => {
+    const semesterDiff =
+      Number(a.semester) - Number(b.semester);
+
+    if (semesterDiff !== 0) return semesterDiff;
+
+    const subjectDiff = (a.subject || "").localeCompare(
+      b.subject || ""
+    );
+
+    if (subjectDiff !== 0) return subjectDiff;
+
+    return getUnitOrder(a.unit) - getUnitOrder(b.unit);
+  });
+
 
   const visibleNotes = filteredNotes.slice(0, visibleCount);
 
@@ -122,7 +150,9 @@ await axios.delete(
       
 
       <div className="relative z-10 flex flex-col items-center pt-24 px-4 w-full">
-        <h2 className="text-4xl font-bold text-white mb-2">Admin Notes Manager</h2>
+        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2 text-center leading-tight">
+  Admin Notes Manager
+</h2>
         <p className="text-gray-300 mb-10 text-center max-w-2xl">
           Review all uploaded notes, open them for inspection, or remove outdated content .
         </p>
@@ -226,12 +256,21 @@ await axios.delete(
                 key={note._id}
                 className="bg-black/70 text-white p-10 rounded-2xl flex flex-col items-center text-center gap-6 shadow-2xl border border-white/5 hover:scale-105 hover:bg-purple-900/50 transition duration-300"
               >
-                <div className="flex flex-col gap-2">
-                  <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest bg-purple-400/10 px-3 py-1 rounded-full w-fit mx-auto">
-                    {note.subject || "General"}
-                  </span>
-                  <h3 className="text-2xl font-bold tracking-tight">{note.title || "Untitled Note"}</h3>
-                </div>
+                
+<div className="flex flex-col gap-2">
+  <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest bg-purple-400/10 px-3 py-1 rounded-full w-fit mx-auto">
+    {String(note.unit).toUpperCase() === "QB"
+      ? "QUESTION BANK"
+      : note.unit
+      ? `UNIT ${note.unit}`
+      : "NO UNIT"}
+  </span>
+
+  <h3 className="text-2xl font-bold tracking-tight">
+    {note.title || note.subject || "Untitled Note"}
+  </h3>
+</div>
+
 
                 <p className="text-gray-400 text-sm leading-relaxed break-words">
                   {note.description || "No description provided."}

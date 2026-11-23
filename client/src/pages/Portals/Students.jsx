@@ -57,7 +57,7 @@ const Students = () => {
   const [selectedSemester, setSelectedSemester] = useState("all");
   const [selectedSubject, setSelectedSubject] = useState("all");
 
-  const [unitOrder, setUnitOrder] = useState("asc"); // "asc" = 1 to 5, "desc" = 5 to 1
+   const unitOrder = "asc"; // "asc" = 1 to 5
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
@@ -143,17 +143,7 @@ const visibleNotes = sortedNotes.slice(0, visibleCount);
     ))}
   </select>
     {/* Unit order dropdown */}
-  <select
-  value={unitOrder}
-  onChange={(e) => {
-    setUnitOrder(e.target.value);
-    setVisibleCount(3);
-  }}
-  className="md:w-48 px-4 py-3 rounded-xl text-sm font-semibold bg-black/60 border border-purple-500/30 text-white outline-none focus:border-purple-400 transition backdrop-blur-md cursor-pointer"
->
-  <option value="asc" className="bg-black text-white">Unit 1 → 5</option>
-  <option value="desc" className="bg-black text-white">Unit 5 → 1</option>
-</select>
+  
 </div>
 
 
@@ -263,7 +253,6 @@ const visibleNotes = sortedNotes.slice(0, visibleCount);
         onClick={() => {
   setSelectedSemester("all");
   setSelectedSubject("all");
-  setUnitOrder("asc");
   setVisibleCount(3);
   window.dispatchEvent(new Event("stars-shuffle"));
 }}

@@ -121,11 +121,11 @@ await axios.post(
         <div className="admin-content max-w-7xl mx-auto p-10 pt-24 relative z-10">
           
           {!showStats && (
-            <div className="relative pb-6 mb-10">
+            <div className="relative pb-2 mb-4 md:pb-6 md:mb-10">
               <div className="text-center">
                 <h2 className="text-4xl font-bold text-white mb-2 font-[font1]">Admin Panel</h2>
-                <p className="text-gray-300 font-normal font-sans mb-10 text-center">
-                  Manage your notes and uploads. Add, view, and delete study materials from a single secure dashboard.
+                  <p className="text-gray-300 font-normal font-sans mb-2 md:mb-10 text-center">
+                    Manage your notes and uploads. Add, view, and delete study materials from a single secure dashboard.
                 </p>
               </div>
               
@@ -133,8 +133,8 @@ await axios.post(
           )}
 
           {!showStats ? (
-            <div className="admin-card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
-              <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-purple-900 group">
+<              div className="admin-card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-4 md:mt-10">
+                <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-purple-900 group">
                 <div className="w-16 h-16 bg-purple-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">➕</div>
                 <h2 className="text-2xl font-bold">Upload Notes</h2><p className="text-gray-400 text-center text-sm leading-relaxed">
             upload your PDF study materials and notes to the repository with few clicks.

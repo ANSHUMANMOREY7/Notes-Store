@@ -100,7 +100,7 @@ return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-b from-black to-purple-900 text-white relative overflow-hidden px-5 pt-24 pb-12">
 
       {/* Page Heading */}
-      <div className="text-center px-4 mb-24 md:mb-10 -mt-20 md:mt-0">
+<div className="text-center px-4 mb-10 mt-0">
         <h1 className="text-white font-[font1] font-bold text-4xl sm:text-4xl md:text-4xl">
           Staff Registration
         </h1>
