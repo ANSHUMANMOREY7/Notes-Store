@@ -16,12 +16,6 @@ const staffSchema = new mongoose.Schema(
       trim: true,
     },
 
-    password: {
-      type: String,
-      required: true,
-      select: false,
-    },
-
     isVerified: {
       type: Boolean,
       default: false,

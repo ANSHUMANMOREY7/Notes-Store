@@ -15,12 +15,6 @@ const pendingStaffSchema = new mongoose.Schema({
     trim: true,
   },
 
-  passwordHash: {
-    type: String,
-    required: true,
-    select: false,
-  },
-
   otpHash: {
     type: String,
     required: true,

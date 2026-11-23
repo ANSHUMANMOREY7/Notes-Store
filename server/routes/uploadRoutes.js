@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-
+const authMiddleware = require("../middleware/authMiddleware");
 const Note = require("../models/Note");
 const {
   uploadNote,
@@ -15,7 +15,7 @@ const upload = multer({
 });
 
 // Get storage statistics
-router.get("/stats", getStats);
+router.get("/stats", authMiddleware, getStats);
 
 // Get all notes
 router.get("/", async (req, res) => {
@@ -28,9 +28,9 @@ router.get("/", async (req, res) => {
 });
 
 // Delete a note
-router.delete("/:id", deleteNote);
+router.delete("/:id", authMiddleware, deleteNote);
 
 // Upload a PDF
-router.post("/upload", upload.single("file"), uploadNote);
+router.post("/upload", authMiddleware, upload.single("file"), uploadNote);
 
 module.exports = router;

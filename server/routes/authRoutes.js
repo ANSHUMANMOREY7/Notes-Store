@@ -4,6 +4,8 @@ const router = express.Router();
 const {
   registerStaff,
   verifyStaffOtp,
+  requestLoginOtp,
+  verifyLoginOtp,
 } = require("../controllers/authController");
 
 const {
@@ -11,10 +13,16 @@ const {
   verifyOtpLimiter,
 } = require("../middleware/authRateLimiter");
 
-// Register approved staff and send OTP
+// First-time staff registration
 router.post("/register", registerLimiter, registerStaff);
 
-// Verify OTP and activate staff account
+// Verify registration OTP
 router.post("/verify-otp", verifyOtpLimiter, verifyStaffOtp);
+
+// Request OTP for staff login
+router.post("/request-login-otp", registerLimiter, requestLoginOtp);
+
+// Verify login OTP and receive JWT
+router.post("/verify-login-otp", verifyOtpLimiter, verifyLoginOtp);
 
 module.exports = router;

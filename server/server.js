@@ -4,6 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 const uploadRoutes = require("./routes/uploadRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 // Trust Render's reverse proxy
@@ -13,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/notes", uploadRoutes);
+app.use("/api/auth", authRoutes);
 
 app.get("/", (req, res) => {
   res.send("Backend running 🚀");
