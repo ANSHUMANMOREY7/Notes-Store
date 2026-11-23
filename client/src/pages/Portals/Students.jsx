@@ -267,16 +267,19 @@ const visibleNotes = sortedNotes.slice(0, visibleCount);
   <div className="col-span-1 w-full h-full">
     <div className="bg-black/70 text-white p-6 rounded-2xl flex flex-col gap-4 shadow-2xl border border-white/5 w-full h-full min-h-[340px] backdrop-blur-md">
 
-      {/* Badge + Book Icon */}
-      <div className="flex items-center justify-between">
-        <span className="text-xs font-bold text-purple-400 uppercase tracking-widest bg-purple-400/10 px-4 py-2 rounded-full">
-          Study Materials
-        </span>
+    {/* Badge + Book Icon */}
+<div className="flex items-center justify-between">
 
-        <div className="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center">
-          <BookOpen className="w-6 h-6 text-purple-400" />
-        </div>
-      </div>
+  <span className="text-xs font-bold text-red-400 uppercase tracking-widest bg-red-500/15 px-4 py-2 rounded-full flex items-center gap-2">
+    <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
+    Study Materials
+  </span>
+
+  <div className="w-12 h-12 rounded-full bg-red-500/15 flex items-center justify-center shadow-[0_0_25px_rgba(239,68,68,0.15)]">
+    <BookOpen className="w-6 h-6 text-red-400" />
+  </div>
+
+</div>
 
       {/* Heading + Description */}
       <div className="flex flex-col gap-3">
