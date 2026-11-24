@@ -6,6 +6,7 @@ import Students from "./pages/Portals/Students"
 import AdminLogin from "./pages/Portals/AdminLogin"
 import Admin from "./pages/Portals/Admin"
 import AdminManageNotes from "./pages/Portals/AdminManageNotes"
+import SuperAdmin from "./pages/Portals/SuperAdmin";
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
 import AboutUs from './pages/AboutUs';
@@ -60,6 +61,7 @@ function App() {
      <Route path="/Staff-register" element={<StaffRegister/>} />
      <Route path='/Admin' element={<Admin/>}/>
      <Route path='/Admin/manage-notes' element={<AdminManageNotes/>} />
+     <Route path="/admin/super-admin" element={<SuperAdmin />} />
      <Route path="/about" element={<AboutUs />} />
     </Routes> 
     </main>

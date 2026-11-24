@@ -3,6 +3,8 @@ import Navbar from '../../components/Navbar/Navbar';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { ShieldCheck } from "lucide-react";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 const getUnitLabel = (u) => (u === "QB" ? "Question Bank" : `Unit ${u}`);
@@ -11,6 +13,7 @@ const Admin = () => {
   const isAuth = sessionStorage.getItem("adminToken");
   
   const [showModal, setShowModal] = useState(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [showStats, setShowStats] = useState(false);
   const [file, setFile] = useState(null);
 
@@ -30,6 +33,28 @@ const Admin = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  useEffect(() => {
+  const checkSuperAdmin = async () => {
+    try {
+      const token = sessionStorage.getItem("adminToken");
+
+      if (!token) return;
+
+      await axios.get(`${API_URL}/api/super-admin/faculty`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setIsSuperAdmin(true);
+
+    } catch{
+      setIsSuperAdmin(false);
+    }
+  };
+
+  checkSuperAdmin();
+}, []);
 
   // CHUNK 1: Function to fetch analytics from the backend
   const fetchStats = async () => {
@@ -37,7 +62,7 @@ const Admin = () => {
     const token = sessionStorage.getItem("adminToken");
 
 const res = await axios.get(
-  "${API_URL}/api/notes/stats",
+  `${API_URL}/api/notes/stats`,
   {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -116,10 +141,10 @@ await axios.post(`${API_URL}/api/notes/upload`, formData, {
         
         
 
-        <div className="admin-content max-w-7xl mx-auto p-10 pt-24 relative z-10">
+        <div className="admin-content max-w-7xl mx-auto p-10 !pt-24 relative z-10">
           
           {!showStats && (
-            <div className="relative pb-2 mb-4 md:pb-6 md:mb-10">
+            <div className="relative pb-1 mb-4">
               <div className="text-center">
                 <h2 className="text-4xl font-bold text-white mb-2 font-[font1]">Admin Panel</h2>
                   <p className="text-gray-300 font-normal font-sans mb-2 md:mb-10 text-center">
@@ -131,8 +156,8 @@ await axios.post(`${API_URL}/api/notes/upload`, formData, {
           )}
 
           {!showStats ? (
-<              div className="admin-card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-4 md:mt-10">
-                <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-purple-900 group">
+  <div className="admin-card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 !gap-10 !mt-6">
+                <div className="bg-black/70 backdrop-blur-md p-10 min-h-[340px] w-full rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-purple-900 group ">
                 <div className="w-16 h-16 bg-purple-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">➕</div>
                 <h2 className="text-2xl font-bold">Upload Notes</h2><p className="text-gray-400 text-center text-sm leading-relaxed">
             upload your PDF study materials and notes to the repository with few clicks.
@@ -140,7 +165,7 @@ await axios.post(`${API_URL}/api/notes/upload`, formData, {
                 <button onClick={() => setShowModal(true)} className="bg-purple-600 hover:bg-purple-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer">Start Upload</button>
               </div>
 
-              <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-blue-900 group">
+              <div className=" bg-black/70 backdrop-blur-md p-10 min-h-[340px] w-full rounded-2xl flex flex-col items-center text-center  border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-blue-900 group gap-6">
                 <div className="w-16 h-16 bg-blue-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">📝</div>
                 <h2 className="text-2xl font-bold">Manage Notes</h2>
                 <p className="text-gray-400 text-center text-sm leading-relaxed">
@@ -150,7 +175,7 @@ await axios.post(`${API_URL}/api/notes/upload`, formData, {
 
               </div>
 
-              <div className="bg-black/70 backdrop-blur-md p-10 rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-green-900 group">
+              <div className="bg-black/70 backdrop-blur-md p-10 min-h-[340px] w-full rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-green-900 group">
                 <div className="w-16 h-16 bg-green-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">📊</div>
                 <h2 className="text-2xl font-bold">View Stats</h2>
                 <p className="text-gray-400 text-center text-sm leading-relaxed">
@@ -161,15 +186,41 @@ await axios.post(`${API_URL}/api/notes/upload`, formData, {
     navigate("?view=stats");
     
   }}
+  
   className="bg-green-600 hover:bg-green-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer"
 >
-  View Analytics
+   View Analytics
 </button>
-                
-              </div>
-            </div>
-          ) : (
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+</div>
+
+{/* Super Admin Card */}
+{isSuperAdmin && (
+  <div className="bg-black/70 backdrop-blur-md p-10 min-h-[340px] w-full rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-amber-900 group">
+
+    <div className="w-16 h-16 bg-amber-600/20 rounded-full flex items-center justify-center animate-pulse group-hover:animate-none">
+      <ShieldCheck className="w-9 h-9 text-amber-400" />
+    </div>
+
+    <h2 className="text-2xl font-bold">Manage Faculty</h2>
+
+    <p className="text-gray-400 text-center text-sm leading-relaxed">
+      Authorize faculty emails and manage their access permissions.
+    </p>
+
+    <button
+      onClick={() => navigate("/admin/super-admin")}
+      className="bg-amber-600 hover:bg-amber-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer"
+    >
+      Manage Access
+    </button>
+
+  </div>
+)}
+
+</div>
+
+) : (
+  <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
              
 <div className="flex items-center gap-4 mb-1 justify-center">
   <h2 className="text-4xl font-bold">Platform Analytics</h2>

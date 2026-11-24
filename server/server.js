@@ -2,11 +2,15 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const app = express();
+app.use(express.json());
 
 const uploadRoutes = require("./routes/uploadRoutes");
 const authRoutes = require("./routes/authRoutes");
 
-const app = express();
+const superAdminRoutes = require("./routes/superAdminRoutes");
+
+
 // Trust Render's reverse proxy
 app.set("trust proxy", 1);
 
@@ -20,10 +24,10 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-app.use(express.json());
 
 app.use("/api/notes", uploadRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/super-admin", superAdminRoutes);
 
 app.get("/", (req, res) => {
   res.send("Backend running 🚀");
