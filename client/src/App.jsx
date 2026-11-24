@@ -12,6 +12,7 @@ import ScrollToTop from './components/ScrollToTop'
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 import StaffRegister from "./pages/Portals/StaffRegister";
+import ProtectedRoute from "./pages/Portals/ProtectedRoute";
 import { Toaster } from 'react-hot-toast'
 
 function App() {
@@ -59,9 +60,31 @@ function App() {
      <Route path="/Student" element={<Students/>} />
      <Route path="/Admin-login" element={<AdminLogin/>} />
      <Route path="/Staff-register" element={<StaffRegister/>} />
-     <Route path='/Admin' element={<Admin/>}/>
-     <Route path='/Admin/manage-notes' element={<AdminManageNotes/>} />
-     <Route path="/admin/super-admin" element={<SuperAdmin />} />
+     <Route
+  path="/Admin/manage-notes"
+  element={
+    <ProtectedRoute>
+      <AdminManageNotes />
+    </ProtectedRoute>
+  }
+/>
+     <Route
+  path="/admin"
+  element={
+    <ProtectedRoute>
+      <Admin />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/super-admin"
+  element={
+    <ProtectedRoute>
+      <SuperAdmin />
+    </ProtectedRoute>
+  }
+/>
      <Route path="/about" element={<AboutUs />} />
     </Routes> 
     </main>

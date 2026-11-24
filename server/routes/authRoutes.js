@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const authMiddleware = require("../middleware/authMiddleware");
 const {
   registerStaff,
   verifyStaffOtp,
@@ -25,5 +25,13 @@ router.post("/request-login-otp", loginLimiter, requestLoginOtp);
 
 // Verify login OTP and receive JWT
 router.post("/verify-login-otp", verifyOtpLimiter, verifyLoginOtp);
+
+// Validate current staff session
+router.get("/session", authMiddleware, (req, res) => {
+  res.status(200).json({
+    message: "Session is valid",
+    staff: req.staff,
+  });
+});
 
 module.exports = router;
