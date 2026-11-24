@@ -589,14 +589,17 @@ const verifyLoginOtp = async (req, res) => {
     }
 
     // Generate JWT valid for 8 hours
-    const token = jwt.sign(
-      { staffId: staff._id.toString() },
-      process.env.JWT_SECRET,
-      {
-        algorithm: "HS256",
-        expiresIn: "8h",
-      }
-    );
+   const token = jwt.sign(
+  {
+    staffId: staff._id.toString(),
+    approvalId: allowed._id.toString(),
+  },
+  process.env.JWT_SECRET,
+  {
+    algorithm: "HS256",
+    expiresIn: "8h",
+  }
+);
 
     return res.status(200).json({
       message: "Login successful",
