@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import Navbar from "../../components/Navbar/Navbar";
@@ -8,9 +8,7 @@ import { ShieldCheck } from "lucide-react";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const SuperAdmin = () => {
-  const navigate = useNavigate();
   const token = sessionStorage.getItem("adminToken");
-
   const [faculty, setFaculty] = useState([]);
   const [loading, setLoading] = useState(true);
   const [accessDenied, setAccessDenied] = useState(false);
@@ -148,12 +146,6 @@ const handleRevoke = async (id) => {
             Manage faculty authorization and access permissions.
           </p>
 
-          <button
-            onClick={() => navigate("/admin")}
-            className="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-xl cursor-pointer mb-8"
-          >
-            Back to Admin
-          </button>
             {/* Faculty Statistics */}
 {!loading && !fetchError && !accessDenied && (
   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
@@ -229,9 +221,50 @@ const handleRevoke = async (id) => {
     </form>
   </div>
 )}
-          {loading ? (
-            <p>Loading faculty...</p>
-          ) : fetchError ? (
+         {loading ? (
+  <div className="animate-pulse">
+
+    {/* Statistics Skeleton */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+      {[1, 2, 3].map((item) => (
+        <div
+          key={item}
+          className="bg-black/60 p-8 rounded-3xl border border-white/10"
+        >
+          <div className="h-4 w-36 bg-white/10 rounded mb-4" />
+          <div className="h-12 w-16 bg-white/10 rounded-lg" />
+        </div>
+      ))}
+    </div>
+
+    {/* Authorization Form Skeleton */}
+    <div className="bg-black/70 p-8 rounded-2xl border border-white/10 mb-10">
+      <div className="h-7 w-48 bg-white/10 rounded mb-3" />
+      <div className="h-4 w-3/4 bg-white/10 rounded mb-6" />
+
+      <div className="flex flex-col md:flex-row gap-4">
+        <div className="h-12 flex-1 bg-white/10 rounded-xl" />
+        <div className="h-12 w-full md:w-48 bg-white/10 rounded-xl" />
+      </div>
+    </div>
+
+    {/* Faculty List Skeleton */}
+    {[1, 2].map((item) => (
+      <div
+        key={item}
+        className="bg-black/70 border border-white/10 rounded-2xl p-6 mb-4 flex flex-col md:flex-row md:items-center justify-between gap-4"
+      >
+        <div className="flex-1">
+          <div className="h-5 w-full max-w-xs bg-white/10 rounded mb-3" />
+          <div className="h-6 w-24 bg-white/10 rounded-full" />
+        </div>
+
+        <div className="h-12 w-full md:w-40 bg-white/10 rounded-xl" />
+      </div>
+    ))}
+
+  </div>
+) : fetchError ? (
             <p>Unable to load faculty. Please refresh the page.</p>
           ) : faculty.length === 0 ? (
             <p>No authorized faculty found.</p>

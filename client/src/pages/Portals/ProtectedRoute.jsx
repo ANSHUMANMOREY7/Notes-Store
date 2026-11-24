@@ -17,13 +17,11 @@ const ProtectedRoute = ({ children }) => {
 
     const validateSession = async () => {
       if (!token) {
-        setStatus("unauthorized");
-        return;
-      }
+  setStatus("unauthorized");
+  return;
+}
 
-      setStatus("loading");
-
-      try {
+try {
         await axios.get(`${API_URL}/api/auth/session`, {
           headers: {
             Authorization: `Bearer ${token}`,
