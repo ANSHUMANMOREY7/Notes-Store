@@ -48,7 +48,12 @@ const authMiddleware = async (req, res, next) => {
         message: "Staff access has been revoked",
       });
     }
-
+    // Prevent old sessions from becoming valid after reauthorization
+if (decoded.approvalId !== allowed._id.toString()) {
+  return res.status(401).json({
+    message: "Session expired. Please log in again.",
+  });
+}
     // Attach staff information to request
     req.staff = {
       id: staff._id,
