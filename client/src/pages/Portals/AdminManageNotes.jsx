@@ -1,10 +1,10 @@
 import { memo, useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from '../../components/Navbar/Navbar';
-import StarsBackground from '../../components/StarBackground';
 import { toast } from 'react-hot-toast';
 const API_URL = import.meta.env.VITE_API_URL;
 import { BookOpen } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 const AdminManageNotes = () => {
   
@@ -34,46 +34,60 @@ const AdminManageNotes = () => {
     fetchNotes();
   }, []);
 
-  const handleDelete = (id) => {
-    toast((t) => (
-      <div className="flex flex-col gap-4">
-        <p className="text-white font-medium text-center">
-          Delete this PDF permanently?
-        </p>
-        <div className="flex gap-3 justify-center">
+ const handleDelete = (id) => {
+  toast.custom(
+    (t) => (
+      <div className="bg-[#1a1717] text-white border border-white/10 rounded-2xl p-5 shadow-2xl w-[360px] max-w-[90vw]">
+
+        <div className="flex items-start gap-3 mb-5">
+
+          <div className="bg-red-500/10 p-3 rounded-full">
+            <Trash2 className="w-6 h-6 text-red-400" />
+          </div>
+
+          <div>
+            <h3 className="font-bold text-base mb-1">
+              Delete PDF Permanently?
+            </h3>
+
+            <p className="text-gray-400 text-sm leading-relaxed">
+              This PDF will be permanently deleted.
+              This action cannot be undone.
+            </p>
+          </div>
+
+        </div>
+
+        <div className="flex gap-3">
 
           <button
-            onClick={async () => {
-              toast.dismiss(t.id);
-              await executeDeletion(id);
-            }}
-            className="px-6 py-2 border border-red-600 text-red-600 rounded-xl font-bold hover:bg-red-500/10 transition hover:text-red transition-all duration-300 cursor-pointer"
-          >
-            Yes, Delete
-          </button>
-
-          {/* Styled CANCEL Button - Matching your card's View button style */}
-          <button
-            onClick={() => toast.dismiss(t.id)}
-            className="px-6 py-2 bg-white text-black rounded-xl font-bold hover:bg-gray-200 transition-all duration-300 cursor-pointer"
+            onClick={() => toast.remove(t.id)}
+            className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 py-3 rounded-xl font-bold text-sm cursor-pointer transition"
           >
             Cancel
           </button>
+
+          <button
+            onClick={async () => {
+              toast.remove(t.id);
+              await executeDeletion(id);
+            }}
+            className="flex-1 bg-red-600 hover:bg-red-700 py-3 rounded-xl font-bold text-sm cursor-pointer transition"
+          >
+            Delete PDF
+          </button>
+
         </div>
+
       </div>
-    ), {
-      duration: 10 * 1000, // 20 seconds = 20000 milliseconds
-      position: 'top-center',
-      // Removed the red border here
-      style: {
-        background: '#1a1a1a',
-        border: '1px solid #333', // Subtle dark border instead of red
-        padding: '24px',
-        borderRadius: '20px',
-        boxShadow: '0 10px 25px rgba(0,0,0,0.5)'
-      }
-    });
-  };
+    ),
+    {
+      id: "delete-confirmation",
+      duration: Infinity,
+      position: "top-center",
+    }
+  );
+};
 
   // Separated Deletion Logic
   const executeDeletion = async (id) => {
