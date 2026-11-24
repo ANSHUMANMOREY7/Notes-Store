@@ -3,7 +3,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import { ShieldCheck, Loader2 } from "lucide-react";
+import { ShieldCheck, Loader2, CloudUpload } from "lucide-react";
 
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -327,7 +327,7 @@ await axios.post(`${API_URL}/api/notes/upload`, formData, {
           
         {showModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-2">
-            <div className="bg-[#121212] border border-white/10 p-8 rounded-3xl w-full max-w-md shadow-2xl">
+            <div className="relative bg-[#121212] border border-white/10 p-8 rounded-3xl w-full max-w-md shadow-2xl">
               <h2 className="text-2xl font-bold mb-2 text-purple-400">Add New Note</h2>
               <form onSubmit={handleUpload}>
   <fieldset
@@ -493,6 +493,38 @@ await axios.post(`${API_URL}/api/notes/upload`, formData, {
 </div>
                 </fieldset>
 </form>
+{/* Uploading Animation Overlay */}
+{uploading && (
+  <div
+    role="status"
+    className="absolute inset-0 z-20 bg-[#121212] rounded-3xl flex flex-col items-center justify-center gap-5 px-6 text-center"
+  >
+    <div className="relative w-20 h-20 flex items-center justify-center">
+
+      {/* Background Ring */}
+      <div className="absolute inset-0 rounded-full border-[3px] border-purple-500/20" />
+
+      {/* Rotating Ring */}
+      <div className="absolute inset-0 rounded-full border-[3px] border-transparent border-t-purple-500 animate-spin" />
+
+      {/* Upload Icon */}
+      <CloudUpload className="w-9 h-9 text-purple-400" />
+
+    </div>
+
+    <h2 className="font-[font1] text-2xl font-bold tracking-wide">
+      Uploading Notes
+    </h2>
+
+    <p className="text-gray-400 text-sm">
+      Securely uploading your PDF...
+    </p>
+
+    <p className="text-gray-500 text-xs">
+      Please wait. Do not close this page.
+    </p>
+  </div>
+)}
             </div>
           </div>
         )}
