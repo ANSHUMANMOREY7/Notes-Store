@@ -3,6 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import Navbar from "../../components/Navbar/Navbar";
+import { ShieldCheck } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -254,17 +255,29 @@ const handleRevoke = async (id) => {
       >
         {staff.registered ? "Registered" : "Pending"}
       </span>
+      {staff.isSuperAdmin && (
+  <span className="inline-block ml-2 mt-2 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/15 text-amber-400">
+    Super Admin
+  </span>
+)}
     </div>
 
-    <button
-      onClick={() => handleRevoke(staff._id)}
-      disabled={revokingId !== null}
-      className="border border-red-500/50 text-red-400 hover:bg-red-500/10 px-6 py-3 rounded-xl font-bold transition cursor-pointer disabled:opacity-50"
-    >
-      {revokingId === staff._id
-        ? "Revoking..."
-        : "Revoke Access"}
-    </button>
+    {staff.isSuperAdmin ? (
+  <div className="flex items-center justify-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 px-6 py-3 rounded-xl font-bold">
+    <ShieldCheck className="w-5 h-5" />
+    Protected
+  </div>
+) : (
+  <button
+    onClick={() => handleRevoke(staff._id)}
+    disabled={revokingId !== null}
+    className="border border-red-500/50 text-red-400 hover:bg-red-500/10 px-6 py-3 rounded-xl font-bold transition cursor-pointer disabled:opacity-50"
+  >
+    {revokingId === staff._id
+      ? "Revoking..."
+      : "Revoke Access"}
+  </button>
+)}
   </div>
 ))
           )}
