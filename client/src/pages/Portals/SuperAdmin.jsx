@@ -16,6 +16,7 @@ const SuperAdmin = () => {
   const [fetchError, setFetchError] = useState(false);
 const [email, setEmail] = useState("");
 const [authorizing, setAuthorizing] = useState(false);
+const [revokingId, setRevokingId] = useState(null);
   // Fetch authorized faculty
   useEffect(() => {
     const fetchFaculty = async () => {
@@ -90,6 +91,43 @@ const handleAuthorize = async (e) => {
 };
 
   if (!token) return <Navigate to="/admin-login" replace />;
+  // Revoke faculty access
+const handleRevoke = async (id) => {
+  if (revokingId) return;
+
+  const confirmed = window.confirm(
+    "Are you sure you want to revoke this faculty's access?"
+  );
+
+  if (!confirmed) return;
+
+  setRevokingId(id);
+
+  try {
+    await axios.delete(
+      `${API_URL}/api/super-admin/faculty/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    setFaculty((prev) =>
+      prev.filter((staff) => staff._id !== id)
+    );
+
+    toast.success("Faculty access revoked successfully!");
+
+  } catch (error) {
+    toast.error(
+      error.response?.data?.message ||
+      "Failed to revoke faculty access"
+    );
+  } finally {
+    setRevokingId(null);
+  }
+};
 
   if (accessDenied) return <Navigate to="/admin" replace />;
 
@@ -197,15 +235,38 @@ const handleAuthorize = async (e) => {
           ) : faculty.length === 0 ? (
             <p>No authorized faculty found.</p>
           ) : (
-            faculty.map((staff) => (
-              <div key={staff._id} className="mb-4">
-                <p>{staff.email}</p>
+           faculty.map((staff) => (
+  <div
+    key={staff._id}
+    className="bg-black/70 backdrop-blur-md border border-white/10 rounded-2xl p-6 mb-4 flex flex-col md:flex-row md:items-center justify-between gap-4"
+  >
+    <div className="min-w-0">
+      <p className="text-lg font-bold break-all">
+        {staff.email}
+      </p>
 
-                <p className="text-gray-400">
-                  {staff.registered ? "Registered" : "Pending"}
-                </p>
-              </div>
-            ))
+      <span
+        className={`inline-block mt-2 px-3 py-1 rounded-full text-xs font-bold ${
+          staff.registered
+            ? "bg-green-500/15 text-green-400"
+            : "bg-amber-500/15 text-amber-400"
+        }`}
+      >
+        {staff.registered ? "Registered" : "Pending"}
+      </span>
+    </div>
+
+    <button
+      onClick={() => handleRevoke(staff._id)}
+      disabled={revokingId !== null}
+      className="border border-red-500/50 text-red-400 hover:bg-red-500/10 px-6 py-3 rounded-xl font-bold transition cursor-pointer disabled:opacity-50"
+    >
+      {revokingId === staff._id
+        ? "Revoking..."
+        : "Revoke Access"}
+    </button>
+  </div>
+))
           )}
 
         </div>
