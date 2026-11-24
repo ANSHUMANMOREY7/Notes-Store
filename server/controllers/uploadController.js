@@ -36,19 +36,52 @@ const uploadToCloudinary = (file) => {
 
 const uploadNote = async (req, res) => {
   try {
-    const { title, subject, semester, unit, description } = req.body;
+    const { subject, semester, unit, description } = req.body;
 
-    if (!title || !subject) {
-      return res.status(400).json({ message: "Title and subject are required" });
+    if (typeof subject !== "string" || !subject.trim()) {
+      return res.status(400).json({
+        message: "Subject is required",
+      });
+    }
+
+    const semesterNumber = Number(semester);
+
+    if (![1, 2, 3, 4].includes(semesterNumber)) {
+      return res.status(400).json({
+        message: "Invalid semester",
+      });
     }
 
     if (!unit) {
-      return res.status(400).json({ message: "Unit is required" });
+      return res.status(400).json({
+        message: "Unit is required",
+      });
     }
 
     if (!req.file) {
-      return res.status(400).json({ message: "No file uploaded" });
+      return res.status(400).json({
+        message: "No file uploaded",
+      });
     }
+
+    // Clean subject name
+    const cleanSubject = subject.trim().replace(/\s+/g, " ");
+
+    // Fetch existing subjects for selected semester
+    const existingSubjects = await Note.distinct("subject", {
+      semester: semesterNumber,
+    });
+
+    // Check for existing subject (ignore case and extra spaces)
+    const matchedSubject = existingSubjects.find(
+      (sub) =>
+        sub.trim().replace(/\s+/g, " ").toLowerCase() ===
+        cleanSubject.toLowerCase()
+    );
+
+    
+    // Reuse existing subject name if available
+    const finalSubject = matchedSubject || cleanSubject;
 
     // Upload PDF to Cloudinary
     const result = await uploadToCloudinary(req.file);
@@ -58,9 +91,9 @@ const uploadNote = async (req, res) => {
     console.log("PAGE COUNT:", pageCount);
 
     const newNote = new Note({
-      title,
-      subject,
-      semester: semester ? Number(semester) : undefined,
+      title: finalSubject,
+      subject: finalSubject,
+      semester: semesterNumber,
       unit,
       description: description || "",
       filename: req.file.originalname,
@@ -76,8 +109,10 @@ const uploadNote = async (req, res) => {
       message: "File uploaded successfully",
       note: newNote,
     });
+
   } catch (error) {
     console.error("Upload Error:", error);
+
     res.status(500).json({
       message: "File upload failed",
       error: error.message,

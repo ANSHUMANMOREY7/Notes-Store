@@ -3,7 +3,8 @@ import Navbar from '../../components/Navbar/Navbar';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Loader2 } from "lucide-react";
+
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -18,6 +19,10 @@ const Admin = () => {
   const [file, setFile] = useState(null);
 
   const [subject, setSubject] = useState("");
+  const [existingNotes, setExistingNotes] = useState([]);
+const [loadingSubjects, setLoadingSubjects] = useState(false);
+const [subjectLoadError, setSubjectLoadError] = useState(false);
+const [addingNewSubject, setAddingNewSubject] = useState(false);
   const [semester, setSemester] = useState("");
   const [unit, setUnit] = useState("");
   const [description, setDescription] = useState("");
@@ -55,6 +60,29 @@ const Admin = () => {
 
   checkSuperAdmin();
 }, []);
+// Fetch existing subjects when upload modal opens
+useEffect(() => {
+  if (!showModal) return;
+
+  const fetchSubjects = async () => {
+    setLoadingSubjects(true);
+    setSubjectLoadError(false);
+setExistingNotes([]);
+
+    try {
+      const res = await axios.get(`${API_URL}/api/notes`);
+      setExistingNotes(res.data);
+    } catch (error) {
+      setSubjectLoadError(true);
+      console.error("Failed to fetch subjects:", error);
+      toast.error("Failed to load subjects");
+    } finally {
+      setLoadingSubjects(false);
+    }
+  };
+
+  fetchSubjects();
+}, [showModal]);
 
   // CHUNK 1: Function to fetch analytics from the backend
   const fetchStats = async () => {
@@ -87,7 +115,17 @@ const res = await axios.get(
     }
   }, [location.search]);
 
-
+const availableSubjects = [
+  ...new Map(
+    existingNotes
+      .filter((note) => Number(note.semester) === Number(semester))
+      .filter((note) => note.subject?.trim())
+      .map((note) => {
+        const name = note.subject.trim().replace(/\s+/g, " ");
+        return [name.toLowerCase(), name];
+      })
+  ).values(),
+].sort((a, b) => a.localeCompare(b));
   
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -121,11 +159,14 @@ await axios.post(`${API_URL}/api/notes/upload`, formData, {
       setFile(null);
       setSubject("");
       setSemester("");
+      setAddingNewSubject(false);
       setUnit("");
       setDescription("");
     } catch (err) {
       console.error(err);
-      toast.error("Error uploading file.");
+      toast.error(
+  err.response?.data?.message || "Error uploading file."
+);
     } finally {
       setUploading(false);
     }
@@ -288,33 +329,80 @@ await axios.post(`${API_URL}/api/notes/upload`, formData, {
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-2">
             <div className="bg-[#121212] border border-white/10 p-8 rounded-3xl w-full max-w-md shadow-2xl">
               <h2 className="text-2xl font-bold mb-2 text-purple-400">Add New Note</h2>
-              <form onSubmit={handleUpload} className="flex flex-col gap-3 ">
-                              {/* Subject */}
-                  <input
-                    type="text"
-                    placeholder="Subject"
-                    required
-                    className="bg-white/5 border border-white/10 p-3 rounded-xl outline-none focus:border-purple-500"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                  />
-                  
+              <form onSubmit={handleUpload}>
+  <fieldset
+    disabled={uploading}
+    className="flex flex-col gap-3 disabled:cursor-not-allowed"
+  >
+            {/* Semester */}
+<select
+  required
+  className="bg-white/5 border border-white/10 p-3 rounded-xl outline-none focus:border-purple-500 text-gray-400"
+  value={semester}
+  onChange={(e) => {
+    setSemester(e.target.value);
+    setSubject("");
+    setAddingNewSubject(false);
+  }}
+>
+  <option value="" className="bg-black">
+    Select Semester
+  </option>
 
-                {/* Semester */}
-                <select
-                  required
-                  className="bg-white/5 border border-white/10 p-3 rounded-xl outline-none focus:border-purple-500 text-gray-400"
-                  value={semester}
-                  onChange={(e) => setSemester(e.target.value)}
-                >
-                  <option value="" className="bg-black">Select Semester</option>
-                  {[1, 2, 3, 4].map((sem) => (
-                    <option key={sem} value={sem} className="bg-black">
-                      Semester {sem}
-                    </option>
-                  ))}
-                </select>
+  {[1, 2, 3, 4].map((sem) => (
+    <option key={sem} value={sem} className="bg-black">
+      Semester {sem}
+    </option>
+  ))}
+</select>
 
+{/* Subject */}
+<select
+  required
+  disabled={!semester || loadingSubjects || uploading || subjectLoadError}
+  className="bg-white/5 border border-white/10 p-3 rounded-xl outline-none focus:border-purple-500 text-gray-400 disabled:opacity-40 disabled:cursor-not-allowed"
+  value={addingNewSubject ? "__new__" : subject}
+  onChange={(e) => {
+    if (e.target.value === "__new__") {
+      setAddingNewSubject(true);
+      setSubject("");
+    } else {
+      setAddingNewSubject(false);
+      setSubject(e.target.value);
+    }
+  }}
+>
+  <option value="" className="bg-black">
+    {loadingSubjects
+      ? "Loading Subjects..."
+      : !semester
+      ? "Select Semester First"
+      : "Select Subject"}
+  </option>
+
+  {availableSubjects.map((sub) => (
+    <option key={sub} value={sub} className="bg-black">
+      {sub}
+    </option>
+  ))}
+
+  <option value="__new__" className="bg-black">
+  + Add New Subject
+</option>
+</select>
+
+{/* New Subject Input */}
+{addingNewSubject && (
+  <input
+    type="text"
+    placeholder="Enter New Subject Name"
+    required
+    className="bg-white/5 border border-white/10 p-3 rounded-xl outline-none focus:border-purple-500"
+    value={subject}
+    onChange={(e) => setSubject(e.target.value)}
+  />
+)}
+             
                 {/* Unit */}
                 <select
                   required
@@ -341,15 +429,63 @@ await axios.post(`${API_URL}/api/notes/upload`, formData, {
                 <input 
                   type="file" accept="application/pdf" required
                   className="text-sm text-gray-400 file:bg-purple-600 file:text-white file:border-0 file:px-4 file:py-3 file:rounded-xl"
-                  onChange={(e) => setFile(e.target.files[0])}
+                 onChange={(e) => {
+  const selectedFile = e.target.files[0];
+
+  if (!selectedFile || selectedFile.type !== "application/pdf") {
+    setFile(null);
+    e.target.value = "";
+    if (selectedFile) {
+      toast.error("Please select a valid PDF file");
+    }
+    return;
+  }
+
+  setFile(selectedFile);
+}}
                 />
                 <div className="flex gap-3 mt-4">
-                  <button type="button" onClick={() => setShowModal(false)} className="flex-1 bg-white/10 py-3 rounded-xl hover:bg-white/20 transition cursor-pointer">Cancel</button>
-                  <button type="submit" disabled={uploading} className=" cursor-pointer flex-1 bg-purple-600 py-3 rounded-xl font-bold hover:bg-purple-700 transition">
-                    {uploading ? "Uploading..." : "Upload"}
-                  </button>
-                </div>
-              </form>
+  <button
+    type="button"
+    disabled={!semester || loadingSubjects || uploading}
+    onClick={() => {
+  setShowModal(false);
+  setSubject("");
+  setSemester("");
+  setUnit("");
+  setDescription("");
+  setFile(null);
+  setAddingNewSubject(false);
+}}
+    className="flex-1 bg-white/10 py-3 rounded-xl hover:bg-white/20 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+  >
+    Cancel
+  </button>
+
+  <button
+    type="submit"
+    disabled={
+      uploading ||
+      loadingSubjects ||
+      !semester ||
+      !subject.trim() ||
+      !unit ||
+      !file
+    }
+    className="flex-1 bg-purple-600 py-3 rounded-xl font-bold hover:bg-purple-700 transition cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+  >
+    {uploading ? (
+      <>
+        <Loader2 className="w-5 h-5 animate-spin" />
+        Uploading...
+      </>
+    ) : (
+      "Upload"
+    )}
+  </button>
+</div>
+                </fieldset>
+</form>
             </div>
           </div>
         )}
