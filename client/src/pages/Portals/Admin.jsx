@@ -391,17 +391,24 @@ await axios.post(`${API_URL}/api/notes/upload`, formData, {
 </option>
 </select>
 
-{/* New Subject Input */}
-{addingNewSubject && (
-  <input
-    type="text"
-    placeholder="Enter New Subject Name"
-    required
-    className="bg-white/5 border border-white/10 p-3 rounded-xl outline-none focus:border-purple-500"
-    value={subject}
-    onChange={(e) => setSubject(e.target.value)}
-  />
-)}
+{/* Subject Name Box */}
+<input
+  type="text"
+  placeholder={
+    addingNewSubject
+      ? "Enter New Subject Name"
+      : "Selected Subject Name"
+  }
+  required={addingNewSubject}
+  disabled={!addingNewSubject || uploading}
+  value={subject}
+  onChange={(e) => setSubject(e.target.value)}
+  className={`w-full min-w-0 h-[50px] p-3 rounded-xl outline-none transition-all duration-300 ${
+    addingNewSubject
+      ? "bg-white/5 border border-white/10 text-white focus:border-purple-500"
+      : "bg-white/[0.02] border border-dashed border-white/10 text-gray-500 cursor-not-allowed"
+  }`}
+/>
              
                 {/* Unit */}
                 <select
