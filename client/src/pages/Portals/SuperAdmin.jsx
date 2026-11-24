@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import Navbar from "../../components/Navbar/Navbar";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, ShieldAlert } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -90,15 +90,64 @@ const handleAuthorize = async (e) => {
 };
 
   if (!token) return <Navigate to="/admin-login" replace />;
+
+  const confirmRevoke = (id) => {
+  toast.custom(
+    (t) => (
+      <div className="bg-[#1a1717] text-white border border-white/10 rounded-2xl p-5 shadow-2xl w-[360px] max-w-[90vw]">
+
+        <div className="flex items-start gap-3 mb-5">
+
+          <div className="bg-red-500/10 p-3 rounded-full">
+            <ShieldAlert className="w-6 h-6 text-red-400" />
+          </div>
+
+          <div>
+            <h3 className="font-bold text-base mb-1">
+              Revoke Faculty Access?
+            </h3>
+
+            <p className="text-gray-400 text-sm leading-relaxed">
+              This faculty member will no longer be able
+              to access the Admin Portal.
+            </p>
+          </div>
+
+        </div>
+
+        <div className="flex gap-3">
+
+          <button
+            onClick={() => toast.remove(t.id)}
+            className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 py-3 rounded-xl font-bold text-sm cursor-pointer transition"
+          >
+            Cancel
+          </button>
+
+          <button
+            onClick={() => {
+              toast.remove(t.id);
+              handleRevoke(id);
+            }}
+            className="flex-1 bg-red-600 hover:bg-red-700 py-3 rounded-xl font-bold text-sm cursor-pointer transition"
+          >
+            Revoke Access
+          </button>
+
+        </div>
+
+      </div>
+    ),
+    {
+      id: "revoke-confirmation",
+      duration: Infinity,
+      position: "top-center",
+    }
+  );
+};
   // Revoke faculty access
 const handleRevoke = async (id) => {
   if (revokingId) return;
-
-  const confirmed = window.confirm(
-    "Are you sure you want to revoke this faculty's access?"
-  );
-
-  if (!confirmed) return;
 
   setRevokingId(id);
 
@@ -302,7 +351,7 @@ const handleRevoke = async (id) => {
   </div>
 ) : (
   <button
-    onClick={() => handleRevoke(staff._id)}
+    onClick={() => confirmRevoke(staff._id)}
     disabled={revokingId !== null}
     className="border border-red-500/50 text-red-400 hover:bg-red-500/10 px-6 py-3 rounded-xl font-bold transition cursor-pointer disabled:opacity-50"
   >
