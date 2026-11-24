@@ -4,10 +4,15 @@ const Staff = require("../models/Staff");
 exports.getFaculty = async (req, res) => {
   try {
     const faculty = await AllowedStaff.find()
-      .sort({ createdAt: -1 });
+  .sort({ createdAt: -1 })
+  .lean();
 
-    res.status(200).json(faculty);
+const facultyList = faculty.map((staff) => ({
+  ...staff,
+  isSuperAdmin: staff.email === req.staff.email,
+}));
 
+res.status(200).json(facultyList);
   } catch (error) {
     res.status(500).json({
       message: "Failed to fetch faculty",
