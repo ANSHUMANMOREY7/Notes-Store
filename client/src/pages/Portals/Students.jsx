@@ -4,6 +4,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import StarsBackground from '../../components/StarBackground';
 import { toast } from 'react-hot-toast';
 import { BookOpen } from "lucide-react";
+import MobileLoader from "../../components/Loader/MobileLoader";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const getUnitLabel = (u) => (u === "QB" ? "Question Bank" : `Unit ${u}`);
@@ -67,23 +68,46 @@ useEffect(() => {
 
   toast.success("Student login successful!");
 
-  axios.get(`${API_URL}/api/notes`)
-    .then(res => {
+  const startTime = Date.now();
+  const isMobile = window.matchMedia("(max-width: 767px)").matches;
+  const minimumLoadingTime = isMobile ? 1500 : 0;
+
+  const fetchNotes = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/api/notes`);
+
       if (!Array.isArray(res.data)) {
         throw new Error("Invalid notes response");
       }
 
       setNotes(res.data);
-    })
-    .catch(err => {
+
+    } catch (err) {
       console.error("Notes fetch error:", err);
       setNotes([]);
       toast.error("Unable to load notes. Please try again.");
-    })
-    .finally(() => {
-      setLoading(false);
-    });
 
+    } finally {
+      const elapsedTime = Date.now() - startTime;
+
+      const remainingTime = Math.max(
+        0,
+        minimumLoadingTime - elapsedTime
+      );
+
+      await new Promise(resolve =>
+        setTimeout(resolve, remainingTime)
+      );
+
+      setLoading(false);
+
+if (isMobile) {
+  window.dispatchEvent(new Event("stars-shuffle"));
+}
+    }
+  };
+
+  fetchNotes();
 }, []);
 
 
@@ -108,9 +132,18 @@ const visibleNotes = sortedNotes.slice(0, visibleCount);
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 relative overflow-x-hidden font-[font1]">
       <Navbar />
-
+{/* Mobile Loading Animation */}
+{loading && (
+  <MobileLoader
+    title="Loading Notes"
+    description="Fetching your study materials..."
+    icon={BookOpen}
+  />
+)}
       
-      <div className="relative z-10 flex flex-col items-center pt-24 px-4 w-full">
+      <div className={`relative z-10 flex flex-col items-center pt-24 px-4 w-full ${
+  loading ? "invisible md:visible" : ""
+}`}>
         <h2 className="text-4xl font-bold text-white mb-2 font-[font1]">Study Resources</h2>
         <p className="text-gray-300 font-normal font-sans mb-10 text-center">Find verified materials by Semester and Subject</p>
 
@@ -167,7 +200,7 @@ const visibleNotes = sortedNotes.slice(0, visibleCount);
               {[1, 2, 3].map((item) => (
                 <div
                   key={item}
-                  className="bg-black/70 p-10 rounded-2xl flex flex-col items-center gap-6 shadow-2xl border border-white/5 animate-pulse min-h-[300px]"
+                  className="hidden md:flex bg-black/70 p-10 rounded-2xl flex-col items-center gap-6 shadow-2xl border border-white/5 animate-pulse min-h-[300px]"
                 >
                   {/* Subject placeholder */}
                   <div className="w-28 h-5 bg-purple-400/20 rounded-full"></div>
