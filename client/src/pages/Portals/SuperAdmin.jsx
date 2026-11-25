@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import Navbar from "../../components/Navbar/Navbar";
 import { ShieldCheck, ShieldAlert } from "lucide-react";
+import MobileLoader from "../../components/Loader/MobileLoader";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -17,41 +18,64 @@ const [email, setEmail] = useState("");
 const [authorizing, setAuthorizing] = useState(false);
 const [revokingId, setRevokingId] = useState(null);
   // Fetch authorized faculty
-  useEffect(() => {
-    const fetchFaculty = async () => {
-      if (!token) return;
+useEffect(() => {
+  const fetchFaculty = async () => {
+    if (!token) return;
 
-      try {
-        const res = await axios.get(
-          `${API_URL}/api/super-admin/faculty`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+    const startTime = Date.now();
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const minimumLoadingTime = isMobile ? 1500 : 0;
 
-        setFaculty(res.data);
-
-      } catch (error) {
-        if (
-          error.response?.status === 403 ||
-          error.response?.status === 401
-        ) {
-          setAccessDenied(true);
-          toast.error("Access denied");
-        } else {
-          setFetchError(true);
-          toast.error("Failed to fetch faculty");
+    try {
+      const res = await axios.get(
+        `${API_URL}/api/super-admin/faculty`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      } finally {
-        setLoading(false);
+      );
+
+      if (!Array.isArray(res.data)) {
+        throw new Error("Invalid faculty response");
       }
-    };
 
-    fetchFaculty();
-  }, [token]);
+      setFaculty(res.data);
 
+    } catch (error) {
+      if (
+        error.response?.status === 403 ||
+        error.response?.status === 401
+      ) {
+        setAccessDenied(true);
+        toast.error("Access denied");
+      } else {
+        setFetchError(true);
+        toast.error("Failed to fetch faculty");
+      }
+
+    } finally {
+      const elapsedTime = Date.now() - startTime;
+
+      const remainingTime = Math.max(
+        0,
+        minimumLoadingTime - elapsedTime
+      );
+
+      await new Promise(resolve =>
+        setTimeout(resolve, remainingTime)
+      );
+
+      setLoading(false);
+
+      if (isMobile) {
+        window.dispatchEvent(new Event("stars-shuffle"));
+      }
+    }
+  };
+
+  fetchFaculty();
+}, [token]);
   // Authorize new faculty
 const handleAuthorize = async (e) => {
   e.preventDefault();
@@ -181,11 +205,22 @@ const handleRevoke = async (id) => {
 
   return (
     <>
-      <Navbar />
+<Navbar />
 
-      <div className="font-[font1] min-h-screen bg-gradient-to-b from-black to-purple-900 text-white">
+{/* Mobile Loading Animation */}
+{loading && (
+  <MobileLoader
+    title="Loading Faculty"
+    description="Fetching authorized faculty..."
+    icon={ShieldCheck}
+  />
+)}
 
-        <div className="max-w-7xl mx-auto px-6 pt-24 pb-20">
+<div className="font-[font1] min-h-screen bg-gradient-to-b from-black to-purple-900 text-white">
+
+  <div className={`max-w-7xl mx-auto px-6 pt-24 pb-20 ${
+    loading ? "invisible md:visible" : ""
+  }`}>
 
           <h2 className="text-4xl font-bold text-center mb-2">
             Super Admin Panel
@@ -270,8 +305,8 @@ const handleRevoke = async (id) => {
     </form>
   </div>
 )}
-         {loading ? (
-  <div className="animate-pulse">
+{loading ? (
+  <div className="hidden md:block animate-pulse">
 
     {/* Statistics Skeleton */}
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
