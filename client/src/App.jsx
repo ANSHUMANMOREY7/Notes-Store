@@ -6,6 +6,7 @@ import Students from "./pages/Portals/Students"
 import AdminLogin from "./pages/Portals/AdminLogin"
 import Admin from "./pages/Portals/Admin"
 import AdminManageNotes from "./pages/Portals/AdminManageNotes"
+import AdminStats from "./pages/Portals/AdminStats";
 import SuperAdmin from "./pages/Portals/SuperAdmin";
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
@@ -76,7 +77,14 @@ function App() {
     </ProtectedRoute>
   }
 />
-
+<Route
+  path="/admin/stats"
+  element={
+    <ProtectedRoute>
+      <AdminStats />
+    </ProtectedRoute>
+  }
+/>
 <Route
   path="/admin/super-admin"
   element={

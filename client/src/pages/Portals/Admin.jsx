@@ -1,10 +1,9 @@
-import { memo, useState, useEffect } from 'react';
-import Navbar from '../../components/Navbar/Navbar';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from 'react-hot-toast';
+import { memo, useState, useEffect } from "react";
+import Navbar from "../../components/Navbar/Navbar";
+import { Navigate, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 import { ShieldCheck, CloudUpload } from "lucide-react";
-
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -15,7 +14,6 @@ const Admin = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
-  const [showStats, setShowStats] = useState(false);
   const [file, setFile] = useState(null);
 
   const [subject, setSubject] = useState("");
@@ -28,16 +26,7 @@ const Admin = () => {
   const [description, setDescription] = useState("");
   const [uploading, setUploading] = useState(false);
 
-
-  const [statsData, setStatsData] = useState({
-    totalNotes: 0,
-    totalDownloads: 0,
-    storageUsed: 0,
-    categoryBreakdown: {}
-  });
-
   const navigate = useNavigate();
-  const location = useLocation();
   useEffect(() => {
     const checkSuperAdmin = async () => {
       try {
@@ -84,37 +73,6 @@ const Admin = () => {
     fetchSubjects();
   }, [showModal]);
 
-  // CHUNK 1: Function to fetch analytics from the backend
-  const fetchStats = async () => {
-    try {
-      const token = sessionStorage.getItem("adminToken");
-
-      const res = await axios.get(
-        `${API_URL}/api/notes/stats`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setStatsData(res.data);
-    } catch (err) {
-      console.error("Could not fetch stats", err);
-    }
-  };
-
-  // Fetch stats when user enters Stats Mode
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const isStatsMode = params.get('view') === 'stats';
-
-    setShowStats(isStatsMode);
-
-    if (isStatsMode) {
-      fetchStats();
-    }
-  }, [location.search]);
-
   const availableSubjects = [
     ...new Map(
       existingNotes
@@ -152,9 +110,6 @@ const Admin = () => {
 
       toast.success("Note uploaded successfully!");
 
-      // REFRESH STATS after upload so the dashboard is accurate
-      fetchStats();
-
       setShowModal(false);
       setFile(null);
       setSubject("");
@@ -177,26 +132,21 @@ const Admin = () => {
   return (
     <>
       <Navbar />
-
       <div className=" font-[font1] min-h-screen bg-gradient-to-b from-black to-purple-900 text-white relative transition-colors duration-500">
 
+<div className="admin-content max-w-7xl mx-auto p-10 !pt-24 relative z-10">
 
+<div className="relative pb-1 mb-4">
+  <div className="text-center">
+    <h2 className="text-4xl font-bold text-white mb-2 font-[font1]">
+      Admin Panel
+    </h2>
+    <p className="text-gray-300 font-normal font-sans mb-2 md:mb-10 text-center">
+      Manage your notes and uploads. Add, view, and delete study materials from a single secure dashboard.
+    </p>
+  </div>
+</div>
 
-        <div className="admin-content max-w-7xl mx-auto p-10 !pt-24 relative z-10">
-
-          {!showStats && (
-            <div className="relative pb-1 mb-4">
-              <div className="text-center">
-                <h2 className="text-4xl font-bold text-white mb-2 font-[font1]">Admin Panel</h2>
-                <p className="text-gray-300 font-normal font-sans mb-2 md:mb-10 text-center">
-                  Manage your notes and uploads. Add, view, and delete study materials from a single secure dashboard.
-                </p>
-              </div>
-
-            </div>
-          )}
-
-          {!showStats ? (
             <div className="admin-card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 !gap-10 !mt-6">
               <div className="bg-black/70 backdrop-blur-md p-10 min-h-[340px] w-full rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-purple-900 group ">
                 <div className="w-16 h-16 bg-purple-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">➕</div>
@@ -223,10 +173,7 @@ const Admin = () => {
                   Track total storage and total number of active materials in your database.
                 </p>
                 <button
-                  onClick={() => {
-                    navigate("?view=stats");
-
-                  }}
+                onClick={() => navigate("/admin/stats")}
 
                   className="bg-green-600 hover:bg-green-700 px-8 py-3 rounded-lg font-bold w-full transition cursor-pointer"
                 >
@@ -259,70 +206,6 @@ const Admin = () => {
               )}
 
             </div>
-
-          ) : (
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-
-              <div className="flex items-center gap-4 mb-1 justify-center">
-                <h2 className="text-4xl font-bold">Platform Analytics</h2>
-              </div>
-              <p className="text-gray-300 font-normal font-sans mb-10 text-center">Insights into your notes repository</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-purple-500/20 shadow-2xl">
-                  <p className="text-purple-400 text-sm font-bold uppercase tracking-widest mb-2">Total Notes</p>
-                  <h3 className="text-5xl font-black">{statsData.totalNotes}</h3>
-                </div>
-
-                <div className="bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-purple-500/20 shadow-2xl relative overflow-hidden group">
-                  <div className="flex justify-between items-center mb-2">
-                    <p className="text-purple-400 text-sm font-bold uppercase tracking-widest">Storage Status</p>
-                    <div className="flex h-2 w-2 relative">
-                      <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${statsData.storageUsed > 400 ? 'bg-red-400' : 'bg-green-400'}`}></span>
-                      <span className={`relative inline-flex rounded-full h-2 w-2 ${statsData.storageUsed > 400 ? 'bg-red-500' : 'bg-green-500'}`}></span>
-                    </div>
-                  </div>
-
-                  <h3 className="text-4xl font-black text-white">
-                    {statsData.storageUsed > 450 ? "CRITICAL" : statsData.storageUsed > 250 ? "HEAVY" : "OPTIMAL"}
-                  </h3>
-
-                  <p className="text-gray-500 text-[10px] mt-2 font-mono uppercase tracking-tighter">
-                    {500 - statsData.storageUsed}MB Remaining Capacity
-                  </p>
-                </div>
-                <div className="bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-purple-500/20 shadow-2xl lg:col-span-2">
-                  <div className="flex justify-between mb-4">
-                    <p className="text-purple-400 text-sm font-bold uppercase tracking-widest">Storage Used</p>
-                    <p className="text-xs text-gray-400">{statsData.storageUsed}MB / 500MB</p>
-                  </div>
-                  <div className="w-full bg-white/10 h-4 rounded-full overflow-hidden">
-                    <div
-                      className="bg-purple-500 h-full transition-all duration-1000"
-                      style={{ width: `${Math.min((statsData.storageUsed / 500) * 100, 100)}%` }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-10 bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-white/5">
-                <h3 className="text-xl font-bold mb-6">Notes by Subject</h3>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                  {Object.entries(statsData.categoryBreakdown || {}).length === 0 ? (
-                    <p className="text-gray-400 text-sm col-span-full text-center">
-                      No notes uploaded yet.
-                    </p>
-                  ) : (
-                    Object.entries(statsData.categoryBreakdown).map(([sub, count]) => (
-                      <div key={sub} className="bg-white/5 p-4 rounded-2xl border border-white/5 text-center">
-                        <p className="text-[10px] text-gray-400 uppercase mb-1">{sub}</p>
-                        <p className="text-2xl font-bold text-purple-400">{count}</p>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
         </div>
 
   {showModal && (
