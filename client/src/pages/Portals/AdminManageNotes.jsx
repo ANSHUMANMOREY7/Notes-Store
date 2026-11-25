@@ -3,8 +3,8 @@ import axios from 'axios';
 import Navbar from '../../components/Navbar/Navbar';
 import { toast } from 'react-hot-toast';
 const API_URL = import.meta.env.VITE_API_URL;
-import { BookOpen } from "lucide-react";
-import { Trash2 } from "lucide-react";
+import { BookOpen, Trash2, FileText } from "lucide-react";
+import MobileLoader from "../../components/Loader/MobileLoader";
 
 const AdminManageNotes = () => {
   
@@ -16,19 +16,44 @@ const AdminManageNotes = () => {
   const [deletingId, setDeletingId] = useState(null);
 
   const fetchNotes = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.get(`${API_URL}/api/notes`
-);
-      setNotes(res.data);
-    } catch (err) {
-      console.error(err);
-      toast.error("Unable to load notes. Please check your connection.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const startTime = Date.now();
+  const isMobile = window.matchMedia("(max-width: 767px)").matches;
+  const minimumLoadingTime = isMobile ? 1500 : 0;
 
+  try {
+    setLoading(true);
+
+    const res = await axios.get(`${API_URL}/api/notes`);
+
+    if (!Array.isArray(res.data)) {
+      throw new Error("Invalid notes response");
+    }
+
+    setNotes(res.data);
+
+  } catch (err) {
+    console.error(err);
+    toast.error("Unable to load notes. Please check your connection.");
+
+  } finally {
+    const elapsedTime = Date.now() - startTime;
+
+    const remainingTime = Math.max(
+      0,
+      minimumLoadingTime - elapsedTime
+    );
+
+    await new Promise(resolve =>
+      setTimeout(resolve, remainingTime)
+    );
+
+    setLoading(false);
+
+    if (isMobile) {
+      window.dispatchEvent(new Event("stars-shuffle"));
+    }
+  }
+};
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     fetchNotes();
@@ -160,10 +185,20 @@ const filteredNotes = notes
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 relative overflow-x-hidden">
-      <Navbar />
-      
+    <Navbar />
 
-      <div className="relative z-10 flex flex-col items-center pt-24 px-4 w-full">
+{/* Mobile Loading Animation */}
+{loading && (
+  <MobileLoader
+    title="Loading Library"
+    description="Fetching uploaded notes..."
+    icon={FileText}
+  />
+)}
+
+<div className={`relative z-10 flex flex-col items-center pt-24 px-4 w-full ${
+  loading ? "invisible md:visible" : ""
+}`}>
         <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2 text-center leading-tight">
   Admin Notes Manager
 </h2>
@@ -217,7 +252,7 @@ const filteredNotes = notes
 {[1, 2, 3].map((item) => (
   <div
     key={item}
-    className="bg-black/70 text-white p-6 min-h-[340px] rounded-2xl flex flex-col gap-4 shadow-2xl border border-white/5 animate-pulse"
+   className="hidden md:flex bg-black/70 text-white p-6 min-h-[340px] rounded-2xl flex-col gap-4 shadow-2xl border border-white/5 animate-pulse"
   >
     {/* Badge + Book Icon */}
     <div className="flex items-center justify-between">
