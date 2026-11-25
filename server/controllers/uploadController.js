@@ -153,37 +153,142 @@ const deleteNote = async (req, res) => {
 };
 
 // Get Statistics
+// Get Repository Statistics
 const getStats = async (req, res) => {
   try {
-    const notes = await Note.find();
+    const notes = await Note.find()
+      .select("subject semester unit fileSize")
+      .lean();
 
     const totalNotes = notes.length;
 
-    // Calculate total storage
     let totalSizeBytes = 0;
+    let totalQuestionBanks = 0;
+    let totalUnitNotes = 0;
+
+    const uniqueSubjects = new Set();
+
+    const categoryBreakdown = Object.create(null);
+
+    const semesterBreakdown = {
+      1: 0,
+      2: 0,
+      3: 0,
+      4: 0,
+    };
+
+    const semesterSubjects = {
+      1: Object.create(null),
+      2: Object.create(null),
+      3: Object.create(null),
+      4: Object.create(null),
+    };
+
+    const subjectNames = new Map();
+    const subjectCoverage = {
+  1: Object.create(null),
+  2: Object.create(null),
+  3: Object.create(null),
+  4: Object.create(null),
+};
 
     notes.forEach((note) => {
-      totalSizeBytes += note.fileSize || 0;
+
+      // Calculate storage
+      totalSizeBytes += Number(note.fileSize) || 0;
+
+      // Count question banks and unit notes
+      if (String(note.unit).trim().toUpperCase() === "QB") {
+        totalQuestionBanks++;
+      } else {
+        totalUnitNotes++;
+      }
+
+      // Normalize subject names
+      const cleanSubject =
+        note.subject?.trim().replace(/\s+/g, " ") ||
+        "Unknown Subject";
+
+      const subjectKey = cleanSubject.toLowerCase();
+
+      if (!subjectNames.has(subjectKey)) {
+        subjectNames.set(subjectKey, cleanSubject);
+      }
+
+      const subject = subjectNames.get(subjectKey);
+
+      uniqueSubjects.add(subjectKey);
+
+      // Overall subject breakdown
+      categoryBreakdown[subject] =
+        (categoryBreakdown[subject] || 0) + 1;
+
+      // Semester-wise breakdown
+      const semester = Number(note.semester);
+
+if ([1, 2, 3, 4].includes(semester)) {
+  semesterBreakdown[semester]++;
+
+  semesterSubjects[semester][subject] =
+    (semesterSubjects[semester][subject] || 0) + 1;
+
+  // Initialize subject coverage
+  if (!subjectCoverage[semester][subject]) {
+    subjectCoverage[semester][subject] = {
+      1: false,
+      2: false,
+      3: false,
+      4: false,
+      5: false,
+      QB: false,
+    };
+  }
+
+  // Normalize unit value
+  const unit = String(note.unit).trim().toUpperCase();
+
+  // Mark available study material
+  if (["1", "2", "3", "4", "5", "QB"].includes(unit)) {
+    subjectCoverage[semester][subject][unit] = true;
+  }
+}
     });
 
-    const storageUsedMB = (
-      totalSizeBytes / (1024 * 1024)
-    ).toFixed(2);
+    // Storage calculations
+    const storageLimit = 500;
 
-    // Count notes by subject
-    const breakdown = {};
+    const storageUsed = Number(
+      (totalSizeBytes / (1024 * 1024)).toFixed(2)
+    );
 
-    notes.forEach((note) => {
-      breakdown[note.subject] =
-        (breakdown[note.subject] || 0) + 1;
-    });
+    const storageRemaining = Number(
+      Math.max(0, storageLimit - storageUsed).toFixed(2)
+    );
 
+    const storagePercentage = Number(
+      ((storageUsed / storageLimit) * 100).toFixed(2)
+    );
+
+    // Send statistics
     res.status(200).json({
       totalNotes,
+      totalSubjects: uniqueSubjects.size,
+      totalQuestionBanks,
+      totalUnitNotes,
       totalDownloads: 0,
-      storageUsed: storageUsedMB,
-      categoryBreakdown: breakdown,
+
+      storageUsed,
+      storageLimit,
+      storageRemaining,
+      storagePercentage,
+
+categoryBreakdown,
+semesterBreakdown,
+semesterSubjects,
+subjectCoverage,
+      lastUpdated: new Date().toISOString(),
     });
+
   } catch (error) {
     console.error("Stats Error:", error);
 
