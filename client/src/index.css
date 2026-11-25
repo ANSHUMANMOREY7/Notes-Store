@@ -224,3 +224,21 @@ html {
         padding: 7rem 2rem 3rem;
     }
 }
+@keyframes uploadSlide {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(300%);
+  }
+}
+@keyframes uploadFloat {
+  0%, 100% {
+    transform: translateY(2px);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+}
