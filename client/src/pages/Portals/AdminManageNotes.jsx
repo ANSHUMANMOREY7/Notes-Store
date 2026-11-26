@@ -1,6 +1,7 @@
 import { memo, useEffect, useState } from 'react';
 import axios from 'axios';
-import Navbar from '../../components/Navbar/Navbar';
+import PageLayout from "../../components/Layout/PageLayout";
+import PageHeader from "../../components/Layout/PageHeader";
 import { toast } from 'react-hot-toast';
 const API_URL = import.meta.env.VITE_API_URL;
 import { BookOpen, Trash2, FileText } from "lucide-react";
@@ -182,10 +183,8 @@ const filteredNotes = notes
 
 
   const visibleNotes = filteredNotes.slice(0, visibleCount);
-
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 relative overflow-x-hidden">
-    <Navbar />
+return (
+  <PageLayout centered={false}>
 
 {/* Mobile Loading Animation */}
 {loading && (
@@ -196,17 +195,17 @@ const filteredNotes = notes
   />
 )}
 
-<div className={`relative z-10 flex flex-col items-center pt-24 px-4 w-full ${
-  loading ? "invisible md:visible" : ""
-}`}>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2 text-center leading-tight">
-  Admin Notes Manager
-</h2>
-        <p className="text-gray-300 mb-10 text-center max-w-2xl">
-          Review all uploaded notes, open them for inspection, or remove outdated content .
-        </p>
+<div
+  className={`flex flex-col items-center w-full ${
+    loading ? "invisible md:visible" : ""
+  }`}
+>
+  <PageHeader
+    title="Admin Notes Manager"
+    description="Review all uploaded notes, open them for inspection, or remove outdated content."
+  />
 
-        <div className="w-full max-w-4xl mb-12 flex flex-col md:flex-row gap-3">
+        <div className="w-full max-w-4xl mb-8 md:mb-10 flex flex-col md:flex-row gap-3">
           {/* Semester buttons */}
           <div className="grid grid-cols-4 gap-3 md:flex-1">
             {["1", "2", "3", "4"].map((sem) => (
@@ -245,7 +244,7 @@ const filteredNotes = notes
           </select>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-7xl px-6 pb-24">
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 w-full max-w-7xl px-0 md:px-10 pb-24 min-h-[400px] content-start">
           {loading ? (
             <>
               
@@ -412,8 +411,8 @@ visibleNotes.map((note) => (
             </button>
           )}
         </div>
-      </div>
-    </div>
+            </div>
+    </PageLayout>
   );
 };
 
