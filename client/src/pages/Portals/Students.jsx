@@ -1,7 +1,7 @@
 import { memo, useEffect, useState } from 'react';
 import axios from 'axios';
-import Navbar from '../../components/Navbar/Navbar';
-import StarsBackground from '../../components/StarBackground';
+import PageLayout from "../../components/Layout/PageLayout";
+import PageHeader from "../../components/Layout/PageHeader";
 import { toast } from 'react-hot-toast';
 import { BookOpen } from "lucide-react";
 import MobileLoader from "../../components/Loader/MobileLoader";
@@ -129,9 +129,8 @@ const filteredNotes = safeNotes.filter(note =>
 );
 const sortedNotes = sortNotes(filteredNotes, unitOrder);
 const visibleNotes = sortedNotes.slice(0, visibleCount);
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 relative overflow-x-hidden font-[font1]">
-      <Navbar />
+return (
+  <PageLayout centered={false}>
 {/* Mobile Loading Animation */}
 {loading && (
   <MobileLoader
@@ -141,13 +140,17 @@ const visibleNotes = sortedNotes.slice(0, visibleCount);
   />
 )}
       
-      <div className={`relative z-10 flex flex-col items-center pt-24 px-4 w-full ${
-  loading ? "invisible md:visible" : ""
-}`}>
-        <h2 className="text-4xl font-bold text-white mb-2 font-[font1]">Study Resources</h2>
-        <p className="text-gray-300 font-normal font-sans mb-10 text-center">Find verified materials by Semester and Subject</p>
+<div
+  className={`flex flex-col items-center w-full font-[font1] ${
+    loading ? "invisible md:visible" : ""
+  }`}
+>
+  <PageHeader
+    title="Study Resources"
+    description="Find verified materials by Semester and Subject"
+  />
 
-      <div className="w-full max-w-4xl mb-8 flex flex-col md:flex-row gap-3">
+    <div className="w-full max-w-4xl mb-8 md:mb-10 flex flex-col md:flex-row gap-3">
   {/* Semester buttons */}
   <div className="grid grid-cols-4 gap-3 md:flex-1">
     {["1", "2", "3", "4"].map((sem) => (
@@ -192,7 +195,7 @@ const visibleNotes = sortedNotes.slice(0, visibleCount);
 
 
         {/* Grid Container */}
-        <div className="study-resource-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-7xl px-6 pb-24 min-h-[400px] content-start">
+    <div className="study-resource-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 w-full max-w-7xl px-0 md:px-10 pb-24 min-h-[400px] content-start">
           {/* Note Cards */}
 
           {loading ? (
@@ -362,8 +365,8 @@ const visibleNotes = sortedNotes.slice(0, visibleCount);
     </button>
   )}
 </div>
-      </div>
-    </div>
+           </div>
+    </PageLayout>
   );
 };
 
