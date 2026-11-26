@@ -1,5 +1,6 @@
 import { memo, useState, useEffect } from "react";
-import Navbar from "../../components/Navbar/Navbar";
+import PageLayout from "../../components/Layout/PageLayout";
+import PageHeader from "../../components/Layout/PageHeader";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -130,24 +131,15 @@ const Admin = () => {
   if (!isAuth) return <Navigate to="/admin-login" />;
 
   return (
-    <>
-      <Navbar />
-      <div className=" font-[font1] min-h-screen bg-gradient-to-b from-black to-purple-900 text-white relative transition-colors duration-500">
+  <>
+    <PageLayout>
 
-<div className="admin-content max-w-7xl mx-auto p-10 !pt-24 relative z-10">
+      <PageHeader
+        title="Admin Panel"
+        description="Manage your notes and uploads. Add, view, and delete study materials from a single secure dashboard."
+      />
 
-<div className="relative pb-1 mb-4">
-  <div className="text-center">
-    <h2 className="text-4xl font-bold text-white mb-2 font-[font1]">
-      Admin Panel
-    </h2>
-    <p className="text-gray-300 font-normal font-sans mb-2 md:mb-10 text-center">
-      Manage your notes and uploads. Add, view, and delete study materials from a single secure dashboard.
-    </p>
-  </div>
-</div>
-
-            <div className="admin-card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 !gap-10 !mt-6">
+           <div className="admin-card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 w-full max-w-7xl px-0 md:px-10 font-[font1] text-white">
               <div className="bg-black/70 backdrop-blur-md p-10 min-h-[340px] w-full rounded-2xl flex flex-col items-center text-center gap-6 border border-white/5 shadow-2xl hover:scale-105 transition hover:bg-purple-900 group ">
                 <div className="w-16 h-16 bg-purple-600/20 rounded-full flex items-center justify-center text-4xl animate-pulse group-hover:animate-none">➕</div>
                 <h2 className="text-2xl font-bold">Upload Notes</h2><p className="text-gray-400 text-center text-sm leading-relaxed">
@@ -206,9 +198,9 @@ const Admin = () => {
               )}
 
             </div>
-        </div>
+    </PageLayout>
 
-  {showModal && (
+    {showModal && (
   <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-sm p-2">
                 <div className="relative bg-[#121212] border border-white/10 p-8 rounded-3xl w-full max-w-md shadow-2xl">
               <h2 className="text-2xl font-bold mb-2 text-purple-400">Add New Note</h2>
@@ -416,8 +408,7 @@ const Admin = () => {
 )}
             </div>
           </div>
-        )}
-      </div>
+               )}
     </>
   );
 };
