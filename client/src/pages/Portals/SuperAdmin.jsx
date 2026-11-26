@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import Navbar from "../../components/Navbar/Navbar";
+import PageLayout from "../../components/Layout/PageLayout";
+import PageHeader from "../../components/Layout/PageHeader";
 import { ShieldCheck, ShieldAlert } from "lucide-react";
 import MobileLoader from "../../components/Loader/MobileLoader";
 
@@ -203,9 +204,8 @@ const handleRevoke = async (id) => {
 
   if (accessDenied) return <Navigate to="/admin" replace />;
 
-  return (
-    <>
-<Navbar />
+return (
+  <PageLayout centered={false}>
 
 {/* Mobile Loading Animation */}
 {loading && (
@@ -216,19 +216,15 @@ const handleRevoke = async (id) => {
   />
 )}
 
-<div className="font-[font1] min-h-screen bg-gradient-to-b from-black to-purple-900 text-white">
-
-  <div className={`max-w-7xl mx-auto px-6 pt-24 pb-20 ${
+<div
+  className={`w-full max-w-7xl px-0 md:px-10 font-[font1] text-white ${
     loading ? "invisible md:visible" : ""
-  }`}>
-
-          <h2 className="text-4xl font-bold text-center mb-2">
-            Super Admin Panel
-          </h2>
-
-          <p className="text-gray-300 font-sans text-center mb-10">
-            Manage faculty authorization and access permissions.
-          </p>
+  }`}
+>
+  <PageHeader
+    title="Super Admin Panel"
+    description="Manage faculty authorization and access permissions."
+  />
 
             {/* Faculty Statistics */}
 {!loading && !fetchError && !accessDenied && (
@@ -397,11 +393,9 @@ const handleRevoke = async (id) => {
 )}
   </div>
 ))
-          )}
-
+                   )}
         </div>
-      </div>
-    </>
+    </PageLayout>
   );
 };
 
