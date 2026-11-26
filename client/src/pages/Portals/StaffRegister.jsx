@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../../components/Navbar/Navbar";
+import PageLayout from "../../components/Layout/PageLayout";
+import PageHeader from "../../components/Layout/PageHeader";
 import Button from "../../components/Buttons/Button";
 import { toast } from "react-hot-toast";
 import { ShieldCheck } from "lucide-react";
@@ -94,25 +95,15 @@ const handleVerifyOtp = async () => {
 };
 
 return (
-  <>
-    <Navbar />
+  <PageLayout>
 
-    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-b from-black to-purple-900 text-white relative overflow-hidden px-5 pt-24 pb-12">
-
-      {/* Page Heading */}
-<div className="text-center px-4 mb-10 mt-0">
-        <h1 className="text-white font-[font1] font-bold text-4xl sm:text-4xl md:text-4xl">
-          Staff Registration
-        </h1>
-
-        <p className="text-gray-300 mt-3 px-4 text-sm sm:text-base md:text-lg leading-relaxed max-w-xl mx-auto">
-          Create your staff account to securely manage study materials.
-        </p>
-      </div>
+    <PageHeader
+      title="Staff Registration"
+      description="Create your staff account to securely manage study materials."
+    />
 
       {/* Registration Card */}
-      <div className="admin-login-card bg-black/70 backdrop-blur-md p-8 sm:p-10 rounded-2xl w-full max-w-sm flex flex-col gap-5 shadow-xl transition duration-300 hover:scale-[1.02] hover:bg-purple-900 z-10">
-
+<div className="admin-login-card bg-black/70 text-white backdrop-blur-md p-6 sm:p-8 rounded-2xl w-full max-w-sm flex flex-col gap-4 shadow-xl transition duration-300 hover:scale-[1.02] hover:bg-purple-900 z-10">
         <ShieldCheck
           size={49}
           strokeWidth={1.5}
@@ -173,12 +164,10 @@ return (
 />
 
 
-        </div>
+              </div>
       </div>
-    </div>
-  </>
-);
-
+    </PageLayout>
+  );
 };
 
 export default StaffRegister;
