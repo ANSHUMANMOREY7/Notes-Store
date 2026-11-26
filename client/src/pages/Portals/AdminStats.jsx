@@ -6,7 +6,8 @@ import {
   Database, RefreshCw, CheckCircle2, XCircle
 } from "lucide-react";
 
-import Navbar from "../../components/Navbar/Navbar";
+import PageLayout from "../../components/Layout/PageLayout";
+import PageHeader from "../../components/Layout/PageHeader";
 import MobileLoader from "../../components/Loader/MobileLoader";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -114,9 +115,8 @@ const AdminStats = () => {
     stats?.subjectCoverage?.[semester] || {}
   ).sort(([a], [b]) => a.localeCompare(b));
 
-  return (
-    <>
-      <Navbar />
+return (
+  <PageLayout centered={false}>
 
       {loading && (
         <MobileLoader
@@ -126,21 +126,17 @@ const AdminStats = () => {
         />
       )}
 
-      <div className="font-[font1] min-h-screen bg-gradient-to-b from-black to-purple-900 text-white relative">
+<div
+  className={`w-full max-w-7xl px-0 md:px-10 font-[font1] text-white ${
+    loading ? "invisible md:visible" : ""
+  }`}
+>
 
-        <div className={`admin-content max-w-7xl mx-auto p-10 !pt-24 relative z-10 ${
-          loading ? "invisible md:visible" : ""
-        }`}>
-
-          {/* Page Heading */}
-          <div className="text-center mb-10">
-            <h2 className="text-4xl font-bold mb-2">
-              Platform Analytics
-            </h2>
-            <p className="text-gray-300 font-sans">
-              Insights into your notes repository
-            </p>
-          </div>
+  {/* Page Heading */}
+  <PageHeader
+    title="Platform Analytics"
+    description="Insights into your notes repository"
+  />
 
           {loading ? (
 
@@ -414,10 +410,9 @@ const AdminStats = () => {
               </p>
 
             </div>
-          )}
+                  )}
         </div>
-      </div>
-    </>
+    </PageLayout>
   );
 };
 
