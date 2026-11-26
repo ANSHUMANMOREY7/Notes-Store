@@ -6,9 +6,11 @@ const PageHeader = ({ title, description }) => {
         {title}
       </h1>
 
-   <p className="text-gray-300 font-normal font-sans mt-2 text-sm md:text-base">
-  {description}
-</p>
+{description && (
+  <p className="text-gray-300 font-normal font-sans mt-2 text-sm md:text-base">
+    {description}
+  </p>
+)}
     </div>
   );
 };

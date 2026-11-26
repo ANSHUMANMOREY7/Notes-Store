@@ -1,29 +1,17 @@
 import React from 'react';
-import Navbar from '../components/Navbar/Navbar';
-import StarsBackground from '../components/StarBackground';
+import PageLayout from '../components/Layout/PageLayout';
+import PageHeader from '../components/Layout/PageHeader';
 
 const AboutUs = () => {
-  return (
-    <>
-    <Navbar />
-    
-   
-    <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 text-white relative overflow-x-hidden font-[font1]">
+return (
+  <PageLayout centered={false}>
 
-      
-  
-      <div className="relative z-10 max-w-4xl mx-auto px-6 pt-32 pb-20 text-center">
-        
-        {/* Header Section */}
-        <section className="mb-12 lg:mb-20">
-          <h1 className="text-5xl font-bold  mb-4">
-            Our Vision
-          </h1>
-          
-        </section>
+    <PageHeader title="Our Vision" />
+
+    <div className="w-full max-w-4xl text-white font-[font1] text-center">
 
         {/* Text Content */}
-        <div className="space-y-12 md:space-y-16 lg:space-y-24">
+  <div className="space-y-8 md:space-y-12 lg:space-y-16">
           
           {/* Section 1: Concept */}
           <section className="animate-in fade-in slide-in-from-bottom-8 duration-700">
@@ -71,14 +59,9 @@ const AboutUs = () => {
             <div className="h-[1px] w-12 bg-white/10"></div>
           </div>
 
-        </div>
-        
-
-    
-
+               </div>
       </div>
-    </div>
-     </>
+    </PageLayout>
   );
 };
 
