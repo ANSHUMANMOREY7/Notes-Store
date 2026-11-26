@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import emailjs from '@emailjs/browser';
-import Navbar from '../components/Navbar/Navbar';
+import PageLayout from '../components/Layout/PageLayout';
+import PageHeader from '../components/Layout/PageHeader';
 import { toast } from 'react-hot-toast';
 
 const ContactUs = () => {
@@ -21,35 +22,22 @@ const ContactUs = () => {
       });
   };
 
-  return (
-    <>
-    
-  
-      <Navbar />
-    <div className="min-h-screen bg-gradient-to-b from-black to-purple-900 text-white relative overflow-x-hidden font-[font1]">
-    
+return (
+  <PageLayout centered={false}>
       {/* Signature Background Glows */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] bg-purple-900/20 rounded-full blur-[120px]"></div>
       </div>
       
 
-      <div className="contact-content relative z-10 max-w-6xl mx-auto px-8 pt-22 pb-16">
-        
-        {/* Header Section */}
-        <div className="mb-10 text-center ">
-         
-          <h1 className="text-4xl ">
-            Contact Us
-          </h1>
-          <p className="text-gray-300 font-normal font-sans mb-10 text-center">
-            Have questions, feedback, or need support? We're here to help! 
-            
-          </p>
-        </div>
+<div className="contact-content relative z-10 w-full max-w-6xl text-white font-[font1]">
 
-        <div className="contact-card-grid grid md:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-8 items-stretch">
-          
+  <PageHeader
+    title="Contact Us"
+    description="Have questions, feedback, or need support? We're here to help!"
+  />
+
+   <div className="contact-card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 md:gap-10 items-stretch">
           {/* Left Side: Faculty Info Card */}
 <div className="lg:col-span-2">
   <div className="contact-card h-full bg-black/70 p-10 rounded-[2.5rem] border border-white/5 shadow-2xl relative overflow-hidden flex flex-col justify-center">
@@ -121,11 +109,9 @@ const ContactUs = () => {
             </div>
           </div>
 
-        </div>
+               </div>
       </div>
-    </div>
-    
-      </>
+    </PageLayout>
   );
 };
 
